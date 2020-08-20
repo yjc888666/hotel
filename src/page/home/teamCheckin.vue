@@ -1,0 +1,365 @@
+<template>
+  <div class="cont">
+
+    <Title :title='titles'></Title>
+
+    <div class="cont_top_btn">
+     
+
+       <el-form :model="forms" status-icon :rules="rule" ref="forms" label-width="80px" class="demo-ruleForm mars">
+         <el-form-item :label="$t('reception.team_name')" prop="teamname" class="floatleft">
+           <el-input v-model.trim="forms.teamname" :disabled="edit" ></el-input>
+         </el-form-item>
+         <el-form-item :label="$t('reception.days')" prop="day_num"  class="floatleft">
+           <el-input v-model.trim="forms.day_num" :disabled="edit"></el-input>
+         </el-form-item>
+        
+
+          <el-form-item :label="$t('reception.leave_time')" prop="leave_time"  class="floatleft">
+             <el-date-picker clearable v-model="forms.leave_time" type="date" placeholder="选择退房时间" value-format="timestamp" :disabled="edit"></el-date-picker>
+         </el-form-item>
+          <el-form-item :label="$t('reception.source_type')" prop="type" class="floatleft">
+            <el-select v-model.trim="forms.type" placeholder="请输客源类型" clearable>
+              <el-option v-for="item in memberType" :key="item.value" :label="item.label" :value="item.value" :disabled="edit"></el-option>
+            </el-select>
+          </el-form-item>
+       <!-- 添加团队住户信息 -->
+           <el-button type="success" size="small" style="background: #066197;border-color: #066197;"  icon='el-icon-plus'  @click="addEvent('forms')">{{$t('public.addTeamPlayer')}}</el-button>
+           <!-- <el-button @click="getList"> 测试list</el-button> -->
+           <!-- <el-button @click="getBillId"> 测试billId</el-button> -->
+ </el-form>
+   </div>
+           
+            
+                  <router-view :teamData='forms'>  </router-view>
+            
+           
+         
+        
+       
+  </div>
+</template>
+
+<script>
+   import qs from 'qs';
+  import Title from '../../components/cont_title.vue'
+  import yz from '../../config/validation.js'
+  export default {
+    components:{Title},
+    data() {
+      return {
+        title:{
+          // title:'入住列表',
+          title_show:false
+        },
+        teamCheckInfo:[],
+        tableData: [],
+        tableData1:[],
+        show:true,
+        dialogFormVisible: false,
+        forms: {
+          //团队的信息和入住时间
+          teamname:"",
+          leave_time:"",
+          day_num:"",
+          type:null,
+          public_pays:'0',
+          remark:"",
+        },
+        
+
+        istogetherOptions : [{
+          value: true,
+          label: "是"
+        }, {
+          value: false,
+          label: '否'
+        }],
+        //是否有同来宾客
+        flag:null,
+        
+
+        rule: {
+          teamname: [
+            {required: true, message: '请输入团队名称', trigger: 'blur'}
+          ],
+           leave_time: [
+            {required: true, message: '请输入预计退房时间', trigger: 'blur'},
+          ],
+           
+            day_num: [
+            {required: true, message: '请输入天数', trigger: 'blur'},
+          ],
+           
+             type: [
+            {required: true, message: '请输入客源类型', trigger: 'blur'},
+          ],
+        },
+         dialogFormVisible1: false,
+         forms1: {
+          status:"",
+          teamname:"",
+           leave_time:"",
+           day:"",
+           total_price:"" 
+        },
+        rule1: {
+          teamname: [
+            {required: true, message: '请输入房间号', trigger: 'blur'}
+          ],
+          status: [
+            {required: true, message: '请输入入住状态', trigger: 'blur'}
+          ],
+           leave_time: [
+            {required: true, message: '请输入退房时间', trigger: 'blur'}
+          ],
+           day: [
+            {required: true, message: '请输入天数', trigger: 'blur'}
+          ],
+           total_price: [
+            {required: true, message: '请输入合计总价', trigger: 'blur'}
+          ]},
+       dialogFormVisible2: false,
+       forms2: {
+          bill_id:"",
+          cash_pledge:"",
+           member_card:"",
+           password:"",
+           project_type:"" 
+
+        },
+        rule2: {
+          bill_id: [
+            {required: true, message: '账单id', trigger: 'blur'}
+          ],
+          cash_pledge: [
+            {required: true, message: '请输入押金', trigger: 'blur'}
+          ],
+           member_card : [
+            // {required: true, message: '请输入会员卡号', trigger: 'blur'}
+          ],
+           password: [
+            // {required: true, message: '请输入密码', trigger: 'blur'}
+          ],
+           project_type: [
+            {required: true, message: '请输入账务项目', trigger: 'blur'}
+          ]},
+           dialogFormVisible3: false,
+           forms3: {
+            id:"",
+           status:"0",
+           
+        },
+        rule3: {
+          status: [
+            {required: true, message: '请输入状态', trigger: 'blur'}
+          ]},
+        dialogFormVisible4:false,
+        // dialogFormVisible5:
+        mytotal:0,
+        tableData:[],
+        currentPage:1,
+        pagesize:10,
+        pages:0,
+        pageNums:0,
+        ruleForm: {
+          phone:"",
+          teamname:"",     
+          id_number:"",  
+          certificate_type:"",  
+        },
+        housetype:[],
+        idtype:[],
+        memberType: [{
+          value: 1,
+          label: '散客'
+        }, {
+          value: 2,
+          label: '会员'
+        }, {
+          value: 3,
+          label: '单位'
+        }],
+        registerinfos:[],
+        customers:[],
+        show1:1,
+        projecttype: [{
+          value: '1',
+          label: '现金订金'
+        }, {
+          value: '2',
+          label: '银行卡订金'
+        }, {
+          value: '3',
+          label: '会员卡订金' 
+        },{
+          value: '4',
+          label: '现金订金转押金'
+        }, {
+          value: '5',
+          label: '银行卡订金转押金'
+        }, {
+          value: '6',
+          label: '会员卡订金转押金' 
+        },{
+          value: '7',
+          label: '入住收全天房费'
+        }, {
+          value: '8',
+          label: '餐厅就餐挂账'
+        }, {
+          value: '9',
+          label: '现金押金' 
+        },{
+          value: '10',
+          label: '银行卡押金' 
+        },{
+          value: '11',
+          label: '现金收款' 
+        },{
+          value: '12',
+          label: '银行卡收款' 
+        },{
+          value: '13',
+          label: '会员卡收款' 
+        },{
+          value: '14',
+          label: '挂账收款' 
+        },{
+          value: '15',
+          label: '会员卡押金' 
+        },{
+          value: '16',
+          label: '主账代付' 
+        },{
+          value: '17',
+          label: '现金退款' 
+        },{
+          value: '18',
+          label: '银行卡退款' 
+        },{
+          value: '19',
+          label: '替房间付' 
+        }],
+        order:"",
+        getuserdata:{},
+        //输入框状态
+        edit:false,
+      }
+    },
+    created() {
+    },
+    computed:{
+      titles(){
+        return {title:this.$t('left.teamCheckin')}
+      }
+    },
+    methods:{
+
+      // 房型查询
+      submitForm() {
+        var that=this;
+        that.list(1,this.pagesize)
+      },
+      handleSizeChangeCont: function(size) {
+        this.pagesize = size;
+         this.list(this.currentPage,size)
+      },
+      handleCurrentChangeCont: function(currentPage) {
+        this.currentPage = currentPage;
+        this.list(currentPage,this.pagesize)
+      },
+      addEvent(forms){
+         this.$refs[forms].validate((valid)=>{
+           if(valid){
+           this.$router.replace('/teamCheckin/teamuser')
+           }
+         })
+      },
+      
+      handleEdit(index,row){
+        //  console.log(row)
+         this.dialogFormVisible1 = true;
+         this.forms1.status = String(row.live_type);
+         this.forms1.id = row.id;
+         this.show1 = 1 ;
+      },
+       handleEdit1(index,row){
+         this.dialogFormVisible1 = true;
+         this.forms1.teamname = row.teamname;
+         this.forms1.id = row.id;
+         this.show1 = 2 ;
+      },
+        handleEdit2(index,row){
+    
+         this.dialogFormVisible1 = true;
+        //  this.forms1.leave_time = row.leave_time;
+         this.forms1.id = row.id;
+        //  console.log(row.id)
+         this.forms1.day = row.day;
+         this.forms1.total_price = row.total_price;
+         this.show1 = 3 ;
+      },
+        handleEdit3(index,row){
+         this.dialogFormVisible2 = true;
+         this.forms2.bill_id = row.id;
+       
+      },
+     
+      handleDelete(index,row){
+        this.$confirm(this.$t('public.info'), this.$t('public.hint'), {
+          confirmButtonText: this.$t('public.ok'),
+          cancelButtonText: this.$t('public.cancel'),
+          type: 'warning'
+        }).then(() => {
+        var fordata = new FormData();
+        fordata.append("id",row.id )
+        var that = this;
+        this.$axios.post(this.$baseUrl + '/houseType/del',fordata)
+          .then((res) => {
+            if (res.data.result) {
+              this.$message({
+                message: this.$t("common."+res.data.msg),
+                showClose: true,
+                type: 'success'
+              });
+              // this.tableData.splice(index,1)
+               that.list(that.currentPage,that.pagesize)
+            }else{
+              this.$message({
+                message: this.$t("common."+res.data.msg),
+                showClose: true,
+                type: 'error'
+              });
+            }
+          })
+      }).catch(() => {
+          this.$message({
+          type: 'info',
+          message: this.$t('public.cancel')
+        });
+      });    
+      },
+    }
+  }
+</script>
+
+<style scoped="scoped">
+.floatleft{
+  width:47.5%;
+  float:left;
+}
+radio-float {
+  width: 20%;
+  float: left;
+}
+.floatleft:nth-child(odd){
+  margin-right:5%;
+}
+.dia .el-select {
+  width: 100%;
+}
+.floatleft .el-date-editor.el-input, .el-date-editor.el-input__inner {
+    width: 100%
+}
+</style>

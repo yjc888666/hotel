@@ -2,53 +2,59 @@
   <!-- 客人历史 -->
   <div class="integral-box">
     <div class="menber-box">
-      <Title :title="title"></Title>
+      <Title :title="titles"></Title>
       <div class="top-search">
-        <el-input v-model.trim="getData.memberName" class="select-left" placeholder="会员名" clearable></el-input>
-        <el-input v-model.trim="getData.phone" class="select-left" placeholder="手机号" clearable></el-input>
-        <el-input v-model.trim="getData.member_card" class="select-left" placeholder="卡号" clearable></el-input>
-        <el-button size="small" type="primary tijiao" @click="integralQuery()" class="tijiao">查询</el-button>
+        <el-input v-model.trim="getData.memberName" class="select-left" :placeholder="$t('reception.username2')" clearable></el-input>
+        <el-input v-model.trim="getData.phone" class="select-left" :placeholder="$t('reception.phone2')" clearable></el-input>
+        <el-input v-model.trim="getData.member_card" class="select-left" :placeholder="$t('reception.vip_card')" clearable></el-input>
+        <el-button size="small" type="primary tijiao" @click="integralQuery()" class="tijiao">{{$t('public.inquire')}}</el-button>
       </div>
       <div class="menber-list">
         <el-table :data="listData" stripe style="width: 100%" header-align="center">
           <el-table-column
             prop="username"
-            label="客户姓名"
+             :label="$t('reception.username2')"
             width="auto"
             show-overflow-tooltip
             align="center"
           ></el-table-column>
           <el-table-column
             prop="gender"
-            label="性别"
+            :label="$t('public.gender')"
             width="auto"
             show-overflow-tooltip
             align="center"
-          ></el-table-column>
+          >
+          <template slot-scope="scope">
+          <el-tag v-if="scope.row.gender===1">男</el-tag>
+          <el-tag v-if="scope.row.gender===2" type="danger">女</el-tag>
+          </template>
+          </el-table-column>
           <el-table-column
             prop="phone"
-            label="手机号"
+            :label="$t('reception.phone2')"
             width="auto"
             show-overflow-tooltip
             align="center"
           ></el-table-column>
           <el-table-column
             prop="card_type"
-            label="证件类型"
+            :label="$t('reception.idType')"
             width="auto"
             show-overflow-tooltip
             align="center"
+             :formatter="idTypeFormat"
           ></el-table-column>
           <el-table-column
             prop="card_num"
-            label="证件号"
+             :label="$t('reception.id')"
             width="auto"
             show-overflow-tooltip
             align="center"
           ></el-table-column>
           <el-table-column
             prop="birthday"
-            label="生日"
+            :label="$t('backstage.birthday')"
             width="auto"
             show-overflow-tooltip
             align="center"
@@ -62,35 +68,35 @@
           ></el-table-column>
           <el-table-column
             prop="member_card"
-            label="会员卡号"
+             :label="$t('reception.vip_card')"
             width="auto"
             show-overflow-tooltip
             align="center"
           ></el-table-column>
           <el-table-column
             prop="create_time"
-            label="创建时间"
+            :label="$t('backstage.create_time')"
             width="auto"
             show-overflow-tooltip
             align="center"
           ></el-table-column>
           <el-table-column
             prop="consume_num"
-            label="消费次数"
+           :label="$t('reception.consume_num')"
             width="auto"
             show-overflow-tooltip
             align="center"
           ></el-table-column>
           <el-table-column
-            prop="消费次数"
-            label="总消费"
+            prop="total_consume"
+            :label="$t('reception.total_consume')"
             width="auto"
             show-overflow-tooltip
             align="center"
           ></el-table-column>
-          <el-table-column label="操作" align="center" fixed="right" width="80">
+          <el-table-column :label="$t('public.operate')" align="center" fixed="right" width="80">
             <template slot-scope="scope">
-              <el-button size="mini" @click="historyButton(scope.row)">客史</el-button>
+              <el-button size="mini" @click="historyButton(scope.row)">{{$t('reception.cus_history')}}</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -133,10 +139,40 @@ export default {
       },
       toltal: 0,
       listData: [],
-      evocation: false
+      evocation: false,
+      idtype: [],
     };
   },
+  created(){
+        this.idTypeEvent();
+        this.integralQuery();
+  },
+  computed: {
+    titles() {
+     return {title:this.$t('left.integral')}
+    }
+    },
   methods: {
+      
+      idTypeEvent() {
+      this.$axios
+        .post(this.$baseUrl + "/idType/list")
+        .then((res) => {
+          this.idtype = res.data.pojo;
+        })
+        .catch((res) => {
+          console.log(res);
+        });
+    },
+      //证件类型的转换
+    idTypeFormat(row,column){
+       for(var i=0,l=this.idtype.length;i<l;i++){
+         if(row.card_type==this.idtype[i].id){
+           return this.idtype[i].name
+         }
+       }
+    },
+
     handleSizeChangeCont(val) {
       this.getData.size = val;
       this.getList(this.getData);
@@ -153,6 +189,7 @@ export default {
       this.$axios
         .post(this.$baseUrl + `/customer/bypage`, this.getData)
         .then(res => {
+          console.log(res)
           this.listData = res.data.pojo.list;
           this.toltal = res.data.pojo.total;
         });

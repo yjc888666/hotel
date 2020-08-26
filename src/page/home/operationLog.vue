@@ -2,60 +2,60 @@
   <!-- 操作日志 -->
   <div class="integral-box">
     <div class="menber-box">
-      <Title :title="title"></Title>
+      <Title :title="titles"></Title>
       <div class="top-search">
-        <el-input v-model.trim="getData.memberName" class="select-left" placeholder="会员名" clearable></el-input>
-        <el-input v-model.trim="getData.phone" class="select-left" placeholder="手机号" clearable></el-input>
-        <el-input v-model.trim="getData.member_card" class="select-left" placeholder="卡号" clearable></el-input>
-        <el-button size="small" type="primary tijiao" @click="integralQuery()" class="tijiao">查询</el-button>
+        <el-input v-model.trim="getData.memberName" class="select-left"  :placeholder="$t('reception.username2')" clearable></el-input>
+        <el-input v-model.trim="getData.phone" class="select-left" :placeholder="$t('reception.phone2')" clearable></el-input>
+        <el-input v-model.trim="getData.member_card" class="select-left" :placeholder="$t('reception.vip_card')" clearable></el-input>
+        <el-button size="small" type="primary tijiao" @click="integralQuery()" class="tijiao">{{$t('public.inquire')}}</el-button>
       </div>
       <div class="menber-list">
         <el-table :data="listData" stripe style="width: 100%" header-align="center">
           <el-table-column
             prop="member_card"
-            label="卡号"
+            :label="$t('reception.vip_card')"
             width="auto"
             show-overflow-tooltip
             align="center"
           ></el-table-column>
           <el-table-column
             prop="memberName"
-            label="会员名"
+            :label="$t('reception.vip_name')"
             width="auto"
             show-overflow-tooltip
             align="center"
           ></el-table-column>
           <el-table-column
             prop="phone"
-            label="手机号"
+            :label="$t('reception.phone2')"
             width="auto"
             show-overflow-tooltip
             align="center"
           ></el-table-column>
           <el-table-column
             prop="old_card"
-            label="旧卡号"
+            :label="$t('reception.old_card')"
             width="auto"
             show-overflow-tooltip
             align="center"
           ></el-table-column>
-          <el-table-column label="日志类型" width="auto" show-overflow-tooltip align="center">
+          <el-table-column :label="$t('reception.log_type')" width="auto" show-overflow-tooltip align="center">
             <template slot-scope="scope">
-              <div v-if="scope.row.type==0">换卡</div>
-              <div v-else-if="scope.row.type==1">挂失补卡</div>
-              <div v-else-if="scope.row.type==2">仅挂失</div>
-              <div v-else-if="scope.row.type==3">注销</div>
-              <div v-else-if="scope.row.type==4">修改密码</div>
+              <div v-if="scope.row.type==0">{{$t('reception.change_card')}}</div>
+              <div v-else-if="scope.row.type==1">{{$t('reception.add_card_')}}</div>
+              <div v-else-if="scope.row.type==2">{{$t('reception.gua_shi')}}</div>
+              <div v-else-if="scope.row.type==3">{{$t('reception.logout')}}</div>
+              <div v-else-if="scope.row.type==4">{{$t('reception.alter_pas')}}</div>
             </template>
           </el-table-column>
           <el-table-column
             prop="price"
-            label="费用"
+            :label="$t('reception.fei_yong')"
             width="auto"
             show-overflow-tooltip
             align="center"
           ></el-table-column>
-          <el-table-column label="支付方式" width="auto" show-overflow-tooltip align="center">
+          <el-table-column :label="$t('reception.payf')" width="auto" show-overflow-tooltip align="center">
             <template slot-scope="scope">
               <div v-if="scope.row.type==0">无</div>
               <div v-else-if="scope.row.type==1">现金</div>
@@ -63,22 +63,22 @@
             </template>
           </el-table-column>
           <el-table-column
-            prop="add_time "
-            label="发生时间"
+            prop="add_time"
+            :label="$t('backstage.create_time')"
             width="auto"
-            show-overflow-tooltip
+           
             align="center"
           ></el-table-column>
           <el-table-column
             prop="staffName"
-            label="操作员工"
+            :label="$t('reception.staff_name')"
             width="auto"
             show-overflow-tooltip
             align="center"
           ></el-table-column>
           <el-table-column
             prop="remark"
-            label="备注"
+            :label="$t('reception.remark')"
             width="auto"
             show-overflow-tooltip
             align="center"
@@ -127,6 +127,11 @@ export default {
       evocation: false
     };
   },
+   computed: {
+    titles() {
+     return {title:this.$t('left.operation')}
+    }
+    },
   methods: {
     handleSizeChangeCont(val) {
       this.getData.size = val;

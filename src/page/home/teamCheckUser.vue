@@ -228,6 +228,16 @@ export default {
     this.teamDataByFather = this.teamData;
     this.teamDataByFather.leave_time /= 1000;
   },
+   //监听路由的变化，清除输入框的值
+    watch:{
+      //方法2
+    '$route'(to, from) {
+       /// 判断条件   监听路由名 监听你从什么路由跳转过来的
+     if (from.path == "/teamCheckin/teamlist") { 
+      this.model.tableData=[];
+     }
+  }
+      },
   methods: {
     //房间号列表查询
     queryRoomList(value) {
@@ -274,7 +284,6 @@ export default {
 
     //显示同客来宾对话框
     addEvent(index) {
-
       this.index = index;
       console.log(this.index);
       this.dialogFormVisible = true;
@@ -306,10 +315,12 @@ export default {
     },
 
     submitForms(forms) {
+      console.log(this.index)
        this.$refs[forms].validate((valid)=>{
           if(valid){
          this.model.tableData[this.index].guest_info = [];
       this.model.tableData[this.index].guest_info.push(this.forms);
+      this.forms={};
       this.dialogFormVisible = false;
       this.show = false;
           }})
@@ -340,6 +351,7 @@ export default {
             // that.forms='';
             console.log(res);
             that.$router.replace("/teamCheckin");
+            
           } else {
             that.$message.error(that.$t("common." + res.data.msg));
             console.log(res.data.msg);

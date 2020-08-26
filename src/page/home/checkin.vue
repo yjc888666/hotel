@@ -39,6 +39,16 @@
         show-overflow-tooltip
         align="center"
       ></el-table-column>
+       <el-table-column
+        prop="house_type"
+        :label="$t('reception.house_type')"
+        width="auto"
+        show-overflow-tooltip
+        align="center"
+        :formatter="houseTypeFormat"
+      ></el-table-column>
+      <el-table-column prop="username" :label="$t('reception.username2')" width="auto" show-overflow-tooltip align="center"></el-table-column>
+      <el-table-column prop="phone" :label="$t('reception.phone2')" width="auto" align="center"></el-table-column>
       <el-table-column
         prop="checkin_time"
         :label="$t('reception.check_time')"
@@ -108,17 +118,8 @@
           <el-tag v-if="scope.row.live_type==1">{{$t('reception.no_in_hotel')}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="house_type"
-        :label="$t('reception.house_type')"
-        width="auto"
-        show-overflow-tooltip
-        align="center"
-        :formatter="houseTypeFormat"
-      ></el-table-column>
-      <el-table-column prop="username" :label="$t('reception.username2')" width="auto" show-overflow-tooltip align="center"></el-table-column>
-      <el-table-column prop="phone" :label="$t('reception.phone2')" width="auto" align="center"></el-table-column>
-      <el-table-column :label="$t('public.operate')" align="center" fixed="right" width="550px">
+     
+      <el-table-column :label="$t('public.operate')" align="center" fixed="right" width="500px">
         <template slot-scope="scope">
           <el-button size="mini" type="danger" plain @click="handleorder(scope.$index, scope.row)">
           {{$t('reception.bill')}}
@@ -129,6 +130,7 @@
             type="warning"
             plain
             @click="togetherRoom(scope.$index, scope.row)"
+            :disabled="scope.row.isteam==1"
           >{{$t('reception.united_room')}}</el-button>
           <el-button size="mini" @click="handleEdit1(scope.$index, scope.row)">{{$t('reception.change_room')}}</el-button>
           <el-button size="mini" type="primary" @click="handleEdit2(scope.$index, scope.row)">
@@ -292,8 +294,9 @@
         <el-button type="primary" @click="modifyEvent('forms')" v-show="!show">{{$t('public.edit')}}</el-button>
       </div>
     </el-dialog>
-
-    <el-dialog title="入住" :visible.sync="dialogFormVisible1" class="dia" width="30%">
+     
+     <!-- 换房 -->
+    <el-dialog title="续住" :visible.sync="dialogFormVisible1" class="dia" width="30%">
       <el-form
         :model="forms1"
         status-icon
@@ -327,13 +330,15 @@
         </el-form-item>
 
         <el-form-item :label="$t('reception.leave_time')" prop="checkout_time" v-if="show1==3">
-          <el-date-picker v-model="forms1.checkout_time" type="date" placeholder="选择$t('reception.leave_time')"></el-date-picker>
+          <el-date-picker v-model="forms1.checkout_time" type="date" :placeholder="$t('reception.leave_time')"></el-date-picker>
         </el-form-item>
         <el-form-item :label="$t('reception.days')" prop="day" v-if="show1==3">
-          <el-input v-model.trim="forms1.day" class="time-left" placeholder="$t('reception.days')" clearable></el-input>
+          <el-input v-model.trim="forms1.day" class="time-left" :placeholder="$t('reception.days')" clearable></el-input>
         </el-form-item>
         <el-form-item :label="$t('reception.total_price')" prop="total_price" v-if="show1==3">
-          <el-input v-model.trim="forms1.total_price" class="time-left" placeholder="$t('reception.total_price')" clearable></el-input>
+          <el-input disabled v-model.trim="forms1.total_price" class="time-left" :placeholder="$t('reception.total_price')" clearable
+         
+          ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -393,6 +398,19 @@
             ></el-option>
           </el-select>
         </el-form-item>
+
+      <el-form-item label="财务明细" prop="entry" >
+          <!-- <el-input v-model.trim="forms2.project_type" ></el-input> -->
+          <el-select v-model.trim="forms2.entry" placeholder="财务明细" clearable>
+            <el-option
+              v-for="item in entry"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible2 = false">{{$t('public.cancel')}}</el-button>
@@ -469,7 +487,7 @@
     <!-- ---------------- -->
 
     <!-- 弹出的联房列表 -->
-    <el-dialog title="团队入住订单" :visible.sync="togetherRoomVisible" append-to-body>
+    <el-dialog title="联房列表" :visible.sync="togetherRoomVisible" append-to-body>
       <el-table :data="togetherInfo" header-align="center" stripe>
         <el-table-column type="index" label="序号" width="auto" show-overflow-tooltip align="center"></el-table-column>
         <el-table-column :label="$t('reception.room_number')" prop="room_number"></el-table-column>
@@ -627,8 +645,17 @@
     <!--  -->
 
     <el-dialog title="支付列表" :visible.sync="dialogFormVisible4" class="dia" width="40%">
-      <el-table :data="tableData1" stripe style="width: 100%" header-align="center">
+      <el-table :data="tableData1.filter(item=>item.project!==0)" stripe style="width: 100%" header-align="center">
         <el-table-column type="index" label="ID" width="auto" show-overflow-tooltip align="center"></el-table-column>
+        
+        <el-table-column
+        prop="com_time"
+        label="消费时间"
+        width="180"
+        align="center"
+        :formatter="dateFormat"
+      ></el-table-column>
+        
         <el-table-column
           prop="project"
           :label="$t('reception.pay_project')"
@@ -646,8 +673,8 @@
         ></el-table-column>
         <el-table-column prop="status" :label="$t('reception.pay_status')" width="auto" align="center">
           <template slot-scope="scope">
-            <el-tag v-if="scope.row.status==0" type="danger">{{$t('reception.no_pay')}}</el-tag>
-            <el-tag v-if="scope.row.status==1">{{$t('reception.is_pay')}}</el-tag>
+            <el-tag v-if="scope.row.status==0&&scope.row.project=='7'" type="danger">{{$t('reception.no_pay')}}</el-tag>
+            <el-tag v-if="scope.row.status==1&&scope.row.project=='7'">{{$t('reception.is_pay')}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column
@@ -962,6 +989,7 @@ export default {
         member_card: "",
         password: "",
         project_type: "",
+        enty:"",
       },
       rule2: {
         bill_id: [{ required: true, message: "账单id", trigger: "blur" }],
@@ -976,6 +1004,9 @@ export default {
         ],
         project_type: [
           { required: true, message: "请输入账务项目", trigger: "blur" },
+        ],
+         entry : [
+          { required: true, message: "请输入财务明细", trigger: "blur" },
         ],
       },
       dialogFormVisible3: false,
@@ -1139,6 +1170,42 @@ export default {
           label: "替房间付",
         },
       ],
+
+   entry: [
+        {
+          value: "1",
+          label: "现金押金",
+        },
+        {
+          value: "2",
+          label: "现金收款",
+        },
+        {
+          value: "3",
+          label: "现金定金",
+        },
+        {
+          value: "4",
+          label: "现金退款",
+        },
+        {
+          value: "5",
+          label: "银行卡押金",
+        },
+        {
+          value: "6",
+          label: "银行卡收款",
+        },
+        {
+          value: "7",
+          label: "银行卡定金",
+        },
+        {
+          value: "8",
+          label: "银行卡退款",
+        }
+      ],
+
       order: "",
 
       //挂账对话框显示字段
@@ -1206,12 +1273,33 @@ export default {
 
       //押金单的公用信息
       cashDataPublic: {},
+
+      //续住需要的数据
+      basePrice:null,
+      singlePrice:null,
+
+      // 团队里边的结账
+      isteam_:null,
     };
   },
   filters: {
     formatDate3(time) {
       var date = new Date(time * 1000);
       return formatDate(date, "yyyy年MM月dd日 hh:mm:ss");
+    },
+  },
+  watch:{
+ 
+    'forms1.day': function (data) {
+      let a= data;
+      if(data!=""){
+      this.forms1.total_price= a*this.singlePrice;
+      console.log(this.forms1.total_price)
+      }
+      else{
+       this.forms1.total_price=0;
+       }
+     
     },
   },
   created() {
@@ -1235,6 +1323,7 @@ export default {
   }
   },
   methods: {
+
     //证件类型的转换
     idTypeFormat(row,column){
        for(var i=0,l=this.idtype.length;i<l;i++){
@@ -1361,8 +1450,8 @@ export default {
         .then((res) => {
           this.idtype = res.data.pojo;
         })
-        .catch((res) => {
-          console.log(res);
+        .catch((err) => {
+          console.log(err);
         });
     },
     // 房型查询
@@ -1523,7 +1612,6 @@ export default {
                 that.dialogFormVisible1 = false;
                 that.forms1.room_number = "";
                 that.forms1.id = "";
-
                 that.list(that.currentPage, that.pagesize);
                 //打印账单id
                 // console.log(res.pojo.bill_id)
@@ -1578,6 +1666,7 @@ export default {
                 that.forms2.member_card = "";
                 that.forms2.password = "";
                 that.forms2.project_type = "";
+                that.forms2.entry  = "";
                 that.list(that.currentPage, that.pagesize);
               } else {
                 that.$message.error(that.$t("common." + res.data.msg));
@@ -1640,6 +1729,8 @@ export default {
       this.forms1.id = row.id;
       //  console.log(row.id)
       this.forms1.day = row.day;
+      // this. basePrice=row.total_price;
+      this.singlePrice=row.total_price/row.day;
       this.forms1.total_price = row.total_price;
       this.show1 = 3;
     },
@@ -1654,6 +1745,10 @@ export default {
 
       //把此条订单id赋值给要发送请求结账的数据对象
       this.billData.registerinfo_id = row.id;
+
+      if(row.isteam==1){
+           this.isteam_ =row.isteam;
+      }
 
       this.dialogFormVisible3 = true;
     },
@@ -1742,6 +1837,7 @@ export default {
 
     //结账退房的对话框显示内容
     payBill(row) {
+      console.log(this.isteam_)
       //把这条数据的账单id 赋给要发送结账请求的数据对象中
       this.billData.bill_id = row.bill_id;
       this.billData.pay_money = row.use_money + row.pay_money;
@@ -1778,6 +1874,7 @@ export default {
               this.dialogBill = false;
               this.dialogFormVisible4 = false;
               that.$message.success(that.$t("common." + res.data.msg));
+              that.list(that.currentPage, that.pagesize);
             } else {
               that.$message.error(that.$t("common." + res.data.msg));
             }
@@ -1786,7 +1883,29 @@ export default {
             console.log(err);
             that.$message.error(that.$t("common." + res.data.msg));
           });
-      } else {
+      }
+      else if(this.isteam_==1){
+
+       //发送团队退房结账的post请求
+        this.$axios
+          .post(this.$baseUrl + `/groupact/endBillGroup`, this.billData)
+          .then((res) => {
+            console.log(res);
+            if (res.data.result === true) {
+              this.dialogBill = false;
+              that.$message.success(that.$t("common." + res.data.msg));
+              that.list(that.currentPage, that.pagesize);
+            } else {
+              that.$message.error(that.$t("common." + res.data.msg));
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            that.$message.error(that.$t("common." + res.data.msg));
+          });
+      }
+      
+      else {
         //发送结账的post请求
         this.$axios
           .post(this.$baseUrl + `/roomact/endBill`, this.billData)
@@ -1795,6 +1914,7 @@ export default {
             if (res.data.result === true) {
               this.dialogBill = false;
               that.$message.success(that.$t("common." + res.data.msg));
+              that.list(that.currentPage, that.pagesize);
             } else {
               that.$message.error(that.$t("common." + res.data.msg));
             }
@@ -1820,7 +1940,7 @@ export default {
           this.accountData = res.data.pojo;
           this.accountData.accountsList = res.data.pojo.accountsList;
           this.accountData.printSetting = res.data.pojo.printSetting;
-
+         
           console.log(this.accountData);
         })
         .catch((err) => {
@@ -1948,6 +2068,7 @@ export default {
     //联房2
     togetherRoom(index, row) {
       console.log(row.id);
+      var that=this;
       this.$axios
         .post(
           this.$baseUrl + `/registerinfo/relist`,
@@ -1960,6 +2081,7 @@ export default {
           this.togetherInfo = res.data.pojo;
           this.togetherRoomVisible = true;
           console.log(this.togetherInfo);
+          that.list(that.currentPage, that.pagesize);
         })
         .catch((err) => {
           console.log(err);

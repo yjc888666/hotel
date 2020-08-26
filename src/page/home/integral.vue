@@ -1,20 +1,20 @@
 <template>
 <!-- 积分查询 -->
   <div class="integral-box">
-    <Title :title="title"></Title>
+    <Title :title="titles"></Title>
     <div class="menber-box">
       <div class="top-search">
         <el-input
           v-model.trim="getData.memberName"
           class="select-left"
-          placeholder="会员名"
+           :placeholder="$t('reception.username2')"
           clearable
         ></el-input>
-        <el-input v-model.trim="getData.phone" class="select-left" placeholder="手机号" clearable></el-input>
+        <el-input v-model.trim="getData.phone" class="select-left" :placeholder="$t('reception.phone2')" clearable></el-input>
         <el-input
           v-model.trim="getData.member_card"
           class="select-left"
-          placeholder="卡号"
+  :placeholder="$t('reception.vip_card')"
           clearable
         ></el-input>
         <div class="block">
@@ -23,22 +23,22 @@
             v-model="time"
             type="daterange"
             range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期">
+            :start-placeholder="$t('reception.kai_time')"
+            :end-placeholder="$t('reception.jie_time')">
           </el-date-picker>
         </div>
-        <el-button size="small" type="primary tijiao" @click="integralQuery()" class="tijiao">查询</el-button>
+        <el-button size="small" type="primary tijiao" @click="integralQuery" class="tijiao">{{$t('public.inquire')}}</el-button>
       </div>
       <div class="menber-list">
         <el-table :data="listData" stripe style="width: 100%" header-align="center">
-          <el-table-column prop="member_card" label="卡号" width="auto" show-overflow-tooltip align="center"></el-table-column>
-          <el-table-column prop="memberName" label="会员名" width="auto" show-overflow-tooltip align="center"></el-table-column>
-          <el-table-column prop="phone" label="手机号" width="auto" show-overflow-tooltip align="center"></el-table-column>
-          <el-table-column prop="increase" label="增加" width="auto" show-overflow-tooltip align="center"></el-table-column>
-          <el-table-column prop="minus" label="扣除" width="auto" show-overflow-tooltip align="center"></el-table-column>
-          <el-table-column prop="create_time" label="发生时间" width="auto" show-overflow-tooltip align="center"></el-table-column>
-          <el-table-column prop="staffName" label="操作员工" width="auto" show-overflow-tooltip align="center"></el-table-column>
-          <el-table-column prop="staffName " label="备注" width="auto" show-overflow-tooltip align="center"></el-table-column>
+          <el-table-column prop="member_card" :label="$t('reception.vip_card')" width="auto" show-overflow-tooltip align="center"></el-table-column>
+          <el-table-column prop="memberName" :label="$t('reception.vip_name')" width="auto" show-overflow-tooltip align="center"></el-table-column>
+          <el-table-column prop="phone"  :label="$t('reception.phone2')" width="auto" show-overflow-tooltip align="center"></el-table-column>
+          <el-table-column prop="increase" :label="$t('reception.increase')" width="auto" show-overflow-tooltip align="center"></el-table-column>
+          <el-table-column prop="minus" :label="$t('reception.minus')" width="auto" show-overflow-tooltip align="center"></el-table-column>
+          <el-table-column prop="create_time" :label="$t('backstage.create_time')" width="auto" show-overflow-tooltip align="center"></el-table-column>
+          <el-table-column prop="staffName" :label="$t('reception.staff_name')" width="auto" show-overflow-tooltip align="center"></el-table-column>
+          <el-table-column prop="staffName " :label="$t('reception.remark')" width="auto" show-overflow-tooltip align="center"></el-table-column>
         </el-table>
         <el-pagination
           @size-change="handleSizeChangeCont"
@@ -83,6 +83,11 @@ export default {
       listData: []
     };
   },
+  computed: {
+    titles() {
+     return {title:this.$t('left.integral')}
+    }
+    },
   methods: {
     handleSizeChangeCont(){
 
@@ -91,11 +96,14 @@ export default {
 
     },
     // 查询
-    integralQuery() {},
+    integralQuery() {
+      this.getList()
+    },
     getList() {
       this.$axios.post(this.$baseUrl + `/scorenote/bypage`,this.getData)
       .then(res =>{
-        this.listData = res.data.pojo.list
+        this.listData = res.data.pojo.list;
+        this.toltal=res.data.pojo.total;
       })
     },
     // 获取选中的时间

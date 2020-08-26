@@ -6,7 +6,7 @@
     <div class="cont_top_btn">
      <div class="lists">
      <el-select v-model.trim="ruleForm.phase" :placeholder="$t('backstage.phase')" clearable>
-          <el-option v-for="item in phasetype" :key="item.name" :label="item.name" :value="item.name"></el-option>
+          <el-option v-for="item in phasetype" :key="item.id" :label="item.name" :value="item.name"></el-option>
         </el-select>
      <el-date-picker v-model="ruleForm.startTime" type="date" :placeholder="$t('backstage.startTime')" value-format="timestamp" clearable></el-date-picker>
      <el-date-picker v-model="ruleForm.endTime" type="date" :placeholder="$t('backstage.endTime') " value-format="timestamp" clearable></el-date-picker>

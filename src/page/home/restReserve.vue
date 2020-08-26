@@ -30,10 +30,10 @@
       <el-table-column type="index" label="ID" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column prop="username" :label="$t('reception.username')" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column prop="phone" :label="$t('reception.phone')" width="auto"  align='center'></el-table-column>
-      <el-table-column prop="card_type1" :label="$t('reception.card_type')" width="auto" show-overflow-tooltip align='center'></el-table-column>
+      <el-table-column prop="card_type" :label="$t('reception.card_type')" width="auto" show-overflow-tooltip align='center'  :formatter="idTypeFormat" ></el-table-column>
       <el-table-column prop="ID_card" :label="$t('reception.id_card')" width="auto"  align='center'></el-table-column>
-      <el-table-column prop="restaurant_id1" :label="$t('backstage.restaurant_id')" width="auto"  align='center'></el-table-column>
-      <el-table-column prop="table_id1" :label="$t('reception.table_id')" width="auto"  align='center'></el-table-column>
+      <el-table-column prop="restaurant_id" :label="$t('backstage.restaurant_id')" width="auto"  align='center' :formatter="restaurantFormat"></el-table-column>
+      <el-table-column prop="table_id" :label="$t('reception.table_id')" width="auto"  align='center' :formatter="tableFormat"></el-table-column>
       <el-table-column prop="people_num" :label="$t('reception.people_num')" width="auto"  align='center'></el-table-column>
       <el-table-column prop="eat_time" :label="$t('reception.eat_time')" width="auto"  align='center'></el-table-column>
       <el-table-column prop="cash_pledge" :label="$t('reception.cash_pledge')" width="auto"  align='center'></el-table-column>
@@ -137,7 +137,7 @@
           // title:'预订管理',
           title_show:false
         },
-        tableData: [],
+  
         show:true,
         dialogFormVisible: false,
         cashstatustype:[{
@@ -256,6 +256,14 @@
           console.log(res)
         })
       },
+        //证件类型的转换
+    idTypeFormat(row,column){
+       for(var i=0,l=this.scardtype.length;i<l;i++){
+         if(row.card_type==this.scardtype[i].id){
+           return this.scardtype[i].name
+         }
+       }
+    },
 
       // 餐厅列表
       restaurantEvent(){
@@ -267,6 +275,16 @@
           console.log(res)
         })
       },
+
+      //餐厅号的转换
+    restaurantFormat(row,column){
+       for(var i=0,l=this.restauranttype.length;i<l;i++){
+         if(row.restaurant_id==this.restauranttype[i].id){
+           return this.restauranttype[i].restaurant
+         }
+       }
+    },
+
       //餐桌
       tableEvent(){
           this.$axios.post(this.$baseUrl + '/table/getList')
@@ -277,6 +295,15 @@
           console.log(res)
         })
       },
+
+      //餐桌号的转换
+    tableFormat(row,column){
+       for(var i=0,l=this.tabletype.length;i<l;i++){
+         if(row.table_id==this.tabletype[i].id){
+           return this.tabletype[i].serial_number
+         }
+       }
+    },
       list(a,b) {
         var that=this;
         var fordata = new FormData();
@@ -292,27 +319,27 @@
         that.$axios.post(this.$baseUrl +`/restReserve/getPage`,fordata)
           .then(function (res) {
             if (res.data.result==true) {
-               that.scardtype.forEach(function(items){
-                 res.data.pojo.list.forEach(function(item){
-                     if(items.id == item.card_type){
-                       item.card_type1 = items.name
-                     }
-                 })
-              })
-              that.restauranttype.forEach(function(items){
-                 res.data.pojo.list.forEach(function(item){
-                     if(items.id == item.restaurant_id){
-                       item.restaurant_id1 = items.restaurant
-                     }
-                 })
-              })
-               that.tabletype.forEach(function(items){
-                 res.data.pojo.list.forEach(function(item){
-                     if(items.id == item.table_id){
-                       item.table_id1 = items.serial_number
-                     }
-                 })
-              })
+              //  that.scardtype.forEach(function(items){
+              //    res.data.pojo.list.forEach(function(item){
+              //        if(items.id == item.card_type){
+              //          item.card_type1 = items.name
+              //        }
+              //    })
+              // })
+              // that.restauranttype.forEach(function(items){
+              //    res.data.pojo.list.forEach(function(item){
+              //        if(items.id == item.restaurant_id){
+              //          item.restaurant_id1 = items.restaurant
+              //        }
+              //    })
+              // })
+              //  that.tabletype.forEach(function(items){
+              //    res.data.pojo.list.forEach(function(item){
+              //        if(items.id == item.table_id){
+              //          item.table_id1 = items.serial_number
+              //        }
+              //    })
+              // })
               that.tableData = res.data.pojo.list;
               that.mytotal = res.data.pojo.total;
               that.pageNums = res.data.pojo.pageNum;

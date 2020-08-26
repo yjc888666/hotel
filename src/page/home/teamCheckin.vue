@@ -30,8 +30,10 @@
  </el-form>
    </div>
            
-            
-                  <router-view :teamData='forms'>  </router-view>
+            <keep-alive>
+                <router-view :teamData='forms'>  </router-view>
+            </keep-alive>
+                
             
            
          
@@ -253,6 +255,21 @@
       titles(){
         return {title:this.$t('left.teamCheckin')}
       }
+    },
+    
+    //监听路由的变化，清除输入框的值
+    watch:{
+      //方法2
+    '$route'(to, from) {
+       /// 判断条件   监听路由名 监听你从什么路由跳转过来的
+     if (from.path == "/teamCheckin/teamuser") { 
+      this.forms.teamname=''; 
+      this.forms.leave_time='';
+      this.forms.day_num='';
+      this.type=null;
+      this.remark='';  
+     }
+  }  
     },
     methods:{
 

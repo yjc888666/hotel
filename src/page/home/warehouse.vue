@@ -17,7 +17,7 @@
       <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column type="index" label="ID" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column prop="ware_number" :label="$t('reception.warehouse_num')" width="auto" show-overflow-tooltip align='center'></el-table-column>
-       <el-table-column prop="remark" :label="$t('public.remark')" width="auto" show-overflow-tooltip align='center'></el-table-column>
+       <el-table-column prop="remark" label="仓库名称" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column :label="$t('public.operate')" align="center">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">{{$t('public.edit')}}</el-button>
@@ -28,10 +28,8 @@
 
     <el-dialog :title="$t('left.department_1')" :visible.sync="dialogFormVisible" class="dia" width="30%">
       <el-form :model="forms" status-icon :rules="rule" ref="forms" label-width="80px" class="demo-ruleForm mars">
-         <!-- <el-form-item label="仓库编号" prop="ware_number">
-           <el-input v-model.trim="forms.ware_number" ></el-input>
-         </el-form-item> -->
-         <el-form-item :label="$t('public.remark')" prop="remark">
+         
+         <el-form-item label="名称:" prop="remark">
            <el-input v-model.trim="forms.remark" ></el-input>
          </el-form-item>
       </el-form>
@@ -67,7 +65,7 @@
         },
         forms: {
           id:"",
-          // ware_number:"",
+          ware_number:"",
           remark:"",
         },
         rule: {
@@ -76,7 +74,7 @@
           //   {validator: yz.validateInteger, trigger: 'blur'}
           // ],
           remark: [
-            {required: true, message: this.$t('public.remark'), trigger: 'blur'}
+            {required: true, message: '请输入仓库名称', trigger: 'blur'}
           ]
         },
       }
@@ -105,8 +103,8 @@
         .then((res) => {
           this.tableData = res.data.pojo
         })
-        .catch((res) => {
-          console.log(res)
+        .catch((err) => {
+          console.log(err)
         })
       },
        submitForms(formName) {

@@ -2,7 +2,7 @@
   <!-- 会员管理 -->
   <div class="menber-boss">
     <div class="menber-box">
-      <Title :title="title"></Title>
+      <Title :title="titles"></Title>
       <div class="top-search">
         <el-button
           class="adds"
@@ -11,145 +11,162 @@
           style="background: #066197;border-color: #066197;"
           icon="el-icon-plus"
           @click="addButton"
-        >新增</el-button>
-        <el-input v-model.trim="searchData.phone" class="select-left" placeholder="手机号" clearable></el-input>
+        >{{$t('public.add')}}</el-button>
+        <el-input v-model.trim="searchData.phone" class="select-left" :placeholder="$t('reception.phone2')" clearable></el-input>
         <el-input
           v-model.number="searchData.member_card"
           class="select-left"
-          placeholder="卡号"
+          :placeholder="$t('reception.vip_card')"
           clearable
         ></el-input>
         <el-input
           v-model.trim="searchData.username"
           class="select-left"
-          placeholder="会员姓名"
+          :placeholder="$t('reception.username2')"
           clearable
         ></el-input>
-        <el-input v-model.trim="searchData.level" class="select-left" placeholder="会员类型" clearable></el-input>
-        <el-button size="small" type="primary tijiao" @click="searchLevel()" class="tijiao">查询</el-button>
+        <el-input v-model.trim="searchData.level" class="select-left" :placeholder="$t('reception.vip_type')" clearable></el-input>
+        <el-button size="small" type="primary tijiao" @click="searchLevel()" class="tijiao">{{$t('public.inquire')}}</el-button>
         <!-- <el-button size="small" @click="recharge()" class="tijiao el-button--primary">充值</el-button> -->
       </div>
       <div class="menber-list">
         <el-table :data="listData" stripe style="width: 100%" header-align="center">
-          <el-table-column prop="id" label="ID" width="auto" show-overflow-tooltip align="center"></el-table-column>
+          <el-table-column type="index" label="ID" width="auto" show-overflow-tooltip align="center"></el-table-column>
           <el-table-column
             prop="phone"
-            label="手机号"
-            width="auto"
-            show-overflow-tooltip
-            align="center"
-          ></el-table-column>
-          <el-table-column
-            prop="email"
-            label="邮箱"
+            :label="$t('reception.phone2')"
             width="auto"
             show-overflow-tooltip
             align="center"
           ></el-table-column>
           <el-table-column
             prop="username"
-            label="会员名"
+            :label="$t('reception.username2')"
             width="auto"
             show-overflow-tooltip
             align="center"
           ></el-table-column>
           <el-table-column
-            prop="username"
-            label="证件类型"
+            prop="idType"
+             :label="$t('reception.idType')"
             show-overflow-tooltip
             width="auto"
             align="center"
+            :formatter="idTypeFormat"
           ></el-table-column>
           <el-table-column
             prop="idcard"
-            label="身份证号"
+            :label="$t('reception.id')"
             show-overflow-tooltip
             width="auto"
             align="center"
           ></el-table-column>
           <el-table-column
             prop="member_card"
-            label="会员卡号"
+           :label="$t('reception.vip_card')"
             show-overflow-tooltip
             width="auto"
             align="center"
           ></el-table-column>
           <el-table-column
-            prop="level"
-            label="会员类型"
+            prop="levelName"
+            :label="$t('reception.vip_type')"
             show-overflow-tooltip
             width="auto"
             align="center"
           ></el-table-column>
           <el-table-column
             prop="addtime"
-            label="添加时间"
+           :label="$t('reception.add_time')"
             show-overflow-tooltip
             width="auto"
             align="center"
           ></el-table-column>
           <el-table-column
             prop="gender"
-            label="性别"
+            :label="$t('public.gender')"
             show-overflow-tooltip
             width="auto"
             align="center"
-          ></el-table-column>
+          >
+          <template slot-scope="scope">
+          <el-tag v-if="scope.row.gender===1">男</el-tag>
+          <el-tag v-if="scope.row.gender===2" type="danger">女</el-tag>
+          </template>
+          </el-table-column>
           <el-table-column
             prop="birthday"
-            label="生日"
+            :label="$t('backstage.birthday')"
             show-overflow-tooltip
             width="auto"
             align="center"
           ></el-table-column>
           <el-table-column
-            prop="status"
-            label="卡状态"
+            prop="lose"
+            :label="$t('reception.card_status')"
             show-overflow-tooltip
             width="auto"
             align="center"
-          ></el-table-column>
+          >
+           <template slot-scope="scope">
+          <el-tag v-if="scope.row.lose===1">正常</el-tag>
+          <el-tag v-if="scope.row.lose===0" type="danger">挂失</el-tag>
+          </template>
+          </el-table-column>
+           <el-table-column
+            prop="status"
+            label="账号状态"
+            show-overflow-tooltip
+            width="auto"
+            align="center"
+          >
+           <template slot-scope="scope">
+          <el-tag v-if="scope.row.status===1">正常</el-tag>
+          <el-tag v-if="scope.row.status===0" type="danger">注销</el-tag>
+          </template>
+          </el-table-column>
           <el-table-column
             prop="score"
-            label="积分"
+            :label="$t('reception.ji_fen')"
             show-overflow-tooltip
             width="auto"
             align="center"
           ></el-table-column>
           <el-table-column
             prop="balance"
-            label="余额"
+             :label="$t('reception.balance')"
             show-overflow-tooltip
             width="auto"
             align="center"
           ></el-table-column>
           <el-table-column
             prop="amount"
-            label="总消费"
+            :label="$t('reception.amount')"
             show-overflow-tooltip
             width="auto"
             align="center"
           ></el-table-column>
           <el-table-column
             prop="num"
-            label="消费次数"
+           :label="$t('reception.amount_num')"
             show-overflow-tooltip
             width="auto"
             align="center"
           ></el-table-column>
           <el-table-column
-            prop="staff"
-            label="操作员工"
+            prop="staffName"
+             :label="$t('reception.staff_name')"
             show-overflow-tooltip
             width="auto"
             align="center"
           ></el-table-column>
-          <el-table-column label="操作" align="center" fixed="right" width="380">
+          <el-table-column :label="$t('public.operate')" align="center" fixed="right" width="380">
             <template slot-scope="scope">
-              <el-button size="mini" @click="detailsButton(scope.row)">详情</el-button>
-              <el-button size="mini" @click="alterButton(scope.row)">修改</el-button>
-              <el-button class="el-button--danger" size="mini" @click="deleteButton(scope.row)">删除</el-button>
-              <el-button size="mini" @click="logoutButton(scope.row.id)">注销</el-button>
+              <el-button size="mini" @click="getDiscount(scope.row)">折扣</el-button>
+              <el-button size="mini" @click="detailsButton(scope.row)">{{$t('reception.vip_details')}}</el-button>
+              <el-button size="mini" @click="alterButton(scope.row)">{{$t('public.edit')}}</el-button>
+              <el-button class="el-button--danger" size="mini" @click="deleteButton(scope.row)">{{$t('public.delete')}}</el-button>
+              <el-button size="mini" @click="logoutButton(scope.row.id)">{{$t('reception.logout')}}</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -162,6 +179,21 @@
           layout="total, sizes, prev, pager, next, jumper"
           :total="mytotal"
         ></el-pagination>
+       <!-- //弹出折扣的信息详情 -->
+       <el-dialog
+        title="所享折扣"
+       :visible.sync="discountVisible"
+          width="30%"
+         center>
+        <div style="">
+          该会员所享折扣:<span style="color:#409EFF">{{discount}}</span>
+        </div>
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="discountVisible = false">取 消</el-button>
+    <el-button type="primary" @click="discountVisible = false">确 定</el-button>
+  </span>
+ </el-dialog>
+
       </div>
     </div>
   
@@ -170,6 +202,7 @@
 <script>
 import Title from "../../components/cont_title";
 import yz from "../../config/validation.js";
+import qs from "qs";
 export default {
   components: {
     Title
@@ -192,10 +225,77 @@ export default {
       mytotal: 0,
      
       dialogPassword: false,
-      
+      idtype:[],
+      discountVisible:false,
+      discount:'',
     };
   },
+  created() {
+    this.idTypeEvent();
+    let pro = this.searchData;
+    this.getData(
+      this.currentPage,
+      this.pagesize,
+      pro.level,
+      pro.phone,
+      pro.member_card,
+      pro.username
+    );
+  },
+  computed: {
+    titles() {
+     return {title:this.$t('left.members')}
+    }
+    },
   methods: {
+   
+   //证件类型的获取
+    idTypeEvent() {
+      this.$axios
+        .post(this.$baseUrl + "/idType/list")
+        .then((res) => {
+          this.idtype = res.data.pojo;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+     //证件类型的转换
+    idTypeFormat(row,column){
+       for(var i=0,l=this.idtype.length;i<l;i++){
+         if(row.idType==this.idtype[i].id){
+           return this.idtype[i].name
+         }
+         else{
+           console.log('找不到匹配的证件类型')
+         }
+       }
+    },
+
+   //会员折扣信息
+   getDiscount(row){
+     var that=this;
+      this.$axios.post(this.$baseUrl+"/member/discount",qs.stringify(
+      {
+        member_card:row.member_card
+      }
+      ))
+      .then(res=>{
+        if(res.data.result==true){
+         that.$message.success(that.$t("common."+res.data.msg))
+          this.discount=res.data.pojo;
+          this.discountVisible=true;
+         
+        }
+        else {
+           that.$message.error(that.$t("common."+res.data.msg))
+        }
+      })
+      .catch(err=>{
+        console.log('逻辑错误')
+      })
+   },
+
     // 搜索接口
     searchLevel() {
       let pro = this.searchData;
@@ -302,17 +402,7 @@ export default {
       });
     },
   },
-  created() {
-    let pro = this.searchData;
-    this.getData(
-      this.currentPage,
-      this.pagesize,
-      pro.level,
-      pro.phone,
-      pro.member_card,
-      pro.username
-    );
-  }
+
 };
 </script>
 <style lang="less" scoped>

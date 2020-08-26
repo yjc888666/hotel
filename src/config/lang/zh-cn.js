@@ -74,6 +74,7 @@ module.exports = {
     2000018:"已超过保留时间",
     2000019:"已交过订金",
     2000020:"当前时间段换房不影响房价",
+    2000021:"当前房间有客人,不可改变状态",
 
 
     //  4、Server3
@@ -292,7 +293,7 @@ module.exports = {
     money:"抵现规则",
     max_score:"积分抵现限额",
     top_money:"充值赠送规则",
-    give_money:"充值赠送金额",
+    give_money:"赠送金额",
     setup:"设置",
     document_name:"单据名称",
     address:"地址",
@@ -509,6 +510,35 @@ module.exports = {
         add_player:'添加人数',
         remove_player:'删除人数',
         money_detail:'财务明细',
+
+        //客户管理
+        // 1.会员信息
+        vip_type:'会员类型',
+        add_time:'添加时间',
+        card_status:'卡状态',
+        ji_fen:'积分',
+        balance:'余额',
+        amount:'总消费',
+        amount_num:'消费次数',
+        vip_details:'详情',
+        logout:'注销',
+        // 2.积分查询
+        kai_time:'开始日期',
+        jie_time:'结束日期',
+        vip_name:'会员名',
+        increase:'增加',
+        minus:'扣除',
+        old_card:'旧卡号',
+        log_type:'日志类型',
+        change_card:'换卡',
+        add_card_:'换卡补卡',
+        gua_shi:'挂失',
+        alter_pas:'修改密码',
+        fei_yong:"费用",
+        consume_num:'消费次数',
+        total_consume:'总消费',
+        cus_history:'客史',
+
 
     //  ljf strat
     pay:"支付",

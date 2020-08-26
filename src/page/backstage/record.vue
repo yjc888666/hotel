@@ -19,9 +19,16 @@
       <el-table-column type="index" label="ID" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column prop="serial_number" :label="$t('backstage.serial_number')" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column prop="time" :label="$t('backstage.time')" width="auto" show-overflow-tooltip align='center'></el-table-column>
-      <el-table-column prop="action" :label="$t('backstage.action')" width="auto" show-overflow-tooltip align='center'></el-table-column>
+      <el-table-column prop="action" :label="$t('backstage.action')" width="auto" show-overflow-tooltip align='center'>
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.action===1" type="danger">授权</el-tag>
+          <el-tag v-if="scope.row.action===2" type="danger">会员充值</el-tag>
+          <el-tag v-if="scope.row.action===3" type="danger">会员删除</el-tag>
+          <el-tag v-if="scope.row.action===4" type="danger">退房结账</el-tag>
+          </template>
+      </el-table-column>
       <el-table-column prop="remark" :label="$t('public.remark')" width="auto" align='center'></el-table-column>
-      <el-table-column prop="staff " :label="$t('left.userlist')" width="auto" align='center'></el-table-column>
+      <el-table-column prop="staff" :label="$t('left.userlist')" width="auto" align='center'></el-table-column>
     </el-table>
     <el-pagination
         @size-change="handleSizeChangeCont"

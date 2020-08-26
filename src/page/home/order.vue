@@ -31,9 +31,9 @@
 
     <el-table :data="tableData" stripe style="width: 100%" header-align='center'>
       <el-table-column type="index" label="ID" width="auto" show-overflow-tooltip align='center'></el-table-column>
-      <el-table-column prop="restaurant_id1" :label="$t('backstage.restaurant_id')" width="auto" show-overflow-tooltip align='center'></el-table-column>
+      <el-table-column prop="restaurant_id" :label="$t('backstage.restaurant_id')" width="auto" show-overflow-tooltip align='center' :formatter="restaurantFormat"></el-table-column>
       <el-table-column prop="table_num" :label="$t('reception.table_num')" width="auto" show-overflow-tooltip align='center'></el-table-column>     
-      <el-table-column prop="create_time" :label="$t('reception.create_time')" width="auto" show-overflow-tooltip align='center' :formatter="dateFormat"></el-table-column>
+      <el-table-column prop="create_time" :label="$t('backstage.create_time')" width="auto" show-overflow-tooltip align='center' :formatter="dateFormat"></el-table-column>
       <!-- <el-table-column prop="end_time" :label="$t('reception.ends_time')" width="auto" show-overflow-tooltip align='center' :formatter="dateFormat"></el-table-column> -->
       <el-table-column prop="room_number" :label="$t('reception.room_number')" width="auto" show-overflow-tooltip align='center'></el-table-column>
       
@@ -58,6 +58,14 @@
               </el-popover>
             </template>
         </el-table-column>
+       
+        <el-table-column prop="pay_status" :label="$t('reception.pay_status')" width="auto" align="center">
+        <template slot-scope="scope">
+          <el-tag v-if="scope.row.pay_status==0" type="danger">{{$t('reception.no_pay')}}</el-tag>
+          <el-tag v-if="scope.row.pay_status==1">{{$t('reception.is_pay')}}</el-tag>
+        </template>
+      </el-table-column>
+    
       <el-table-column :label="$t('public.operate')" align="center" width="340px" fixed="right">
         <template slot-scope="scope">   
            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">{{$t('public.edit')}}</el-button>
@@ -157,8 +165,12 @@
             <el-input v-model.trim="forms1.score" ></el-input>
          </el-form-item>
           <el-form-item :label="$t('reception.room_number')" prop="room_number" class="floatleft" v-if="forms1.pay_method==4">
-            <el-input v-model.trim="forms1.room_number" ></el-input>
+            <el-input v-model.trim="forms1.room_number" class="floatleft" >  
+              <el-button slot="append" icon="el-icon-search" @click="submitForm2(forms1.room_number)"></el-button>
+            </el-input>
+            
          </el-form-item>
+        
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible1 = false">{{$t('public.cancel')}}</el-button>
@@ -276,6 +288,11 @@
      },
 
     methods:{
+     submitForm2 (value){
+        console.log(value)
+     },
+     
+     
 
      //打印餐厅订单
       printRestaurantOrder(id){
@@ -345,6 +362,14 @@
             console.log(res)
           })
         },
+         //餐厅号的转换
+     restaurantFormat(row,column){
+       for(var i=0,l=this.restauranttype.length;i<l;i++){
+         if(row.restaurant_id==this.restauranttype[i].id){
+           return this.restauranttype[i].restaurant
+         }
+       }
+    },
         tableEvent(a){
         var fordata = new FormData();
         fordata.append("restaurant_id",a)
@@ -401,13 +426,6 @@
        this.$axios.post(this.$baseUrl + '/order/getPage',fordata)
         .then((res) => {
           if (res.data.result==true) {
-             that.restauranttype.forEach(function(item){
-                res.data.pojo.list.forEach(function(items){
-                  if(items.restaurant_id ==item.id ) {
-                    items.restaurant_id1 = item.restaurant
-                  }
-                })
-            })
             that.tableData = res.data.pojo.list;
             that.mytotal = res.data.pojo.total;
             that.pageNums = res.data.pojo.pageNum;

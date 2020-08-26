@@ -221,6 +221,10 @@ const router = new Router({
             {path:'/',redirect:'teamlist'},
             {path:'teamlist',name:'teamlist',component:resolve => require(['@/page/home/teamCheckList'], resolve)},
             {path:'teamuser',name:'teamuser',component:resolve => require(['@/page/home/teamCheckUser'], resolve)},
+            {path:'teamOrder/:teamId/:teamName',name:'teamOrder',component:resolve => require(['@/page/home/teamPlayersOrder'], resolve),
+            meta: {
+              keepAlive: true, //此组件需要被缓存
+           }},
           ]
         },
 
@@ -234,10 +238,16 @@ const router = new Router({
         },
         // -----------------jcs开始
         {
-          path: '/memberPage',
-          name: 'memberPage',
-          component: resolve => require(['@/page/home/memberPage'], resolve),
-          meta: ['客户管理','会员'],
+          path: '/vipInfo',
+          name: 'vipInfo',
+          component: resolve => require(['@/page/home/vipInfo'], resolve),
+          meta: ['客户管理','会员信息'],
+          children:[
+            {path:'/',redirect:'memberPage'},
+            {path:'memberPage',name:'memberPage',component:resolve => require(['@/page/home/memberPage'], resolve)},
+            {path:'memberAlter',name:'memberAlter',component:resolve => require(['@/page/home/memberAlter'], resolve)},
+            {path:'memberFrom',name:'memberFrom',component:resolve => require(['@/page/home/memberFrom'], resolve)},
+          ]
         },
         {
           path: '/memberAlter',
@@ -251,6 +261,9 @@ const router = new Router({
           component: resolve => require(['@/page/home/memberFrom'], resolve),
           meta: ['客户管理','会员','会员增加'],
         },
+
+       
+
         {
           path: '/integral',
           name: 'integral',
@@ -273,7 +286,9 @@ const router = new Router({
           path: '/guestList',
           name: 'guestList',
           component: resolve => require(['@/page/home/guestList'], resolve),
-          meta: ['客户管理','客人列表'],
+          meta: {
+            keepAlive: true, //此组件需要被缓存
+         }
         },
         {
           path: '/guestHistory',

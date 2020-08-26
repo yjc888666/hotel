@@ -2,85 +2,81 @@
   <!-- 积分查询 -->
   <div class="integral-box">
     <div class="menber-box">
-      <Title :title="title"></Title>
+      <Title :title="titles"></Title>
       <div class="top-search">
-        <el-input v-model.trim="getData.memberName" class="select-left" placeholder="会员名" clearable></el-input>
-        <el-input v-model.trim="getData.phone" class="select-left" placeholder="手机号" clearable></el-input>
-        <el-input v-model.trim="getData.member_card" class="select-left" placeholder="卡号" clearable></el-input>
+        <el-input v-model.trim="getData.memberName" class="select-left" :placeholder="$t('reception.username2')" clearable></el-input>
+        <el-input v-model.trim="getData.phone" class="select-left" :placeholder="$t('reception.phone2')" clearable></el-input>
+        <el-input v-model.trim="getData.member_card" class="select-left" :placeholder="$t('reception.vip_card')" clearable></el-input>
         <div class="block">
           <el-date-picker
             @change="getTime"
             v-model="time"
             type="daterange"
             range-separator="至"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
+           :start-placeholder="$t('reception.kai_time')"
+            :end-placeholder="$t('reception.jie_time')"
           ></el-date-picker>
         </div>
-        <el-button size="small" type="primary tijiao" @click="integralQuery()" class="tijiao">查询</el-button>
+        <el-button size="small" type="primary tijiao" @click="integralQuery()" class="tijiao">{{$t('public.inquire')}}</el-button>
       </div>
       <div class="menber-list">
         <el-table :data="listData" stripe style="width: 100%" header-align="center">
           <el-table-column
             prop="member_card"
-            label="卡号"
+           :label="$t('reception.vip_card')"
             width="auto"
             show-overflow-tooltip
             align="center"
           ></el-table-column>
           <el-table-column
             prop="memberName"
-            label="会员名"
+            :label="$t('reception.vip_name')"
             width="auto"
             show-overflow-tooltip
             align="center"
           ></el-table-column>
           <el-table-column
             prop="phone"
-            label="手机号"
+            :label="$t('reception.phone2')"
             width="auto"
             show-overflow-tooltip
             align="center"
           ></el-table-column>
+          
           <el-table-column
-            prop="increase"
-            label="增加"
+            prop="money"
+            :label="$t('backstage.moneys')"
             width="auto"
             show-overflow-tooltip
             align="center"
           ></el-table-column>
-          <el-table-column
-            prop="minus"
-            label="扣除"
-            width="auto"
-            show-overflow-tooltip
-            align="center"
-          ></el-table-column>
+
           <el-table-column
             prop="create_time"
-            label="发生时间"
+            :label="$t('backstage.create_time')"
             width="auto"
             show-overflow-tooltip
             align="center"
           ></el-table-column>
           <el-table-column
-            prop="staffName"
-            label="操作员工"
+            prop="staff"
+            :label="$t('reception.staff_name')"
             width="auto"
             show-overflow-tooltip
             align="center"
+            :formatter="workerFormat"
           ></el-table-column>
           <el-table-column
             prop="staffName "
-            label="备注"
+            :label="$t('reception.remark')"
             width="auto"
             show-overflow-tooltip
             align="center"
           ></el-table-column>
-          <el-table-column label="操作" align="center" fixed="right" width="380">
+          <el-table-column :label="$t('public.operate')" align="center" fixed="right" width="380">
             <template slot-scope="scope">
-              <el-button size="mini" @click="detailsButton(scope.row)">详情</el-button>
-              <el-button size="mini" :disabled="scope.row.item == 3 ? true : false" @click="revocationButton(scope.row)">撤销</el-button>
+              <el-button size="mini" @click="detailsButton(scope.row)">{{$t('reception.vip_details')}}</el-button>
+              <el-button size="mini" :disabled="scope.row.item == 3 ? true : false" @click="revocationButton(scope.row)">{{$t('reception.revoke')}}</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -95,46 +91,45 @@
         ></el-pagination>
       </div>
       <!-- 详情弹窗 -->
-      <el-dialog title="修改密码" :visible.sync="dialogDetails" width="50%">
+      <el-dialog :title="$t('reception.password')" :visible.sync="dialogDetails" width="50%">
         <el-form
           :model="detailsData"
           ref="detailsData"
           label-width="100px"
           class="demo-ruleForm input-parent"
         >
-          <el-form-item label="卡号" class="input-box">
+          <el-form-item :label="$t('reception.vip_card')" class="input-box">
             <el-input :disabled="true" v-model="detailsData.member_card"></el-input>
           </el-form-item>
-          <el-form-item label="会员名" class="input-box">
+          <el-form-item :label="$t('reception.vip_name')" class="input-box">
             <el-input :disabled="true" v-model="detailsData.memberName"></el-input>
           </el-form-item>
-          <el-form-item label="手机" class="input-box">
+          <el-form-item :label="$t('reception.phone2')" class="input-box">
             <el-input :disabled="true" v-model="detailsData.phone"></el-input>
           </el-form-item>
-          <el-form-item label="项目" class="input-box">
+          <el-form-item :label="$t('reception.pay_project')" class="input-box">
             <el-input :disabled="true" v-model="detailsData.item"></el-input>
             <!-- <template slot-scope="scope">
               
             </template>-->
           </el-form-item>
-          <el-form-item label="金额" class="input-box">
+          <el-form-item :label="$t('backstage.moneys')" class="input-box">
             <el-input :disabled="true" v-model="detailsData.money"></el-input>
           </el-form-item>
-          <el-form-item label="赠送金额" class="input-box">
+          <el-form-item :label="$t('backstage.give_money')" class="input-box">
             <el-input :disabled="true" v-model="detailsData.give"></el-input>
           </el-form-item>
-          <el-form-item label="支付方式" class="input-box">
-            <el-input :disabled="true" v-model="detailsData.pay_status"></el-input>
+          <el-form-item :label="$t('reception.payf')" class="input-box"  >
+            <el-input :disabled="true" v-show="detailsData.pay_status===1"  value="现金"></el-input>
+            <el-input :disabled="true" v-show="detailsData.pay_status===2"  value="刷卡"></el-input>
           </el-form-item>
-          <el-form-item label="收款日期" class="input-box">
+          <el-form-item :label="$t('reception.time2')" class="input-box">
             <el-input :disabled="true" v-model="detailsData.create_time"></el-input>
           </el-form-item>
-          <el-form-item label="操作员">
-            <el-input :disabled="true" v-model="detailsData.操作员"></el-input>
-          </el-form-item>
+        
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="cancelDetails">返回</el-button>、
+          <el-button @click="cancelDetails">{{$t('public.cancel')}}</el-button>
         </div>
       </el-dialog>
     </div>
@@ -148,6 +143,7 @@ export default {
     Title
   },
   created() {
+    this.queryWorker();
     this.getList(this.getData);
   },
   data() {
@@ -172,10 +168,38 @@ export default {
         //详情弹窗数据
       },
       dialogDetails: false,
-      evocation: false
+      evocation: false,
+      //操作员列表
+       workerList:[],
     };
   },
+   computed: {
+    titles() {
+     return {title:this.$t('left.stored')}
+    }
+    },
   methods: {
+         
+         //查询操作员列表
+       queryWorker(){
+           this.$axios.post(this.$baseUrl+ `/staff/getpage`)
+           .then(res=>{
+              this.workerList=res.data.pojo.list;
+           })
+           .catch(res=>{
+               console.log(err)
+           })
+       },
+
+      //操作员类型的转换
+      workerFormat(row){
+        for(var i=0,l=this.workerList.length;i<l;i++){
+         if(row.staff==this.workerList[i].id){
+           return this.workerList[i].username
+         }
+       }
+      },
+
     handleSizeChangeCont(val) {
       this.getData.size = val;
       this.getList(this.getData);

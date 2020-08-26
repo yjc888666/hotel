@@ -45,20 +45,15 @@
       <el-form-item label="手机" prop="phone">
         <el-input class="widthinp" v-model.trim="ruleForm.phone"></el-input>
       </el-form-item>
-      <el-form-item label="支付密码" prop="passwordData">
-        <el-input :disabled="true" class="widthinp" v-model.trim="passwordData"></el-input>
-      </el-form-item>
-      <el-form-item label="再次输入密码" prop="password">
-        <el-input :disabled="true" class="widthinp" v-model.trim="ruleForm.password" show-password></el-input>
-      </el-form-item>
+     
       <el-form-item label="性别" prop="gender">
         <el-radio-group v-model="ruleForm.gender" @change="changeGender">
           <el-radio class="radio" label="1">男</el-radio>
           <el-radio class="radio" label="2">女</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="充值金额" prop="money">
-        <el-input class="widthinp" :disabled="true" v-model.trim="ruleForm.money"></el-input>
+      <el-form-item label="余额" prop="money">
+        <el-input class="widthinp" :disabled="true" v-model.trim="ruleForm.balance"></el-input>
       </el-form-item>
       <el-form-item label="生日" prop="birthday">
         <!-- <el-input class="widthinp" v-model.trim="ruleForm.birthday"></el-input> -->
@@ -69,12 +64,7 @@
           placeholder="选择日期"
         ></el-date-picker>
       </el-form-item>
-      <el-form-item label="支付方式">
-        <el-radio-group v-model="ruleForm.pay_status" :disabled="true">
-          <el-radio class="radio" label="1">现金</el-radio>
-          <el-radio class="radio" label="2">刷卡</el-radio>
-        </el-radio-group>
-      </el-form-item>
+      
       <el-form-item>
         <el-button type="primary" @click="submitAlter('ruleForm')" class="tijiao">修改</el-button>
       </el-form-item>
@@ -95,11 +85,11 @@
             <el-radio class="radio" label="2">仅挂失</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="新卡号" prop="member_card" v-show="cardShow">
-          <el-input v-model.number="repairData.member_card"></el-input>
+        <el-form-item label="新卡号" prop="member_card" v-if="cardShow">
+          <el-input v-model.trim="repairData.member_card"></el-input>
         </el-form-item>
         <el-form-item label="当前卡号" prop="old_card">
-          <el-input v-model.number="repairData.old_card"></el-input>
+          <el-input  :disabled="true" v-model.trim="repairData.old_card" ></el-input>
         </el-form-item>
         <el-form-item label="费用" prop="price">
           <el-input v-model.trim="repairData.price "></el-input>
@@ -110,8 +100,8 @@
             <el-radio class="radio" label="2">刷卡</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model.trim="repairData.remark "></el-input>
+        <el-form-item label="备注" prop="remark" v-if="remarkShow">
+          <el-input v-model.trim="repairData.remark" ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -165,7 +155,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="会员卡号" prop="member_card">
-          <el-input v-model.trim="rechargeRuleform.member_card"></el-input>
+          <el-input :disabled="true" v-model.trim="rechargeRuleform.member_card"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -229,6 +219,7 @@ export default {
       bukaId: '',
       cardShow: true,
       priceShow: false,
+      remarkShow:false,
       passAlter: {
         //修改密码的数据---
         status: '0',
@@ -251,11 +242,11 @@ export default {
         ],
         member_card: [
           { required: true, message: "请输入新卡号", trigger: "blur" },
-          { type: "number", message: "新卡号必须为数字" }
+          
         ],
         old_card: [
           { required: true, message: "请输入当前卡号", trigger: "blur" },
-          { type: "number", message: "卡号必须为数字" }
+        
         ],
         price: [{ required: true, message: "请输入费用", trigger: "blur" }],
         pay_type: [{ required: true, message: "请选择支付方式", trigger: "blur" }],
@@ -289,6 +280,14 @@ export default {
     };
   },
   methods: {
+    // 获取会员类型
+    memberType() {
+      this.$axios.post(this.$baseUrl + `/memberLevel/list`).then(res => {
+        this.options = res.data.pojo;
+      });
+    },
+
+
     changeGender() {
       console.log(this.ruleForm.gender, 2233);
     },
@@ -372,6 +371,7 @@ export default {
     },
     // 挂失补卡弹窗----------------
     repairCar() {
+       this.repairData.old_card=this.ruleForm.member_card
       this.dialogRepair = true;
     },
     // 取消补卡
@@ -381,8 +381,8 @@ export default {
     },
     // 挂失补卡接口
     repairPort() {
-      this.repairData.old_card = JSON.stringify(this.repairData.old_card);
-      this.repairData.member_card = JSON.stringify(this.repairData.member_card);
+      // this.repairData.old_card = JSON.stringify(this.repairData.old_card);
+      // this.repairData.member_card = JSON.stringify(this.repairData.member_card);
       this.$axios
         .post(this.$baseUrl + `/member/action/change`, this.repairData)
         .then(res => {
@@ -419,13 +419,19 @@ export default {
         // delete this.repairData.price;
         // delete this.repairData.pay_type;
       }
+      if(this.bukaId == 0){
+        this.remarkShow=true;
+      }
+      else{
+        this.remarkShow=false;
+      }
     },
 
     // 补卡清空
     repairEmpty(val) {
       this.repairData.member_card = "";
       this.repairData.type = val;
-      this.repairData.old_card = "";
+      //this.repairData.old_card = "";
       this.repairData.price = "";
       this.repairData.pay_type = "";
       this.repairData.remark = "";
@@ -499,6 +505,7 @@ export default {
     },
     // 充值按钮-------------------
     recharge(val) {
+      this.rechargeRuleform.member_card=this.ruleForm.member_card
       this.dialogFormVisible = true;
     },
     // 充值提交
@@ -542,6 +549,7 @@ export default {
   },
   created() {
     this.skipData();
+    this.memberType();
     this.detailsData();
   }
 };

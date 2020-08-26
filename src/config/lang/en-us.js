@@ -505,6 +505,35 @@ module.exports = {
         remove_player:'Remove Player',
         money_detail:'Details',
 
+        //客户管理
+        // 1.会员信息
+        vip_type:'Vip Type',
+        add_time:'Add Time',
+        card_status:'Card Status',
+        ji_fen:'integral',
+        balance:'Balance',
+        amount:'Amount',
+        amount_num:'Amount Num',
+        vip_details:'Details',
+        logout:'Logout',
+            // 2.积分查询
+        kai_time:'Start Time',
+        jie_time:'End Time',
+        vip_name:'Vip Name',
+        increase:'Increase',
+        minus:'Minus',
+        old_card:'Old Card',
+        log_type:'Log Type',
+        change_card:'Change Card',
+        add_card_:'Bua Ka',
+        gua_shi:'Gua Shi',
+        alter_pas:'Alter Password',
+        fei_yong:'Fei Yong',
+        consume_num:'Consume Num',
+        total_consume:'Total Consume',
+        cus_history:'History',
+
+
         //  ljf strat
         pay:"Pay",
         payf:"Pay Type",

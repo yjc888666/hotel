@@ -8,16 +8,16 @@
       <div class="lists">
      <el-input v-model.trim="ruleForm.room_number" class="time-left" :placeholder="$t('backstage.room_number')" clearable></el-input>
      <!-- <el-input v-model.trim="ruleForm.house_type" class="time-left" placeholder="房型" clearable></el-input> -->
-      <el-select v-model.trim="ruleForm.house_type" :placeholder="$t('backstage.house_type')">
+      <el-select v-model.trim="ruleForm.house_type" :placeholder="$t('backstage.house_type')" clearable>
         <el-option v-for="item in houseType" :key="item.id" :label="item.name" :value="item.id"></el-option>
       </el-select>
-     <el-select v-model.trim="ruleForm.comp" :placeholder="$t('backstage.comp')">
+     <el-select v-model.trim="ruleForm.comp" :placeholder="$t('backstage.comp')" clearable>
           <el-option v-for="item in sta" :key="item.value" :label="item.label" :value="item.value"></el-option>
        </el-select>
-      <el-select v-model.trim="ruleForm.aircondition" :placeholder="$t('backstage.aircondition')">
+      <el-select v-model.trim="ruleForm.aircondition" :placeholder="$t('backstage.aircondition')" clearable>
           <el-option v-for="item in sta" :key="item.value" :label="item.label" :value="item.value"></el-option>
        </el-select>
-       <el-select v-model.trim="ruleForm.status" :placeholder="$t('public.status')">
+       <el-select v-model.trim="ruleForm.status" :placeholder="$t('public.status')" clearable>
           <el-option v-for="item in statustype" :key="item.value" :label="item.label" :value="item.value"></el-option>
        </el-select>
       <el-button type="primary tijiao" @click="submitForm('ruleForm')" class="tijiao">{{$t('public.inquire')}}</el-button>
@@ -27,7 +27,7 @@
       <el-table-column type="index" label="ID" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column prop="room_number" :label="$t('backstage.room_number')" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column prop="peoples" :label="$t('backstage.peoples')" width="auto" show-overflow-tooltip align='center'></el-table-column>
-      <el-table-column prop="house_type1" :label="$t('backstage.house_type')" width="auto" show-overflow-tooltip align='center'></el-table-column>
+      <el-table-column prop="type_n" :label="$t('backstage.house_type')" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column prop="beds" :label="$t('backstage.beds')" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column prop="floor" :label="$t('backstage.floor')" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column prop="tv1" :label="$t('backstage.tv1')" width="auto" show-overflow-tooltip align='center'></el-table-column>
@@ -37,10 +37,11 @@
       <el-table-column prop="aircondition1" :label="$t('backstage.aircondition')" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column prop="status1" :label="$t('public.status')" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column prop="cash_pledge" :label="$t('backstage.cash_pledge')" width="auto" show-overflow-tooltip align='center'></el-table-column>
-      <el-table-column prop="prices" :label="$t('backstage.cash_pledge')" width="auto" show-overflow-tooltip align='center'></el-table-column>
+      <el-table-column prop="prices" :label="$t('backstage.prices')" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column prop="remark" :label="$t('public.remark')" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column :label="$t('public.operate')" align="center" fixed="right" width="350px">  
         <template slot-scope="scope">
+          <!-- <el-button size="mini" @click="groupByHouseType(scope.$index, scope.row)">分组</el-button> -->
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">{{$t('public.edit')}}</el-button>
           <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">{{$t('public.delete')}}</el-button>
           <el-button size="mini" @click="handleEmpty(scope.$index, scope.row)">{{$t('reception.empty')}}</el-button>
@@ -58,7 +59,7 @@
         :total="mytotal"
         v-if="mytotal!=0">
       </el-pagination>
-    <el-dialog :title="$t('backstage.house_type')" :visible.sync="dialogFormVisible" class="dia" width="40%">
+    <el-dialog title="房间信息" :visible.sync="dialogFormVisible" class="dia" width="40%">
       <el-form :model="forms" status-icon :rules="rule" ref="forms" label-width="80px" class="demo-ruleForm mars">
          <el-form-item :label="$t('backstage.room_number')" prop="room_number"  class="floatleft">
            <el-input v-model.trim="forms.room_number" ></el-input>
@@ -96,10 +97,22 @@
            <el-input v-model.trim="forms.cash_pledge" ></el-input>
          </el-form-item>
          <el-form-item :label="$t('backstage.house_type')" prop="house_type" class="floatleft">
-            <el-select v-model.trim="forms.house_type" :placeholder="$t('public.please_select')">
-              <el-option v-for="item in houseType" :key="item.id" :label="item.name" :value="item.id"></el-option>
+            <el-select v-model.trim="forms.house_type" :placeholder="$t('public.please_select')" @change="queryRoomList">
+              <el-option v-for="item in houseType" :key="item.id" :label="item.name" :value="item.id"  ></el-option>
             </el-select>
           </el-form-item>
+
+           <!-- <el-select
+            v-model.trim="forms.house_type"
+            :placeholder="$t('reception.house_type')"
+            clearable
+            @change="queryRoomList"
+          >
+            <el-option v-for="item in housetype" :key="item.id" :label="item.name" :value="item.id"></el-option>
+          </el-select> -->
+        <el-form-item :label="$t('backstage.prices')" prop="prices" class="floatleft">
+           <el-input v-model.trim="forms.prices" disabled ></el-input>
+         </el-form-item>
          <el-form-item :label="$t('backstage.tel')" prop="tel" class="floatleft">
            <el-input v-model.trim="forms.tel" ></el-input>
          </el-form-item>
@@ -108,9 +121,7 @@
               <el-option v-for="item in statustype" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
          </el-form-item>
-         <el-form-item :label="$t('backstage.prices')" prop="prices" class="floatleft">
-           <el-input v-model.trim="forms.prices" ></el-input>
-         </el-form-item>
+         
          <!-- <el-form-item label="备注" prop="remark" class="floatleft">
            <el-input v-model.trim="forms.remark" ></el-input>
          </el-form-item> -->
@@ -160,6 +171,7 @@
 <script>
   import Title from '../../components/cont_title.vue'
   import yz from '../../config/validation.js'
+  import qs from "qs";
   export default {
     components:{Title},
     data() {
@@ -317,6 +329,28 @@
       }
     },
     methods:{
+        // //根据房型分组显示的接口
+        // groupByHouseType(index,row){
+        //      this.$axios.post(this.$baseUrl+'/room/roomType',{
+        //        house_type:row.house_type
+        //      })
+        //      .then(res=>{
+        //        console.log(res)
+        //      })
+        //      .catch(err=>{
+        //        console.log(err)
+        //      })
+        // },
+      //根据选择的房型id,自动把房型价格返回来
+         queryRoomList(val){
+            let obj = {};
+            obj = this.houseType.find((item)=>{
+                return item.id === val;
+            });
+             
+               this.forms.prices= obj.prices;
+         },
+
       houseEvent(){
           this.$axios.post(this.$baseUrl + '/houseType/getlist')
         .then((res) => {
@@ -331,9 +365,11 @@
         var para ={
           page:a,
           size:b,
-          name
-          :that.ruleForm.name,		  
-          prices:that.ruleForm.prices,	
+          room_number:that.ruleForm.room_number,
+          house_type:that.ruleForm.house_type,
+          comp :that.ruleForm.comp ,
+          aircondition:that.ruleForm.aircondition,
+          status:that.ruleForm.status,		  
         }
         that.$axios.post(this.$baseUrl +`/room/getPage`,para)
           .then(function (res) {
@@ -507,10 +543,13 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
           var that = this;
-           var fordata = new FormData();
-           fordata.append("status",this.forms1.status  )
-           fordata.append("room_number",this.forms1.room_number  )
-          that.$axios.post(this.$baseUrl +`/room/empty`,fordata)
+          //  var fordata = new FormData();
+          //  fordata.append("status",this.forms1.status  )
+          //  fordata.append("room_number",this.forms1.room_number  )
+          that.$axios.post(this.$baseUrl +`/room/empty`,qs.stringify({
+            room_number:this.forms1.room_number,
+            status:this.forms1.status
+          }))
           .then(function (res) {
             if (res.data.result== true) {
               that.$message.success(that.$t("common."+res.data.msg))
@@ -537,7 +576,9 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
           var that = this;
-          that.$axios.post(this.$baseUrl +`/room/forward`,this.form2)
+          that.$axios.post(this.$baseUrl +`/room/forward`,{
+            number:this.forms2.room_number
+          })
           .then(function (res) {
             if (res.data.result== true) {
               that.$message.success(that.$t("common."+res.data.msg))

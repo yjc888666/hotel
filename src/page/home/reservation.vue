@@ -110,7 +110,7 @@
                 </el-form-item>
                 <div style="clear: both;"></div>
             </el-form>
-            <el-form :inline="true" v-for="(item, index) in dynamicValidateForm.rooms" :key="index" label-width="80px">
+            <el-form :inline="true" v-for="(item, index) in dynamicValidateForm.rooms" :key="index">
                 <el-form-item :label="$t('reception.house_type')" prop="houseType" class="floatleft">
                     <el-select v-model.trim="item.houseType" placeholder="房型" clearable  @change="queryRoomList">
                         <el-option v-for="items in houseTypes" :key="items.id" :label="items.name" :value="items.id"></el-option>
@@ -980,20 +980,15 @@ export default {
                 if (valid) {
                     var that = this;
                     that.$axios.post(this.$baseUrl +`/reservation/insert`,para)
-                    .then(function (res) {
+                    .then(res=>{
                         if (res.data.result== true) {
-                            this.$message({
-                                message: this.$t("common."+res.data.msg),
-                                showClose: true,
-                                type: 'success'
-                            });
-                            this.dialogFormVisible=false,
                             that.$message.success(that.$t("common."+res.data.msg))
+                            this.dialogFormVisible=false,
                             this.roomList(this.currentPage,this.pagesize)
                         }else {
                         that.$message.error(that.$t("common."+res.data.msg))
                         }
-                    }).catch(function (error) {
+                    }).catch(err=> {
                     console.log('逻辑错误')
                     })
                 }
@@ -1284,19 +1279,20 @@ export default {
                 })
         },
         moreny(){
+            var that=this;
             this.$axios.post(this.$baseUrl +'/reservation/deposit',this.depmoreny)
             .then((res) => {
             console.log(res)
             if (res.data.result== true) {
                 this.dialog_4=false
-                this.$message({
+                that.$message({
                     message: this.$t("common."+res.data.msg),
                     showClose: true,
                     type: 'success'
                 });
-                this.roomList(this.currentPage,this.pagesize)
+                that.roomList(this.currentPage,this.pagesize)
             }else {
-                this.$message.error(this.$t("common."+res.data.msg))
+                that.$message.error(this.$t("common."+res.data.msg))
             }
             })
             .catch((res) => {

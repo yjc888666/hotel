@@ -21,7 +21,7 @@
 
     <el-table :data="tableData" stripe style="width: 100%" header-align='center'>
       <el-table-column type="index" label="ID" width="auto" show-overflow-tooltip align='center'></el-table-column>
-      <el-table-column prop="serial_number" :label="$t('backstage.serials_number')" width="auto" show-overflow-tooltip align='center'></el-table-column>
+      <el-table-column prop="serial_number" :label="$t('backstage.serialss_number')" width="auto" show-overflow-tooltip align='center'></el-table-column>
        <el-table-column prop="capacity" :label="$t('backstage.capacity')" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column prop="status" :label="$t('public.status')" width="auto" align='center'> 
         <template slot-scope='scope'>

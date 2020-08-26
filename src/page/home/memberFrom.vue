@@ -20,7 +20,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="卡号" prop="member_card">
-        <el-input :disabled="detailsShow" v-model.trim="ruleForm.member_card" class="widthinp"></el-input>
+        <el-input :disabled="detailsShow" v-model.number="ruleForm.member_card" class="widthinp" type="number"></el-input>
       </el-form-item>
       <el-form-item label="证件类型" prop="idType">
         <el-select

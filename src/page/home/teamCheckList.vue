@@ -69,7 +69,7 @@
         prop="id"
       >
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleorder(scope.row.id)">
+          <el-button size="mini" @click="handleorder(scope.row)">
             {{$t('reception.order')}}
           </el-button>
 
@@ -206,6 +206,13 @@
               @click="payBill(scope.$index, scope.row)"
               v-if="!scope.row.pay_status"
             >{{$t('reception.settle_accounts')}}</el-button>
+
+           //需要显示的账单
+             <!-- <el-button
+              size="mini"
+              @click="payBill(scope.$index, scope.row)"
+              v-if="!scope.row.pay_status"
+            >{{$t('reception.settle_accounts')}}</el-button> -->
           </template>
         </el-table-column>
       </el-table>
@@ -733,22 +740,29 @@ export default {
 
     
 
-    handleorder(id) {
-      this.dialogTableVisible = true;
-      this.$axios
-        .post(
-          this.$baseUrl + `/team/getRegister`,
-          qs.stringify({
-            id: id,
-          })
-        )
-        .then((res) => {
-          console.log(res);
-          this.teamOrderInfo = res.data.pojo;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    handleorder(row) {
+     this.$router.push({
+       name:"teamOrder",
+       params:{
+         teamId:row.id,
+         teamName:row.teamname,
+       }
+     } );
+      // this.dialogTableVisible = true;
+      // this.$axios
+      //   .post(
+      //     this.$baseUrl + `/team/getRegister`,
+      //     qs.stringify({
+      //       id: id,
+      //     })
+      //   )
+      //   .then((res) => {
+      //     console.log(res);
+      //     this.teamOrderInfo = res.data.pojo;
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   });
     },
 
     idTypeEvent() {
@@ -803,7 +817,7 @@ export default {
     },
     submitForm() {
       var that = this;
-      that.list(1, that.pagesize);
+      that.list(that.currentPage, that.pagesize);
     },
     handleSizeChangeCont: function (size) {
       this.pagesize = size;
@@ -1035,10 +1049,9 @@ export default {
           .then((res) => {
             if (res.data.result == true) {
               that.$message.success(that.$t("common." + res.data.msg));
-
               this.dialogBill = false;
                this.dialogTableVisible=false;
-             
+              that.list(that.currentPage, that.pagesize);
             } else {
               that.$message.error(that.$t("common." + res.data.msg));
             }

@@ -80,13 +80,13 @@
         </el-menu-item-group>
       </el-submenu>
       <!-- jcs开始 -->
-      <el-submenu index="/memberPage">
+      <el-submenu index="/vipInfo">
         <template slot="title">
           <i class="el-icon-document"></i>
           <span slot="title">{{$t('left.customer')}}</span>
         </template>
-        <el-menu-item index="/memberPage">
-          <router-link to="/memberPage" tag="div">{{$t('left.members')}}</router-link>
+        <el-menu-item index="/vipInfo">
+          <router-link to="/vipInfo" tag="div">{{$t('left.members')}}</router-link>
         </el-menu-item>
         <el-menu-item index="/integral">
           <router-link to="/integral" tag="div">{{$t('left.integral')}}</router-link>

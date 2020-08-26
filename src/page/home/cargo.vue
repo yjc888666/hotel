@@ -25,8 +25,8 @@
       <el-table-column prop="cargo_id" :label="$t('reception.cargo_id')" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column prop="cargo_name" :label="$t('reception.cargo_name')" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column prop="number" :label="$t('reception.num')" width="auto" show-overflow-tooltip align='center'></el-table-column>
-      <el-table-column prop="warehouse_id1" :label="$t('reception.warehouse_id')" width="auto" show-overflow-tooltip align='center'></el-table-column>
-      <el-table-column prop="classigy_id1" :label="$t('reception.classify_id')" width="auto" show-overflow-tooltip align='center'></el-table-column>
+      <el-table-column prop="warehouse_id" :label="$t('reception.warehouse_id')" width="auto" show-overflow-tooltip align='center' :formatter="warehouseFormat"></el-table-column>
+      <el-table-column prop="classify_id" :label="$t('reception.classify_id')" width="auto" show-overflow-tooltip align='center' :formatter="classifyFormat"></el-table-column>
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">{{$t('public.edit')}}</el-button>
@@ -157,6 +157,8 @@
           ]
         }
       },
+
+      //获取所有的仓库列表
       houseEvent(){
         this.$axios.post(this.$baseUrl + '/warehouse/getWareHouse')
         .then((res) => {
@@ -166,6 +168,19 @@
           console.log(res)
         })
       },
+       //仓库名称的转换
+    warehouseFormat(row,column){
+       for(var i=0,l=this.warehouseType.length;i<l;i++){
+         if(row.warehouse_id==this.warehouseType[i].id){
+           return this.warehouseType[i].remark
+         }
+         else{
+           console.log('找不到匹配的仓库')
+         }
+       }
+    },
+     
+     //获取所有的货物列表
       classigyEvent(){
         this.$axios.post(this.$baseUrl + '/cargoClassify/getClassify')
         .then((res) => {
@@ -174,6 +189,18 @@
         .catch((res) => {
           console.log(res)
         })
+      },
+      
+      //货物名称的转换
+      classifyFormat(row,column){
+      for(var i=0,l=this.classigyType.length;i<l;i++){
+         if(row.classify_id==this.classigyType[i].id){
+           return this.classigyType[i].classify_name
+         }
+         else{
+           console.log('找不到匹配的货物')
+         }
+       }
       },
       handleSelectionChange(val) {
         this.multipleSelection = val;
@@ -202,20 +229,7 @@
        this.$axios.post(this.$baseUrl + '/cargo/getcargoPage',para)
         .then((res) => {
           if (res.data.result==true) {
-              that.classigyType.forEach(function(items){
-                res.data.pojo.list.forEach(function(item){
-                    if(items.id == item.classify_id){
-                      item.classigy_id1 = items.classify_name
-                    }
-                })
-              })
-             that.warehouseType.forEach(function(items){
-                res.data.pojo.list.forEach(function(item){
-                    if(items.id == item.warehouse_id){
-                      item.warehouse_id1 = items.remark
-                    }
-                })
-              })
+            
             that.tableData = res.data.pojo.list;
             that.mytotal = res.data.pojo.total;
             that.pageNums = res.data.pojo.pageNum;

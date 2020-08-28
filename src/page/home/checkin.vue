@@ -71,7 +71,7 @@
         align="center"
       ></el-table-column>
       <el-table-column prop="pay_status" :label="$t('reception.pay_status')" width="auto" align="center">
-        <template slot-scope="scope">
+          <template slot-scope="scope">
           <el-tag v-if="scope.row.pay_status==0" type="danger">{{$t('reception.no_pay')}}</el-tag>
           <el-tag v-if="scope.row.pay_status==1">{{$t('reception.is_pay')}}</el-tag>
         </template>

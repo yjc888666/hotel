@@ -1,19 +1,38 @@
 <template>
   <!-- 客人历史 -->
-  <div class="integral-box">
-    <div class="menber-box">
-      <Title :title="titles"></Title>
-      <div class="top-search">
-        <el-input v-model.trim="getData.memberName" class="select-left" :placeholder="$t('reception.username2')" clearable></el-input>
-        <el-input v-model.trim="getData.phone" class="select-left" :placeholder="$t('reception.phone2')" clearable></el-input>
-        <el-input v-model.trim="getData.member_card" class="select-left" :placeholder="$t('reception.vip_card')" clearable></el-input>
-        <el-button size="small" type="primary tijiao" @click="integralQuery()" class="tijiao">{{$t('public.inquire')}}</el-button>
+  <div class="cont">
+    <Title :title="titles"></Title>
+    <div class="cont_top_btn">
+      <div class="lists">
+        <el-input
+          v-model.trim="getData.memberName"
+          class="time-left"
+          :placeholder="$t('reception.username2')"
+          clearable
+        ></el-input>
+        <el-input
+          v-model.trim="getData.phone"
+          class="time-left"
+          :placeholder="$t('reception.phone2')"
+          clearable
+        ></el-input>
+        <el-input
+          v-model.trim="getData.member_card"
+          class="time-left"
+          :placeholder="$t('reception.vip_card')"
+          clearable
+        ></el-input>
+        <el-button
+          type="primary tijiao"
+          @click="integralQuery()"
+          class="tijiao"
+        >{{$t('public.inquire')}}</el-button>
       </div>
-      <div class="menber-list">
+      </div>
         <el-table :data="listData" stripe style="width: 100%" header-align="center">
           <el-table-column
             prop="username"
-             :label="$t('reception.username2')"
+            :label="$t('reception.username2')"
             width="auto"
             show-overflow-tooltip
             align="center"
@@ -25,10 +44,10 @@
             show-overflow-tooltip
             align="center"
           >
-          <template slot-scope="scope">
-          <el-tag v-if="scope.row.gender===1">男</el-tag>
-          <el-tag v-if="scope.row.gender===2" type="danger">女</el-tag>
-          </template>
+            <template slot-scope="scope">
+              <el-tag v-if="scope.row.gender===1">男</el-tag>
+              <el-tag v-if="scope.row.gender===2" type="danger">女</el-tag>
+            </template>
           </el-table-column>
           <el-table-column
             prop="phone"
@@ -43,11 +62,11 @@
             width="auto"
             show-overflow-tooltip
             align="center"
-             :formatter="idTypeFormat"
+            :formatter="idTypeFormat"
           ></el-table-column>
           <el-table-column
             prop="card_num"
-             :label="$t('reception.id')"
+            :label="$t('reception.id')"
             width="auto"
             show-overflow-tooltip
             align="center"
@@ -60,15 +79,16 @@
             align="center"
           ></el-table-column>
           <el-table-column
-            prop="user_type"
+            prop="userType_name"
             label="用户类型"
             width="auto"
             show-overflow-tooltip
             align="center"
+            :formatter="userType"
           ></el-table-column>
           <el-table-column
             prop="member_card"
-             :label="$t('reception.vip_card')"
+            :label="$t('reception.vip_card')"
             width="auto"
             show-overflow-tooltip
             align="center"
@@ -82,7 +102,7 @@
           ></el-table-column>
           <el-table-column
             prop="consume_num"
-           :label="$t('reception.consume_num')"
+            :label="$t('reception.consume_num')"
             width="auto"
             show-overflow-tooltip
             align="center"
@@ -96,7 +116,10 @@
           ></el-table-column>
           <el-table-column :label="$t('public.operate')" align="center" fixed="right" width="80">
             <template slot-scope="scope">
-              <el-button size="mini" @click="historyButton(scope.row)">{{$t('reception.cus_history')}}</el-button>
+              <el-button
+                size="mini"
+                @click="historyButton(scope.row)"
+              >{{$t('reception.cus_history')}}</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -110,8 +133,6 @@
           :total="toltal"
         ></el-pagination>
       </div>
-    </div>
-  </div>
 </template>
 
 <script>
@@ -140,37 +161,45 @@ export default {
       toltal: 0,
       listData: [],
       evocation: false,
-      idtype: [],
+      idtype: []
     };
   },
-  created(){
-        this.idTypeEvent();
-        this.integralQuery();
+  created() {
+    this.idTypeEvent();
+    this.integralQuery();
   },
   computed: {
     titles() {
-     return {title:this.$t('left.integral')}
+      return { title: this.$t("left.integral") };
     }
-    },
+  },
   methods: {
-      
-      idTypeEvent() {
+    //用户类型的转换
+    userType(row, column) {
+      if (row.userType_name == null) {
+        return "普通用户";
+      } else {
+        return row.userType_name;
+      }
+    },
+
+    idTypeEvent() {
       this.$axios
         .post(this.$baseUrl + "/idType/list")
-        .then((res) => {
+        .then(res => {
           this.idtype = res.data.pojo;
         })
-        .catch((res) => {
+        .catch(res => {
           console.log(res);
         });
     },
-      //证件类型的转换
-    idTypeFormat(row,column){
-       for(var i=0,l=this.idtype.length;i<l;i++){
-         if(row.card_type==this.idtype[i].id){
-           return this.idtype[i].name
-         }
-       }
+    //证件类型的转换
+    idTypeFormat(row, column) {
+      for (var i = 0, l = this.idtype.length; i < l; i++) {
+        if (row.card_type == this.idtype[i].id) {
+          return this.idtype[i].name;
+        }
+      }
     },
 
     handleSizeChangeCont(val) {
@@ -189,13 +218,13 @@ export default {
       this.$axios
         .post(this.$baseUrl + `/customer/bypage`, this.getData)
         .then(res => {
-          console.log(res)
+          console.log(res);
           this.listData = res.data.pojo.list;
           this.toltal = res.data.pojo.total;
         });
     },
     historyButton(val) {
-      console.log(val,222)
+      console.log(val, 222);
       this.$router.push({
         name: "guestHistory",
         query: { id: val.card_num }

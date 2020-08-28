@@ -1,35 +1,34 @@
 <template>
   <!-- 会员管理 -->
-  <div class="menber-boss">
-    <div class="menber-box">
+ <div class="cont">
       <Title :title="titles"></Title>
-      <div class="top-search">
+      <div class="cont_top_btn">
         <el-button
-          class="adds"
           type="success"
           size="small"
           style="background: #066197;border-color: #066197;"
           icon="el-icon-plus"
           @click="addButton"
         >{{$t('public.add')}}</el-button>
-        <el-input v-model.trim="searchData.phone" class="select-left" :placeholder="$t('reception.phone2')" clearable></el-input>
+        <div class="lists">
+        <el-input v-model.trim="searchData.phone" class="time-left" :placeholder="$t('reception.phone2')" clearable></el-input>
         <el-input
           v-model.number="searchData.member_card"
-          class="select-left"
+          class="time-left"
           :placeholder="$t('reception.vip_card')"
           clearable
         ></el-input>
         <el-input
           v-model.trim="searchData.username"
-          class="select-left"
+          class="time-left"
           :placeholder="$t('reception.username2')"
           clearable
         ></el-input>
-        <el-input v-model.trim="searchData.level" class="select-left" :placeholder="$t('reception.vip_type')" clearable></el-input>
+        <el-input v-model.trim="searchData.level" class="time-left" :placeholder="$t('reception.vip_type')" clearable></el-input>
         <el-button size="small" type="primary tijiao" @click="searchLevel()" class="tijiao">{{$t('public.inquire')}}</el-button>
         <!-- <el-button size="small" @click="recharge()" class="tijiao el-button--primary">充值</el-button> -->
       </div>
-      <div class="menber-list">
+       </div>
         <el-table :data="listData" stripe style="width: 100%" header-align="center">
           <el-table-column type="index" label="ID" width="auto" show-overflow-tooltip align="center"></el-table-column>
           <el-table-column
@@ -193,11 +192,7 @@
     <el-button type="primary" @click="discountVisible = false">确 定</el-button>
   </span>
  </el-dialog>
-
-      </div>
-    </div>
-  
-  </div>
+ </div>
 </template>
 <script>
 import Title from "../../components/cont_title";

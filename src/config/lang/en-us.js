@@ -233,7 +233,7 @@ module.exports = {
       role_id:"role",
       tijiao:"Create now",
       role_name:"Role name",
-      auth:"to grant authorization",
+      auth:"Grant",
       etc_1:"Enable",
       arrow_down:"Expand all",
       name:"Permission name",
@@ -492,7 +492,7 @@ module.exports = {
         //预定列表
         reserve_info:'Info',
         reserve_time:'Reserve Time',
-        book_money:'Book Money',
+        book_money:'Deposit',
         staff_name:'Staff Name',
         expect_check_time:'Expect Check',
         expect_out_time:'Expect Out',

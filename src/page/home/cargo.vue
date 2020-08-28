@@ -174,9 +174,6 @@
          if(row.warehouse_id==this.warehouseType[i].id){
            return this.warehouseType[i].remark
          }
-         else{
-           console.log('找不到匹配的仓库')
-         }
        }
     },
      
@@ -196,9 +193,6 @@
       for(var i=0,l=this.classigyType.length;i<l;i++){
          if(row.classify_id==this.classigyType[i].id){
            return this.classigyType[i].classify_name
-         }
-         else{
-           console.log('找不到匹配的货物')
          }
        }
       },

@@ -25,7 +25,9 @@
       <el-table-column prop="contacts" :label="$t('reception.contacts')" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column prop="phone" :label="$t('reception.phone')" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column prop="content" :label="$t('reception.content')" width="auto" show-overflow-tooltip align='center'></el-table-column>
-      <el-table-column prop="ptype_id1" :label="$t('reception.ptype_id')" width="auto" show-overflow-tooltip align='center'></el-table-column>
+      <el-table-column prop="ptype_id" :label="$t('reception.ptype_id')" width="auto" show-overflow-tooltip align='center'
+      :formatter="priceTypeFormat"
+      ></el-table-column>
       <el-table-column prop="paccount_price" :label="$t('reception.paccount_price')" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column prop="start_time" :label="$t('reception.start_time')" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column prop="end_time" :label="$t('reception.end_time')" width="auto" show-overflow-tooltip align='center' ></el-table-column>
@@ -71,7 +73,7 @@
          <el-form-item :label="$t('reception.company_name')" prop="company_name"  class="floatleft">
            <el-input v-model.trim="forms.company_name" ></el-input>
          </el-form-item>
-          <el-form-item :label="$t('reception.dia')" prop="contacts" class="floatleft">
+          <el-form-item :label="$t('reception.contacts')" prop="contacts" class="floatleft">
            <el-input v-model.trim="forms.contacts" ></el-input>
          </el-form-item>
          <el-form-item :label="$t('reception.phone')" prop="phone" class="floatleft">
@@ -249,10 +251,30 @@
       }
     },
     methods:{
+
+    //  that.houseType.forEach(function(items){
+    //              res.data.pojo.list.forEach(function(item){
+    //                  if(items.id == item.ptype_id){
+    //                    item.ptype_id1 = items.tactic_name
+    //                  }
+    //              })
+    //           })
+
+
+   //价格策略的转换
+    priceTypeFormat(row,column){
+        for(var i=0,l=this.houseType.length;i<l;i++){
+         if(row.ptype_id==this.houseType[i].id){
+           return this.houseType[i].tactic_name
+         }
+       }
+    },
       
        handleSelectionChange1(val){
          this.multipleSelection1 = val;
       },
+
+      //查询所有的价格策略
       houseEvent(){
         var para = {
           tactic_name:"",
@@ -281,14 +303,6 @@
         that.$axios.post(this.$baseUrl +`/cooperator/getPage`,para)
           .then(function (res) {
             if (res.data.result==true) {
-              that.houseType.forEach(function(items){
-                 res.data.pojo.list.forEach(function(item){
-                     if(items.id == item.ptype_id){
-                       item.ptype_id1 = items.tactic_name
-                     }
-                 })
-              })
-            
               that.tableData = res.data.pojo.list;
               that.mytotal = res.data.pojo.total;
               that.pageNums = res.data.pojo.pageNum;

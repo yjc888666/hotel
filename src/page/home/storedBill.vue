@@ -1,138 +1,156 @@
 <template>
   <!-- 积分查询 -->
-  <div class="integral-box">
-    <div class="menber-box">
-      <Title :title="titles"></Title>
-      <div class="top-search">
-        <el-input v-model.trim="getData.memberName" class="select-left" :placeholder="$t('reception.username2')" clearable></el-input>
-        <el-input v-model.trim="getData.phone" class="select-left" :placeholder="$t('reception.phone2')" clearable></el-input>
-        <el-input v-model.trim="getData.member_card" class="select-left" :placeholder="$t('reception.vip_card')" clearable></el-input>
-        <div class="block">
+  <div class="cont">
+    <Title :title="titles"></Title>
+    <div class="cont_top_btn">
+      <div class="lists">
+        <el-input
+          v-model.trim="getData.memberName"
+          class="time-left"
+          :placeholder="$t('reception.username2')"
+          clearable
+        ></el-input>
+        <el-input
+          v-model.trim="getData.phone"
+          class="time-left"
+          :placeholder="$t('reception.phone2')"
+          clearable
+        ></el-input>
+        <el-input
+          v-model.trim="getData.member_card"
+          class="time-left"
+          :placeholder="$t('reception.vip_card')"
+          clearable
+        ></el-input>
           <el-date-picker
             @change="getTime"
             v-model="time"
             type="daterange"
             range-separator="至"
-           :start-placeholder="$t('reception.kai_time')"
+            :start-placeholder="$t('reception.kai_time')"
             :end-placeholder="$t('reception.jie_time')"
           ></el-date-picker>
-        </div>
-        <el-button size="small" type="primary tijiao" @click="integralQuery()" class="tijiao">{{$t('public.inquire')}}</el-button>
+        <el-button
+          type="primary tijiao"
+          @click="integralQuery()"
+          class="tijiao"
+        >{{$t('public.inquire')}}</el-button>
       </div>
-      <div class="menber-list">
-        <el-table :data="listData" stripe style="width: 100%" header-align="center">
-          <el-table-column
-            prop="member_card"
-           :label="$t('reception.vip_card')"
-            width="auto"
-            show-overflow-tooltip
-            align="center"
-          ></el-table-column>
-          <el-table-column
-            prop="memberName"
-            :label="$t('reception.vip_name')"
-            width="auto"
-            show-overflow-tooltip
-            align="center"
-          ></el-table-column>
-          <el-table-column
-            prop="phone"
-            :label="$t('reception.phone2')"
-            width="auto"
-            show-overflow-tooltip
-            align="center"
-          ></el-table-column>
-          
-          <el-table-column
-            prop="money"
-            :label="$t('backstage.moneys')"
-            width="auto"
-            show-overflow-tooltip
-            align="center"
-          ></el-table-column>
-
-          <el-table-column
-            prop="create_time"
-            :label="$t('backstage.create_time')"
-            width="auto"
-            show-overflow-tooltip
-            align="center"
-          ></el-table-column>
-          <el-table-column
-            prop="staff"
-            :label="$t('reception.staff_name')"
-            width="auto"
-            show-overflow-tooltip
-            align="center"
-            :formatter="workerFormat"
-          ></el-table-column>
-          <el-table-column
-            prop="staffName "
-            :label="$t('reception.remark')"
-            width="auto"
-            show-overflow-tooltip
-            align="center"
-          ></el-table-column>
-          <el-table-column :label="$t('public.operate')" align="center" fixed="right" width="380">
-            <template slot-scope="scope">
-              <el-button size="mini" @click="detailsButton(scope.row)">{{$t('reception.vip_details')}}</el-button>
-              <el-button size="mini" :disabled="scope.row.item == 3 ? true : false" @click="revocationButton(scope.row)">{{$t('reception.revoke')}}</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-        <el-pagination
-          @size-change="handleSizeChangeCont"
-          @current-change="handleCurrentChangeCont"
-          :current-page="getData.page"
-          :page-sizes="[5,10, 20, 30, 40]"
-          :page-size="getData.size"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="toltal"
-        ></el-pagination>
-      </div>
-      <!-- 详情弹窗 -->
-      <el-dialog :title="$t('reception.password')" :visible.sync="dialogDetails" width="50%">
-        <el-form
-          :model="detailsData"
-          ref="detailsData"
-          label-width="100px"
-          class="demo-ruleForm input-parent"
-        >
-          <el-form-item :label="$t('reception.vip_card')" class="input-box">
-            <el-input :disabled="true" v-model="detailsData.member_card"></el-input>
-          </el-form-item>
-          <el-form-item :label="$t('reception.vip_name')" class="input-box">
-            <el-input :disabled="true" v-model="detailsData.memberName"></el-input>
-          </el-form-item>
-          <el-form-item :label="$t('reception.phone2')" class="input-box">
-            <el-input :disabled="true" v-model="detailsData.phone"></el-input>
-          </el-form-item>
-          <el-form-item :label="$t('reception.pay_project')" class="input-box">
-            <el-input :disabled="true" v-model="detailsData.item"></el-input>
-            <!-- <template slot-scope="scope">
-              
-            </template>-->
-          </el-form-item>
-          <el-form-item :label="$t('backstage.moneys')" class="input-box">
-            <el-input :disabled="true" v-model="detailsData.money"></el-input>
-          </el-form-item>
-          <el-form-item :label="$t('backstage.give_money')" class="input-box">
-            <el-input :disabled="true" v-model="detailsData.give"></el-input>
-          </el-form-item>
-          <el-form-item :label="$t('reception.payf')" class="input-box"  >
-            <el-input :disabled="true" v-show="detailsData.pay_status===1"  value="现金"></el-input>
-            <el-input :disabled="true" v-show="detailsData.pay_status===2"  value="刷卡"></el-input>
-          </el-form-item>
-          <el-form-item :label="$t('reception.time2')" class="input-box">
-            <el-input :disabled="true" v-model="detailsData.create_time"></el-input>
-          </el-form-item>
-        
-        </el-form>
-        <div slot="footer" class="dialog-footer">
-          <el-button @click="cancelDetails">{{$t('public.cancel')}}</el-button>
-        </div>
-      </el-dialog>
     </div>
+    <el-table :data="listData" stripe style="width: 100%" header-align="center">
+      <el-table-column
+        prop="member_card"
+        :label="$t('reception.vip_card')"
+        width="auto"
+        show-overflow-tooltip
+        align="center"
+      ></el-table-column>
+      <el-table-column
+        prop="memberName"
+        :label="$t('reception.vip_name')"
+        width="auto"
+        show-overflow-tooltip
+        align="center"
+      ></el-table-column>
+      <el-table-column
+        prop="phone"
+        :label="$t('reception.phone2')"
+        width="auto"
+        show-overflow-tooltip
+        align="center"
+      ></el-table-column>
+
+      <el-table-column
+        prop="money"
+        :label="$t('backstage.moneys')"
+        width="auto"
+        show-overflow-tooltip
+        align="center"
+      ></el-table-column>
+
+      <el-table-column
+        prop="create_time"
+        :label="$t('backstage.create_time')"
+        width="auto"
+        show-overflow-tooltip
+        align="center"
+      ></el-table-column>
+      <el-table-column
+        prop="staff"
+        :label="$t('reception.staff_name')"
+        width="auto"
+        show-overflow-tooltip
+        align="center"
+        :formatter="workerFormat"
+      ></el-table-column>
+      <el-table-column
+        prop="staffName "
+        :label="$t('reception.remark')"
+        width="auto"
+        show-overflow-tooltip
+        align="center"
+      ></el-table-column>
+      <el-table-column :label="$t('public.operate')" align="center" fixed="right" width="380">
+        <template slot-scope="scope">
+          <el-button size="mini" @click="detailsButton(scope.row)">{{$t('reception.vip_details')}}</el-button>
+          <el-button
+            size="mini"
+            :disabled="scope.row.item == 3 ? true : false"
+            @click="revocationButton(scope.row)"
+          >{{$t('reception.revoke')}}</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <el-pagination
+      @size-change="handleSizeChangeCont"
+      @current-change="handleCurrentChangeCont"
+      :current-page="getData.page"
+      :page-sizes="[5,10, 20, 30, 40]"
+      :page-size="getData.size"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="toltal"
+    ></el-pagination>
+    <!-- 详情弹窗 -->
+    <el-dialog :title="$t('reception.password')" :visible.sync="dialogDetails" width="50%">
+      <el-form
+        :model="detailsData"
+        ref="detailsData"
+        label-width="100px"
+        class="demo-ruleForm input-parent"
+      >
+        <el-form-item :label="$t('reception.vip_card')" class="input-box">
+          <el-input :disabled="true" v-model="detailsData.member_card"></el-input>
+        </el-form-item>
+        <el-form-item :label="$t('reception.vip_name')" class="input-box">
+          <el-input :disabled="true" v-model="detailsData.memberName"></el-input>
+        </el-form-item>
+        <el-form-item :label="$t('reception.phone2')" class="input-box">
+          <el-input :disabled="true" v-model="detailsData.phone"></el-input>
+        </el-form-item>
+        <el-form-item :label="$t('reception.pay_project')" class="input-box">
+          <el-input :disabled="true" v-model="detailsData.item"></el-input>
+          <!-- <template slot-scope="scope">
+              
+          </template>-->
+        </el-form-item>
+        <el-form-item :label="$t('backstage.moneys')" class="input-box">
+          <el-input :disabled="true" v-model="detailsData.money"></el-input>
+        </el-form-item>
+        <el-form-item :label="$t('backstage.give_money')" class="input-box">
+          <el-input :disabled="true" v-model="detailsData.give"></el-input>
+        </el-form-item>
+        <el-form-item :label="$t('reception.payf')" class="input-box">
+          <el-input :disabled="true" v-show="detailsData.pay_status===1" value="现金"></el-input>
+          <el-input :disabled="true" v-show="detailsData.pay_status===2" value="刷卡"></el-input>
+        </el-form-item>
+        <el-form-item :label="$t('reception.time2')" class="input-box">
+          <el-input :disabled="true" v-model="detailsData.create_time"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cancelDetails">{{$t('public.cancel')}}</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -170,35 +188,35 @@ export default {
       dialogDetails: false,
       evocation: false,
       //操作员列表
-       workerList:[],
+      workerList: []
     };
   },
-   computed: {
+  computed: {
     titles() {
-     return {title:this.$t('left.stored')}
+      return { title: this.$t("left.stored") };
     }
-    },
+  },
   methods: {
-         
-         //查询操作员列表
-       queryWorker(){
-           this.$axios.post(this.$baseUrl+ `/staff/getpage`)
-           .then(res=>{
-              this.workerList=res.data.pojo.list;
-           })
-           .catch(res=>{
-               console.log(err)
-           })
-       },
+    //查询操作员列表
+    queryWorker() {
+      this.$axios
+        .post(this.$baseUrl + `/staff/getpage`)
+        .then(res => {
+          this.workerList = res.data.pojo.list;
+        })
+        .catch(res => {
+          console.log(err);
+        });
+    },
 
-      //操作员类型的转换
-      workerFormat(row){
-        for(var i=0,l=this.workerList.length;i<l;i++){
-         if(row.staff==this.workerList[i].id){
-           return this.workerList[i].username
-         }
-       }
-      },
+    //操作员类型的转换
+    workerFormat(row) {
+      for (var i = 0, l = this.workerList.length; i < l; i++) {
+        if (row.staff == this.workerList[i].id) {
+          return this.workerList[i].username;
+        }
+      }
+    },
 
     handleSizeChangeCont(val) {
       this.getData.size = val;
@@ -257,23 +275,25 @@ export default {
       this.dialogDetails = false;
     },
     //撤销
-    revocationButton(val){
+    revocationButton(val) {
       let formData = new FormData();
       formData.append("id", val.id);
-      this.$axios.post(this.$baseUrl + `/recharge/revocation`, formData).then(res => {
-        if (res.data.result == true) {
-          this.$message({
-            type: "success",
-            message: "撤销成功"
-          });
-          this.getList(this.getData);
-        } else {
-          this.$message({
-            type: "warning",
-            message: "撤销失败"
-          });
-        }
-      });
+      this.$axios
+        .post(this.$baseUrl + `/recharge/revocation`, formData)
+        .then(res => {
+          if (res.data.result == true) {
+            this.$message({
+              type: "success",
+              message: "撤销成功"
+            });
+            this.getList(this.getData);
+          } else {
+            this.$message({
+              type: "warning",
+              message: "撤销失败"
+            });
+          }
+        });
     }
   }
 };

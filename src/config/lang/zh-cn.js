@@ -382,7 +382,7 @@ module.exports = {
      set_type:"调价方式",
      set_act:"调价金额",
      username:"用户名",
-     id_card:"身份证号",
+     id_card:"证件号",
      _id:"餐厅",
      table_id:"餐桌",
      reserve_status:"预订状态",
@@ -498,7 +498,7 @@ module.exports = {
         //预定列表
         reserve_info:'预定信息',
         reserve_time:'保留时间',
-        book_money:'定金',
+        book_money:'交定金',
         staff_name:'操作人',
         expect_check_time:'预计入住时间',
         expect_out_time:'预计离店时间',

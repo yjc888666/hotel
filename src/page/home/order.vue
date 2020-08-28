@@ -10,10 +10,10 @@
           <el-option v-for="item in restauranttype" :key="item.id" :label="item.restaurant" :value="item.id"></el-option>
         </el-select>
         <el-select v-model.trim="ruleForm.table_num " :placeholder="$t('reception.table_num')" clearable>
-          <el-option v-for="item in tabletype" :key="item.id" :label="item.serial_number" :value="item.id"></el-option>
+          <el-option v-for="item in tabletype" :key="item.id" :label="item.serial_number" :value="item.serial_number"></el-option>
         </el-select>
      <el-date-picker clearable
-        v-model="ruleForm.start_time"
+        v-model="ruleForm.create_time"
         type="date"
         value-format="timestamp"
         :placeholder="$t('reception.create_time')">
@@ -197,7 +197,7 @@
           restaurant_id:"",    
           table_num:"",        
           room_number:"",     
-          start_time:"",    
+          create_time:"",    
           end_time:"",       
         },
         multipleSelection:[],
@@ -421,7 +421,7 @@
         fordata.append("table_num",that.ruleForm.table_num )
         fordata.append("room_number",that.ruleForm.room_number  )
         fordata.append("restaurant_id",that.ruleForm.restaurant_id )
-        fordata.append("start_time",that.ruleForm.start_time )
+        fordata.append("create_time",that.ruleForm.create_time )
         fordata.append("end_time",that.ruleForm.end_time )
        this.$axios.post(this.$baseUrl + '/order/getPage',fordata)
         .then((res) => {
@@ -480,7 +480,7 @@
             if (res.data.result== true) {
               that.$message.success(that.$t("common."+res.data.msg))
               that.dialogFormVisible = false;
-              that.forms.tabel_num = " ";
+              that.forms.table_num = " ";
               that.forms.restaurant_id = " ";
               that.list(that.currentPage,that.pagesize)
             }else {

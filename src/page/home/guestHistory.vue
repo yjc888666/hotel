@@ -2,13 +2,8 @@
   <!-- 客人历史 -->
   <div class="integral-box">
     <div class="menber-box">
-      <Title :title="title"></Title>
-      <div class="top-search">
-        <!-- <el-input v-model.trim="getData.memberName" class="select-left" placeholder="会员名" clearable></el-input>
-        <el-input v-model.trim="getData.phone" class="select-left" placeholder="手机号" clearable></el-input>
-        <el-input v-model.trim="getData.member_card" class="select-left" placeholder="卡号" clearable></el-input>
-        <el-button size="small" type="primary tijiao" @click="integralQuery()" class="tijiao">查询</el-button> -->
-      </div>
+      <Title :title="titles"></Title>
+     
       <div class="menber-list">
         <el-table :data="listData" stripe style="width: 100%" header-align="center">
           <el-table-column
@@ -151,6 +146,13 @@ export default {
       teamList:[],
     };
   },
+  computed:{
+    titles(){
+     return {title:this.$t('left.guest'),
+     title_show:true
+     }
+    }
+  },
   
   methods: {
         //查询团队列表
@@ -209,9 +211,10 @@ export default {
       var that=this;
       let el = this.$route.query.id;
        var para = {
-        pages: a,
+        page: a,
         size: b,
         id_number: that.$route.query.id,
+
       };
 
       let formData = new FormData()

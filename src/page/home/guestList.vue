@@ -45,8 +45,8 @@
             align="center"
           >
             <template slot-scope="scope">
-              <el-tag v-if="scope.row.gender===1">男</el-tag>
-              <el-tag v-if="scope.row.gender===2" type="danger">女</el-tag>
+              <el-tag v-if="scope.row.gender===1">{{$t('public.man')}}</el-tag>
+              <el-tag v-if="scope.row.gender===2" type="danger">{{$t('public.woman')}}</el-tag>
             </template>
           </el-table-column>
           <el-table-column
@@ -80,7 +80,7 @@
           ></el-table-column>
           <el-table-column
             prop="userType_name"
-            label="用户类型"
+            :label="$t('reception.user_type')"
             width="auto"
             show-overflow-tooltip
             align="center"

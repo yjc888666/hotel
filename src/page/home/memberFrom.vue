@@ -1,6 +1,6 @@
 <template>
   <div class="member-box">
-    <Title :title="title"></Title>
+    <Title :title="titles"></Title>
     <el-form 
       :model="ruleForm"
       :rules="rules"
@@ -8,25 +8,25 @@
       label-width="120px"
       class="demo-ruleForm boxTop"
     >
-      <el-form-item label="会员类型 " prop="level">
+      <el-form-item :label="$t('reception.vip_type')" prop="level">
         <el-select
           :disabled="detailsShow"
           v-model="ruleForm.level"
-          placeholder="请选择"
+          :placeholder="$t('reception.vip_type')"
           @change="memberChange"
           style="width: 300px"
         >
           <el-option v-for="item in options" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="卡号" prop="member_card">
+      <el-form-item :label="$t('reception.vip_card')" prop="member_card">
         <el-input :disabled="detailsShow" v-model.number="ruleForm.member_card" class="widthinp" type="number"></el-input>
       </el-form-item>
-      <el-form-item label="证件类型" prop="idType">
+      <el-form-item :label="$t('reception.idType')" prop="idType">
         <el-select
           :disabled="detailsShow"
           v-model.trim="ruleForm.idType"
-          placeholder="请选择"
+          :placeholder="$t('reception.idType')"
           style="width: 300px"
         >
           <el-option
@@ -37,15 +37,15 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="证件号" prop="idcard">
+      <el-form-item :label="$t('reception.id_card')" prop="idcard">
         <el-input :disabled="detailsShow" v-model.trim="ruleForm.idcard" class="widthinp"></el-input>
       </el-form-item>
       <div>
-        <el-form-item label="手机" prop="phone">
+        <el-form-item :label="$t('reception.phone2')" prop="phone">
           <el-input :disabled="detailsShow" class="widthinp" v-model.trim="ruleForm.phone"></el-input>
         </el-form-item>
       </div>
-      <el-form-item label="会员名" prop="username">
+      <el-form-item :label="$t('reception.vip_name')" prop="username">
         <el-input
           :disabled="detailsShow"
           auto-complete="new-password"
@@ -53,7 +53,7 @@
           class="widthinp"
         ></el-input>
       </el-form-item>
-      <el-form-item label="支付密码" prop="passwordData" v-show="aloneShow">
+      <el-form-item :label="$t('reception.memberpass')" prop="passwordData" v-show="aloneShow">
         <el-input
           type="password"
           class="widthinp"
@@ -62,7 +62,7 @@
           auto-complete="new-password"
         ></el-input>
       </el-form-item>
-      <el-form-item label="再次输入密码" prop="password" v-show="aloneShow">
+      <el-form-item :label="$t('reception.re_pass')" prop="password" v-show="aloneShow">
         <el-input
           type="password"
           class="widthinp"
@@ -71,57 +71,57 @@
           auto-complete="new-password"
         ></el-input>
       </el-form-item>
-      <el-form-item label="性别" prop="gender">
+      <el-form-item :label="$t('public.gender')" prop="gender">
         <el-radio-group :disabled="detailsShow" v-model="ruleForm.gender" @change="changeGender">
-          <el-radio class="radio" label="1">男</el-radio>
-          <el-radio class="radio" label="2">女</el-radio>
+          <el-radio class="radio" label="1">{{$t('public.man')}}</el-radio>
+          <el-radio class="radio" label="2">{{$t('public.woman')}}</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="充值金额" prop="money" v-show="aloneShow">
+      <el-form-item :label="$t('reception.push_money')" prop="money" v-show="aloneShow">
         <el-input class="widthinp" v-model.trim="ruleForm.money"></el-input>
       </el-form-item>
-      <el-form-item label="生日" prop="birthday">
+      <el-form-item :label="$t('backstage.birthday')" prop="birthday">
         <el-date-picker
           :disabled="detailsShow"
           @change="timeCut"
           v-model="ruleForm.birthday"
           type="date"
-          placeholder="选择日期"
+          :placeholder="$t('backstage.birthday')"
         ></el-date-picker>
       </el-form-item>
-      <el-form-item label="支付方式" v-show="aloneShow" prop="pay_status">
+      <el-form-item :label="$t('reception.pay_type')" v-show="aloneShow" prop="pay_status">
         <el-radio-group v-model="ruleForm.pay_status" @change="changeHandler">
-          <el-radio class="radio" label="1">现金</el-radio>
-          <el-radio class="radio" label="2">刷卡</el-radio>
+          <el-radio class="radio" label="1">{{$t('reception.payf_0')}}</el-radio>
+          <el-radio class="radio" label="2">{{$t('reception.use_a_card')}}</el-radio>
         </el-radio-group>
       </el-form-item>
       <!-- 以下出是详情新增的input -->
-      <el-form-item label="状态" v-show="detailsShow">
+      <el-form-item :label="$t('reception.card_status')" v-show="detailsShow">
         <el-input :disabled="detailsShow" class="widthinp" v-model.trim="ruleForm.status"></el-input>
       </el-form-item>
-      <el-form-item label="积分" prop="score" v-show="detailsShow">
+      <el-form-item :label="$t('reception.ji_fen')" prop="score" v-show="detailsShow">
         <el-input :disabled="detailsShow" class="widthinp" v-model.trim="ruleForm.score"></el-input>
       </el-form-item>
-      <el-form-item label="余额" v-show="detailsShow">
+      <el-form-item :label="$t('reception.balance')" v-show="detailsShow">
         <el-input :disabled="detailsShow" class="widthinp" v-model.trim="ruleForm.balance"></el-input>
       </el-form-item>
-      <el-form-item label="总消费" v-show="detailsShow">
+      <el-form-item :label="$t('reception.amount')" v-show="detailsShow">
         <el-input :disabled="detailsShow" class="widthinp" v-model.trim="ruleForm.amount"></el-input>
       </el-form-item>
-      <el-form-item label="消费次数" v-show="detailsShow">
+      <el-form-item :label="$t('reception.amount_num')" v-show="detailsShow">
         <el-input :disabled="detailsShow" class="widthinp" v-model.trim="ruleForm.num"></el-input>
       </el-form-item>
-      <el-form-item label="操作员工" v-show="detailsShow">
+      <el-form-item :label="$t('reception.staff_name')" v-show="detailsShow">
         <el-input :disabled="detailsShow" class="widthinp" v-model.trim="ruleForm.staff"></el-input>
       </el-form-item>
-      <el-form-item label="邮箱" v-show="detailsShow">
+      <el-form-item :label="$t('public.email')" v-show="detailsShow">
         <el-input :disabled="detailsShow" class="widthinp" v-model.trim="ruleForm.email"></el-input>
       </el-form-item>
-      <el-form-item label="添加时间" v-show="detailsShow">
+      <el-form-item :label="$t('reception.add_time')" v-show="detailsShow">
         <el-input :disabled="detailsShow" class="widthinp" v-model.trim="ruleForm.addtime"></el-input>
       </el-form-item>
       <el-form-item v-show="detailsShow == true ? false : true">
-        <el-button type="primary" @click="submitForm('ruleForm')" class="tijiao">添加</el-button>
+        <el-button type="primary" @click="submitForm('ruleForm')" class="tijiao">{{$t('public.add')}}</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -142,10 +142,10 @@ export default {
       }
     };
     return {
-      title: {
-        title: "会员信息",
-        title_show: true
-      },
+      // title: {
+      //   title: "会员信息",
+      //   title_show: true
+      // },
       ruleForm: {
         level: "",
         member_card: "",
@@ -208,6 +208,13 @@ export default {
       options: [],
       optionsPapers: []
     };
+  },
+  computed:{
+    titles(){
+      return {title:this.$t('left.members'),
+       title_show:true
+      }
+    }
   },
   methods: {
     // 截取时间

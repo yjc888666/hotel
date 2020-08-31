@@ -70,6 +70,8 @@
         :total="mytotal"
         v-if="mytotal!=0">
       </el-pagination>
+
+
     <el-dialog :title="$t('left.restReserve')" :visible.sync="dialogFormVisible" class="dia" width="40%">
       <el-form :model="forms" status-icon :rules="rule" ref="forms" label-width="80px" class="demo-ruleForm mars">
          <el-form-item :label="$t('reception.username')" prop="username" class="floatleft">
@@ -113,8 +115,6 @@
           <el-form-item :label="$t('public.remark')" prop="remark" class="floatleft">
            <el-input v-model.trim="forms.remark" type="textarea"></el-input>
          </el-form-item>
-
-
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">{{$t('public.cancel')}}</el-button>

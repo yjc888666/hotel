@@ -50,9 +50,9 @@
       <el-table-column prop="day_num" :label="$t('reception.days')" width="auto" show-overflow-tooltip align="center"></el-table-column>
       <el-table-column prop="type"  :label="$t('reception.source_type')" width="auto" align="center">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.type===1">散客</el-tag>
-          <el-tag v-if="scope.row.type===2" type="danger">会员</el-tag>
-          <el-tag v-if="scope.row.type===3">单位</el-tag>
+           <el-tag v-if="scope.row.type==1">{{$t('reception.common_pel')}}</el-tag>
+          <el-tag v-if="scope.row.type==2" type="danger">{{$t('reception.vip')}}</el-tag>
+          <el-tag v-if="scope.row.type==3">{{$t('reception.team_pel')}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="status" :label="$t('reception.status2')" width="auto" align="center">

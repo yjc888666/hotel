@@ -1,10 +1,10 @@
 <template>
   <div class="member-box">
-    <Title :title="title"></Title>
+    <Title :title="titles"></Title>
     <div class="top-search">
-      <el-button size="small" @click="repairCar()" class="tijiao el-button--primary">补卡</el-button>
-      <el-button size="small" @click="recharge()" class="tijiao el-button--primary">充值</el-button>
-      <el-button size="small" @click="alterPassword()" class="tijiao el-button--primary">修改密码</el-button>
+      <el-button size="small" @click="repairCar()" class="tijiao el-button--primary">{{$t('reception.add_card_')}}</el-button>
+      <el-button size="small" @click="recharge()" class="tijiao el-button--primary">{{$t('reception.charge')}}</el-button>
+      <el-button size="small" @click="alterPassword()" class="tijiao el-button--primary">{{$t('reception.alter_pas')}}</el-button>
     </div>
     <el-form
       :model="ruleForm"
@@ -13,19 +13,19 @@
       label-width="100px"
       class="demo-ruleForm"
     >
-      <el-form-item label="会员类型 " prop="level">
+      <el-form-item :label="$t('reception.vip_type')" prop="level">
         <el-select :disabled="true" v-model="ruleForm.level" placeholder="请选择" style="width: 300px">
           <el-option v-for="item in options" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="卡号" prop="member_card">
+      <el-form-item :label="$t('reception.vip_card')" prop="member_card">
         <el-input :disabled="true" v-model.trim="ruleForm.member_card" class="widthinp"></el-input>
       </el-form-item>
-      <el-form-item label="证件类型" prop="idType">
+      <el-form-item :label="$t('reception.idType')" prop="idType">
         <el-select
           :disabled="true"
           v-model.trim="ruleForm.idType"
-          placeholder="请选择"
+          :placeholder="$t('reception.idType')"
           style="width: 300px"
         >
           <el-option
@@ -36,41 +36,41 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="证件号" prop="idcard">
+      <el-form-item :label="$t('reception.id_card')" prop="idcard">
         <el-input :disabled="true" v-model.trim="ruleForm.idcard" class="widthinp"></el-input>
       </el-form-item>
-      <el-form-item label="会员名" prop="username">
+      <el-form-item :label="$t('reception.vip_name')" prop="username">
         <el-input v-model.trim="ruleForm.username" class="widthinp"></el-input>
       </el-form-item>
-      <el-form-item label="手机" prop="phone">
+      <el-form-item :label="$t('reception.phone2')" prop="phone">
         <el-input class="widthinp" v-model.trim="ruleForm.phone"></el-input>
       </el-form-item>
      
-      <el-form-item label="性别" prop="gender">
+      <el-form-item :label="$t('public.gender')" prop="gender">
         <el-radio-group v-model="ruleForm.gender" @change="changeGender">
           <el-radio class="radio" label="1">男</el-radio>
           <el-radio class="radio" label="2">女</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="余额" prop="money">
+      <el-form-item :label="$t('reception.balance')" prop="money">
         <el-input class="widthinp" :disabled="true" v-model.trim="ruleForm.balance"></el-input>
       </el-form-item>
-      <el-form-item label="生日" prop="birthday">
+      <el-form-item :label="$t('backstage.birthday')"  prop="birthday">
         <!-- <el-input class="widthinp" v-model.trim="ruleForm.birthday"></el-input> -->
         <el-date-picker
           @change="timeCut"
           v-model="ruleForm.birthday"
           type="date"
-          placeholder="选择日期"
+          :placeholder="$t('backstage.birthday')"
         ></el-date-picker>
       </el-form-item>
       
       <el-form-item>
-        <el-button type="primary" @click="submitAlter('ruleForm')" class="tijiao">修改</el-button>
+        <el-button type="primary" @click="submitAlter('ruleForm')" class="tijiao">{{$t('public.edit')}}</el-button>
       </el-form-item>
     </el-form>
     <!-- 补卡挂失弹出框 -->
-    <el-dialog title="补卡挂失" :visible.sync="dialogRepair" width="40%">
+    <el-dialog :title="$t('reception.gua_shi_card')" :visible.sync="dialogRepair" width="40%">
       <el-form
         :model="repairData"
         :rules="repairRules"
@@ -78,39 +78,39 @@
         label-width="100px"
         class="demo-ruleForm"
       >
-        <el-form-item label="方式" prop="type">
+        <el-form-item :label="$t('reception.fang_shi')" prop="type">
           <el-radio-group v-model="repairData.type" @change="radioRepair">
-            <el-radio class="radio" label="0">换卡</el-radio>
-            <el-radio class="radio" label="1">挂失补卡</el-radio>
-            <el-radio class="radio" label="2">仅挂失</el-radio>
+            <el-radio class="radio" label="0">{{$t('reception.change_card')}}</el-radio>
+            <el-radio class="radio" label="1">{{$t('reception.gua_shi_card')}}</el-radio>
+            <el-radio class="radio" label="2">{{$t('reception.gua_shi')}}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="新卡号" prop="member_card" v-if="cardShow">
+        <el-form-item :label="$t('reception.new_card')" prop="member_card" v-if="cardShow">
           <el-input v-model.trim="repairData.member_card"></el-input>
         </el-form-item>
-        <el-form-item label="当前卡号" prop="old_card">
+        <el-form-item :label="$t('reception.old_card')" prop="old_card">
           <el-input  :disabled="true" v-model.trim="repairData.old_card" ></el-input>
         </el-form-item>
-        <el-form-item label="费用" prop="price">
+        <el-form-item :label="$t('reception.fei_yong')" prop="price">
           <el-input v-model.trim="repairData.price "></el-input>
         </el-form-item>
-        <el-form-item label="支付方式" prop="pay_type">
+        <el-form-item :label="$t('reception.payf')" prop="pay_type">
           <el-radio-group v-model="repairData.pay_type">
-            <el-radio class="radio" label="1">现金</el-radio>
-            <el-radio class="radio" label="2">刷卡</el-radio>
+            <el-radio class="radio" label="1">{{$t('reception.cash3')}}</el-radio>
+            <el-radio class="radio" label="2">{{$t('reception.use_a_card')}}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="备注" prop="remark" v-if="remarkShow">
+        <el-form-item :label="$t('reception.remark')" prop="remark" v-if="remarkShow">
           <el-input v-model.trim="repairData.remark" ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="cancelRepair">取 消</el-button>
-        <el-button type="primary" @click="alterRepair('repairData')">确 定</el-button>
+        <el-button @click="cancelRepair">{{$t('public.cancel')}}</el-button>
+        <el-button type="primary" @click="alterRepair('repairData')">{{$t('public.ok')}}</el-button>
       </div>
     </el-dialog>
     <!-- 修改密码的弹出框 -->
-    <el-dialog title="修改密码" :visible.sync="dialogPassword" width="30%">
+    <el-dialog :title="$t('reception.password')" :visible.sync="dialogPassword" width="30%">
       <el-form
         :model="passAlter"
         :rules="passRules"
@@ -118,26 +118,26 @@
         label-width="100px"
         class="demo-ruleForm"
       >
-        <el-form-item label="原因" prop="status">
+        <el-form-item :label="$t('reception.reason')" prop="status">
           <el-radio-group v-model="passAlter.status" @change="radioStatus">
-            <el-radio class="radio" label="1">正常修改</el-radio>
-            <el-radio class="radio" label="0">忘记密码</el-radio>
+            <el-radio class="radio" label="1">{{$t('reception.common_alter')}}</el-radio>
+            <el-radio class="radio" label="0">{{$t('reception.forget_pass')}}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="新密码" prop="newPsd">
+        <el-form-item :label="$t('reception.new_password')" prop="newPsd">
           <el-input v-model.number="passAlter.newPsd" show-password></el-input>
         </el-form-item>
-        <el-form-item label="旧密码" prop="oldPsd" v-show="passRadio">
+        <el-form-item :label="$t('reception.old_password')" prop="oldPsd" v-show="passRadio">
           <el-input v-model.number="passAlter.oldPsd" show-password></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="cancelSubmit">取 消</el-button>
-        <el-button type="primary" @click="alterPass('passAlter')">确 定</el-button>
+        <el-button @click="cancelSubmit">{{$t('public.cancel')}}</el-button>
+        <el-button type="primary" @click="alterPass('passAlter')">{{$t('public.ok')}}</el-button>
       </div>
     </el-dialog>
     <!-- 充值的弹窗 -->
-    <el-dialog title="充值" :visible.sync="dialogFormVisible" width="30%">
+    <el-dialog :title="$t('reception.charge')" :visible.sync="dialogFormVisible" width="30%">
       <el-form
         :model="rechargeRuleform"
         :rules="rechargeRules"
@@ -145,22 +145,22 @@
         label-width="100px"
         class="demo-ruleForm"
       >
-        <el-form-item label="充值金额" prop="money">
+        <el-form-item :label="$t('reception.push_money')" prop="money">
           <el-input v-model.trim="rechargeRuleform.money"></el-input>
         </el-form-item>
-        <el-form-item label="充值金额" prop="pay_status">
+        <el-form-item :label="$t('reception.payf')" prop="pay_status">
           <el-radio-group v-model="rechargeRuleform.pay_status">
-            <el-radio class="radio" label="1">现金</el-radio>
-            <el-radio class="radio" label="2">刷卡</el-radio>
+            <el-radio class="radio" label="1">{{$t('reception.cash3')}}</el-radio>
+            <el-radio class="radio" label="2">{{$t('reception.use_a_card')}}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="会员卡号" prop="member_card">
+        <el-form-item :label="$t('reception.card')" prop="member_card">
           <el-input :disabled="true" v-model.trim="rechargeRuleform.member_card"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="alterMoney('rechargeRuleform')">确 定</el-button>
+        <el-button @click="dialogFormVisible = false">{{$t('public.cancel')}}</el-button>
+        <el-button type="primary" @click="alterMoney('rechargeRuleform')">{{$t('public.ok')}}</el-button>
       </div>
     </el-dialog>
   </div>
@@ -174,10 +174,6 @@ export default {
   },
   data() {
     return {
-      title: {
-        title: "会员信息",
-        title_show: true
-      },
       ruleForm: {
         level: "",
         member_card: "",
@@ -279,6 +275,13 @@ export default {
       }
     };
   },
+  computed:{
+    titles(){
+      return {title:this.$t('left.members'),
+        title_show:true
+      }
+    }
+  },
   methods: {
     // 获取会员类型
     memberType() {
@@ -326,7 +329,7 @@ export default {
       formData.append("id", this.alterId);
       this.$axios.post(this.$baseUrl + "/member/get", formData).then(res => {
         this.ruleForm = res.data.pojo; //修改拿到详情的数据
-        this.passwordData = this.ruleForm.password;
+        // this.passwordData = this.ruleForm.password;
         this.ruleForm.gender = JSON.stringify(this.ruleForm.gender);
         if (this.ruleForm.status == 1) {
           this.ruleForm.status = "正常";

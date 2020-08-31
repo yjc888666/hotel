@@ -135,7 +135,9 @@
         <el-input  type="textarea" :rows="2" v-model.trim="forms.remark"></el-input>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
+      
+       
+      <div slot="footer" class="dialog-footer ">
         <el-button @click="dialogFormVisible = false">{{$t('public.cancel')}}</el-button>
         <el-button type="primary"  @click="submitForms('forms')" v-show="show">{{$t('public.ok')}}</el-button>
         <el-button type="primary"  @click="modifyEvent('forms')" v-show="!show">{{$t('public.edit')}}</el-button>

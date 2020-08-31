@@ -1,7 +1,7 @@
 <template>
   <div class="cont shouquan">
 
-    <Title :title='title'></Title>
+    <Title :title="titles"></Title>
 
     <div style="width: 90%;margin: 0 auto;margin-top: 20px;">
      <el-tree :data="tableData" show-checkbox default-expand-all node-key="id" ref="tree"
@@ -9,7 +9,7 @@
     </el-tree>
     
         <div class="buttons" style="margin-top: 50px;">
-         <el-button @click="submitForm()" type='primary'>确定</el-button>
+         <el-button @click="submitForm()" type='primary'>{{$t('public.ok')}}</el-button>
         </div>
     </div>
        
@@ -25,10 +25,7 @@
     },
     data() {
       return {
-        title: {
-          title: '后台角色授权',
-          title_show: true
-        },
+        
         tableData:[],
         xz_id:[],
         defaultProps: {
@@ -39,6 +36,14 @@
     },
     created() {
      this.authEvent();
+    },
+    computed:{
+      titles(){
+       return {
+       title:this.$t('left.permissions'),
+       title_show:true
+       }
+      }
     },
     methods: {
       clickDeal (currentObj, treeStatus) {

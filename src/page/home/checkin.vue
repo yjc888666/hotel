@@ -79,9 +79,9 @@
       <el-table-column prop="day" :label="$t('reception.days')" width="auto" show-overflow-tooltip align="center"></el-table-column>
       <el-table-column prop="source_type" :label="$t('reception.source_type')" width="auto" align="center">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.source_type==1">散客</el-tag>
-          <el-tag v-if="scope.row.source_type==2" type="danger">会员</el-tag>
-          <el-tag v-if="scope.row.source_type==3">单位</el-tag>
+          <el-tag v-if="scope.row.source_type==1">{{$t('reception.common_pel')}}</el-tag>
+          <el-tag v-if="scope.row.source_type==2" type="danger">{{$t('reception.vip')}}</el-tag>
+          <el-tag v-if="scope.row.source_type==3">{{$t('reception.team_pel')}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column
@@ -216,7 +216,7 @@
 
     <!-- -------------- -->
 
-    <el-dialog title="普通入住" :visible.sync="dialogFormVisible" class="dia" width="30%">
+    <el-dialog :title="$t('reception.in_hotel')"  :visible.sync="dialogFormVisible" class="dia" width="30%">
       <el-form
         :model="forms"
         status-icon
@@ -296,7 +296,7 @@
     </el-dialog>
      
      <!-- 换房 -->
-    <el-dialog title="续住" :visible.sync="dialogFormVisible1" class="dia" width="30%">
+    <el-dialog :title="$t('reception.add_day')" :visible.sync="dialogFormVisible1" class="dia" width="30%">
       <el-form
         :model="forms1"
         status-icon
@@ -316,7 +316,7 @@
           <el-form-item :label="$t('reception.house_type')" prop="house_type" class="floatleft" v-if="show1==2">
           <el-select
           v-model.trim="forms1.house_type"
-            placeholder="请输入房型"
+            :placeholder="$t('reception.house_type')"
             clearable
             @change="queryRoomList"
           >
@@ -369,7 +369,7 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="入住" :visible.sync="dialogFormVisible2" class="dia" width="30%">
+    <el-dialog :title="$t('reception.in_hotel')" :visible.sync="dialogFormVisible2" class="dia" width="30%">
       <el-form
         :model="forms2"
         status-icon
@@ -399,9 +399,9 @@
           </el-select>
         </el-form-item>
 
-      <el-form-item label="财务明细" prop="entry" >
+      <el-form-item :label="$t('reception.money_detail')" prop="entry" >
           <!-- <el-input v-model.trim="forms2.project_type" ></el-input> -->
-          <el-select v-model.trim="forms2.entry" placeholder="财务明细" clearable>
+          <el-select v-model.trim="forms2.entry" :placeholder="$t('reception.money_detail')" clearable>
             <el-option
               v-for="item in entry"
               :key="item.value"
@@ -418,7 +418,7 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="入住" :visible.sync="dialogFormVisible3" class="dia" width="30%">
+    <el-dialog :title="$t('public.checkList')" :visible.sync="dialogFormVisible3" class="dia" width="30%">
       <el-form
         :model="forms3"
         status-icon
@@ -440,7 +440,7 @@
 
     <!-- 点击挂账要显示的dialog -->
     <el-dialog
-      title="挂账操作"
+      :title="$t('reception.on_account')"
       :visible.sync="dialogFormVisibleCompany"
       class="dia"
       width="30%"
@@ -487,9 +487,9 @@
     <!-- ---------------- -->
 
     <!-- 弹出的联房列表 -->
-    <el-dialog title="联房列表" :visible.sync="togetherRoomVisible" append-to-body>
+    <el-dialog :title="$t('reception.united_room')" :visible.sync="togetherRoomVisible" append-to-body>
       <el-table :data="togetherInfo" header-align="center" stripe>
-        <el-table-column type="index" label="序号" width="auto" show-overflow-tooltip align="center"></el-table-column>
+        <el-table-column type="index" :label="$t('reception.Id')" width="auto" show-overflow-tooltip align="center"></el-table-column>
         <el-table-column :label="$t('reception.room_number')" prop="room_number"></el-table-column>
         <el-table-column :label="$t('reception.username2')" prop="username"></el-table-column>
         <el-table-column :label="$t('reception.check_time')" prop="checkin_time" :formatter="dateFormat" width="180"></el-table-column>
@@ -506,7 +506,7 @@
             <span v-if="pay.row.pay_status == '0'">{{$t('reception.no_pay')}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="150px" align="center" fixed="right">
+        <el-table-column :label="$t('public.operate')" width="150px" align="center" fixed="right">
           <template slot-scope="scope">
             <el-button
               @click="togetherPaybill(scope.row)"
@@ -522,7 +522,7 @@
     <!--           -->
 
     <!-- 选择查看打印的内容 -->
-    <el-dialog title="查看" :visible.sync="printTypedialogForm" class="dia" width="30%">
+    <el-dialog :title="$t('reception.view')" :visible.sync="printTypedialogForm" class="dia" width="30%">
       <el-form
         :model="printType"
         status-icon
@@ -545,14 +545,14 @@
 
     <!-- 登记单的信息打印详情对话框 -->
 
-    <el-dialog title="登记单" :visible.sync="checkInfoVisible" class="print" width="800px">
+    <el-dialog :title="$t('reception.registration_form')" :visible.sync="checkInfoVisible" class="print" width="800px">
       <div class="float">
         <div>
-          {{$t('reception.address2')}}
+          {{$t('reception.address2')}}:
           <label for>{{checkInfos.hotel_address}}</label>
         </div>
         <div>
-         {{$t('reception.tel')}}
+         {{$t('reception.tel')}}:
           <label for>{{checkInfos.hotel_phone}}</label>
         </div>
       </div>
@@ -560,11 +560,11 @@
 
       <div class="float">
         <div>
-          {{$t('reception.username2')}}
+          {{$t('reception.username2')}}:
           <label for>{{checkInfos.guest_name}}</label>
         </div>
         <div>
-            {{$t('reception.tel')}}
+            {{$t('reception.tel')}}:
           <label for>{{checkInfos.phone}}</label>
         </div>
       </div>
@@ -575,11 +575,11 @@
       </p>
       <div class="float">
         <div>
-           {{$t('reception.arrived_time')}}
+           {{$t('reception.arrived_time')}}:
           <label for>{{checkInfos.into_time |formatDate3}}</label>
         </div>
         <div>
-           {{$t('reception.leaved_time')}}
+           {{$t('reception.leaved_time')}}:
           <label for>{{checkInfos.out_time | formatDate3}}</label>
         </div>
       </div>
@@ -588,32 +588,32 @@
 
       <div class="float">
         <div>
-          {{$t('reception.house_type')}}
+          {{$t('reception.house_type')}}:
           <label for="male">{{checkInfos.name}}</label>
         </div>
         <div>
-          {{$t('reception.room_number')}}
+          {{$t('reception.room_number')}}:
           <label for>{{checkInfos.room_num}}</label>
         </div>
       </div>
       <div class="float">
         <div>
-        {{$t('reception.together')}}
+        {{$t('reception.together')}}:
           <label for>{{checkInfos.toghther_guest }}</label>
         </div>
         <div>
-          {{$t('reception.tel')}}
+          {{$t('reception.tel')}}:
           <label for>{{accountData.phone}}</label>
         </div>
       </div>
 
       <div class="float">
         <div>
-           {{$t('reception.room_price')}}
+           {{$t('reception.room_price')}}:
           <label for>{{checkInfos.total_price }}</label>
         </div>
         <div>
-           {{$t('reception.payed')}}
+           {{$t('reception.payed')}}:
           <label for>{{checkInfos.dep_money }}</label>
         </div>
       </div>
@@ -644,13 +644,13 @@
 
     <!--  -->
 
-    <el-dialog title="支付列表" :visible.sync="dialogFormVisible4" class="dia" width="40%">
+    <el-dialog :title="$t('reception.pay')" :visible.sync="dialogFormVisible4" class="dia" width="40%">
       <el-table :data="tableData1.filter(item=>item.project!==0)" stripe style="width: 100%" header-align="center">
         <el-table-column type="index" label="ID" width="auto" show-overflow-tooltip align="center"></el-table-column>
         
         <el-table-column
         prop="com_time"
-        label="消费时间"
+        :label="$t('reception.com_time')"
         width="180"
         align="center"
         :formatter="dateFormat"
@@ -827,7 +827,7 @@
     <!--      -->
 
     <!-- 弹出的押金单明细表 -->
-    <el-dialog title="押金单" :visible.sync="cashMoneyVisible" class="print" width="800px">
+    <el-dialog :title="$t('reception.deposit_form')" :visible.sync="cashMoneyVisible" class="print" width="800px">
       <div class="float">
         <div>
            {{$t('reception.address2')}}:

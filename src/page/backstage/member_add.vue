@@ -2,11 +2,11 @@
   <div class="cont">
 
     <!-- <Title :title='titles'></Title> -->
-    <Title :title='title'></Title>
+    <Title :title='titles'></Title>
 
     <div class="User_list_Add_cont">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-          <el-form-item :label="$t('backstage.wid_name') " prop="name">
+          <el-form-item :label="$t('backstage.wid_name')" prop="name">
             <el-input v-model.trim="ruleForm.name" class="widthinp"></el-input>
           </el-form-item>
         
@@ -87,7 +87,10 @@
     },
     computed:{
       titles(){
-        return {title:this.$t('backstage.addname')}
+        return {
+          title:this.$t('backstage.addname'),
+          title_show:true
+          }
       }
     },
     methods: {

@@ -1,7 +1,7 @@
 <template>
   <div class="cont">
 
-    <Title :title='title'></Title>
+    <Title :title='titles'></Title>
     
     <div class="User_list_Add_cont">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
@@ -49,7 +49,7 @@
               <el-option v-for="item in roleType" :key="item.id" :label="item.role_name" :value="item.id"></el-option>
             </el-select>
           </el-form-item>
-        <el-form-item label="状态" prop="status">
+        <el-form-item :label="$t('public.status')" prop="status">
           <el-radio v-model="ruleForm.status" label="1">{{$t('backstage.status_1')}}</el-radio>
           <el-radio v-model="ruleForm.status" label="2">{{$t('backstage.status_2')}}</el-radio>
           <!-- <el-switch v-model="ruleForm.status" active-color="#13ce66" inactive-color="#ccc"></el-switch> -->
@@ -137,7 +137,9 @@
     },
     computed:{
       titles(){
-        return {title:this.$t('backstage.addname')}
+        return {title:this.$t('backstage.addplayer'),
+        title_show:true
+        }
       }
     },
     methods: {

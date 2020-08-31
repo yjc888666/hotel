@@ -108,20 +108,20 @@
             align="center"
           >
            <template slot-scope="scope">
-          <el-tag v-if="scope.row.lose===1">正常</el-tag>
-          <el-tag v-if="scope.row.lose===0" type="danger">挂失</el-tag>
+          <el-tag v-if="scope.row.lose===1">{{$t('backstage.status_1')}}</el-tag>
+          <el-tag v-if="scope.row.lose===0" type="danger">{{$t('reception.gua_shi')}}</el-tag>
           </template>
           </el-table-column>
            <el-table-column
             prop="status"
-            label="账号状态"
+           :label="$t('reception.vip_status')"
             show-overflow-tooltip
             width="auto"
             align="center"
           >
            <template slot-scope="scope">
-          <el-tag v-if="scope.row.status===1">正常</el-tag>
-          <el-tag v-if="scope.row.status===0" type="danger">注销</el-tag>
+          <el-tag v-if="scope.row.status===1">{{$t('backstage.status_1')}}</el-tag>
+          <el-tag v-if="scope.row.status===0" type="danger">{{$t('reception.logout')}}</el-tag>
           </template>
           </el-table-column>
           <el-table-column
@@ -161,7 +161,7 @@
           ></el-table-column>
           <el-table-column :label="$t('public.operate')" align="center" fixed="right" width="380">
             <template slot-scope="scope">
-              <el-button size="mini" @click="getDiscount(scope.row)">折扣</el-button>
+              <el-button size="mini" @click="getDiscount(scope.row)">{{$t('backstage.discount')}}</el-button>
               <el-button size="mini" @click="detailsButton(scope.row)">{{$t('reception.vip_details')}}</el-button>
               <el-button size="mini" @click="alterButton(scope.row)">{{$t('public.edit')}}</el-button>
               <el-button class="el-button--danger" size="mini" @click="deleteButton(scope.row)">{{$t('public.delete')}}</el-button>
@@ -180,16 +180,16 @@
         ></el-pagination>
        <!-- //弹出折扣的信息详情 -->
        <el-dialog
-        title="所享折扣"
+        :title="$t('backstage.discount')"
        :visible.sync="discountVisible"
           width="30%"
          center>
         <div style="">
-          该会员所享折扣:<span style="color:#409EFF">{{discount}}</span>
+          {{$t('reception.discount_info')}}:<span style="color:#409EFF">{{discount}}</span>
         </div>
   <span slot="footer" class="dialog-footer">
-    <el-button @click="discountVisible = false">取 消</el-button>
-    <el-button type="primary" @click="discountVisible = false">确 定</el-button>
+    <el-button @click="discountVisible = false">{{$t('public.cancel')}}</el-button>
+    <el-button type="primary" @click="discountVisible = false">{{$t('public.ok')}}</el-button>
   </span>
  </el-dialog>
  </div>
@@ -204,10 +204,7 @@ export default {
   },
   data() {
     return {
-      title: {
-        title: "会员信息",
-        title_show: false
-      },
+     
       searchData: {
         level: "",
         phone: "",

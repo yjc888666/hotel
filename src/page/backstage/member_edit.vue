@@ -1,33 +1,33 @@
 <template>
   <div class="cont">
 
-    <Title :title='title'></Title>
+    <Title :title='titles'></Title>
 
     <div class="User_list_Add_cont">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="会员名称 " prop="name">
+          <el-form-item :label="$t('backstage.wid_name')" prop="name">
             <el-input v-model.trim="ruleForm.name" class="widthinp"></el-input>
           </el-form-item>
          
-          <el-form-item label="享有折扣" prop="discount">
+          <el-form-item :label="$t('backstage.discount')" prop="discount">
             <el-input v-model.trim="ruleForm.discount"  class="widthinp"></el-input>
           </el-form-item>
          
-          <el-form-item label="单次充值" prop="recharge">
+          <el-form-item :label="$t('backstage.recharge')" prop="recharge">
             <el-input v-model.trim="ruleForm.recharge"  class="widthinp"></el-input>
           </el-form-item>
-          <el-form-item label="最少消费" prop="consume_mix">
+          <el-form-item :label="$t('backstage.consume_mix')" prop="consume_mix">
             <el-input v-model.trim="ruleForm.consume_mix"  class="widthinp"></el-input>
           </el-form-item>
-          <el-form-item label="消费上限" prop="consume_max">
+          <el-form-item :label="$t('backstage.consume_max')" prop="consume_max">
             <el-input v-model.trim="ruleForm.consume_max"  class="widthinp"></el-input>
           </el-form-item>
-          <el-form-item label="备注" prop="remark">
+          <el-form-item :label="$t('public.remark')" prop="remark">
             <el-input class="widthinp" type="textarea" :rows="2" v-model.trim="ruleForm.remark"></el-input>
             <!-- <el-input v-model.trim="ruleForm.score"  class="widthinp"></el-input> -->
           </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')" class="tijiao">立即修改</el-button>
+          <el-button type="primary" @click="submitForm('ruleForm')" class="tijiao">{{$t('public.edit')}}</el-button>
           <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
         </el-form-item>
       </el-form>
@@ -46,10 +46,7 @@
     },
     data() {
       return {
-        title: {
-          title: '后台会员修改',
-          title_show: true
-        },
+       
          ruleForm: {
           name:"",
           remark:"",
@@ -98,6 +95,14 @@
         .catch((res)=>{
           console.log(res)
         })
+    },
+     computed:{
+      titles(){
+       return {
+       title:this.$t('backstage.altername'),
+       title_show:true
+       }
+      }
     },
     methods: {
       submitForm(formName) {

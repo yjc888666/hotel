@@ -61,9 +61,9 @@
         align="center"
       >
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.type==1" type="danger">未入住</el-tag>
-          <el-tag v-if="scope.row.type==2">已入住</el-tag>
-          <el-tag v-if="scope.row.type==3">取消</el-tag>
+          <el-tag v-if="scope.row.type==1" type="danger">{{$t('reception.no_leave')}}</el-tag>
+          <el-tag v-if="scope.row.type==2">{{$t('reception.is_in_hotel')}}</el-tag>
+          <el-tag v-if="scope.row.type==3">{{$t('public.cancel')}}</el-tag>
         </template>
       </el-table-column>
       <el-table-column
@@ -156,7 +156,7 @@
       v-if="mytotal!=0"
     ></el-pagination>
     <!-- 新增 -->
-    <el-dialog title="预定新增" :visible.sync="dialogFormVisible" class="dia" width="40%">
+    <el-dialog :title="$t('public.add')" :visible.sync="dialogFormVisible" class="dia" width="40%">
       <el-form
         :model="forms"
         status-icon
@@ -176,7 +176,7 @@
             v-model="forms.reserve_time"
             type="datetime"
             value-format="timestamp"
-            placeholder="保留时间"
+            :placeholder="$t('reception.reserve_time')"
           ></el-date-picker>
         </el-form-item>
         <el-form-item
@@ -188,7 +188,7 @@
             v-model="forms.checkin_time"
             type="datetime"
             value-format="timestamp"
-            placeholder="预计入驻时间"
+            :placeholder="$t('reception.expect_check_time')"
           ></el-date-picker>
         </el-form-item>
         <el-form-item
@@ -200,14 +200,14 @@
             v-model="forms.checkout_time"
             type="datetime"
             value-format="timestamp"
-            placeholder="预计离店时间"
+            :placeholder="$t('reception.expect_out_time')"
           ></el-date-picker>
         </el-form-item>
         <el-form-item :label="$t('reception.days')" prop="day" class="floatleft">
           <el-input v-model.trim="forms.day"></el-input>
         </el-form-item>
         <el-form-item :label="$t('reception.source_type')" prop="source_type" class="floatleft">
-          <el-select v-model.trim="forms.source_type" placeholder="客源类型">
+          <el-select v-model.trim="forms.source_type" :placeholder="$t('reception.source_type')">
             <el-option
               v-for="item in source_type"
               :key="item.index"
@@ -224,7 +224,7 @@
           <el-input v-model.trim="forms.team_name"></el-input>
         </el-form-item>
         <el-form-item :label="$t('reception.public_pays')" prop="public_pays" class="floatleft">
-          <el-select v-model="forms.public_pays" placeholder="公费项目">
+          <el-select v-model="forms.public_pays" :placeholder="$t('reception.public_pays')">
             <el-option
               v-for="(item,index) in public_pays"
               :key="index"
@@ -242,7 +242,7 @@
         <el-form-item :label="$t('reception.house_type')" prop="houseType" class="floatleft">
           <el-select
             v-model.trim="item.houseType"
-            placeholder="房型"
+            :placeholder="$t('reception.house_type')"
             clearable
             @change="queryRoomList"
           >
@@ -259,7 +259,7 @@
         </el-form-item>-->
 
         <el-form-item :label="$t('reception.room_number')" prop="room">
-          <el-select v-model.trim="item.room" placeholder="房间号" clearable>
+          <el-select v-model.trim="item.room" :placeholder="$t('reception.room_number')" clearable>
             <el-option v-for="(item,index) in roomList2" :value="item" :key="index"></el-option>
           </el-select>
         </el-form-item>
@@ -297,7 +297,7 @@
                 v-model="form_1.reserve_time"
                 type="datetime"
                 value-format="timestamp"
-                placeholder="保留时间"
+                :placeholder="$t('reception.reserve_time')"
               ></el-date-picker>
             </el-form-item>
             <el-form-item :label="$t('reception.team_name')" prop="team_name" v-show="isteam">
@@ -329,7 +329,7 @@
                 v-model="form_2.checkin_time"
                 type="datetime"
                 value-format="timestamp"
-                placeholder="预计入驻时间"
+                :placeholder="$t('reception.expect_check_time')"
               ></el-date-picker>
             </el-form-item>
             <el-form-item :label="$t('reception.expect_out_time')" prop="checkout_time">
@@ -337,7 +337,7 @@
                 v-model="form_2.checkout_time"
                 type="datetime"
                 value-format="timestamp"
-                placeholder="预计离店时间"
+                :placeholder="$t('reception.expect_out_time')"
               ></el-date-picker>
             </el-form-item>
             <el-form-item :label="$t('reception.days')" prop="day">
@@ -348,7 +348,7 @@
             <el-form-item :label="$t('reception.house_type')" prop="houseType">
               <el-select 
               v-model.trim="item.houseType"
-               placeholder="房型"
+               :placeholder="$t('reception.house_type')"
                clearable
               @change="queryRoomList"
               >
@@ -362,7 +362,7 @@
               </el-select>
                 </el-form-item>
         <el-form-item :label="$t('reception.room_number')" prop="room ">     
-          <el-select v-model.trim="item.room" placeholder="房间号" clearable>
+          <el-select v-model.trim="item.room" :placeholder="$t('reception.room_number')" clearable>
             <el-option v-for="(item,index) in roomList2" :value="item" :key="index"></el-option>
           </el-select>
             </el-form-item>
@@ -382,7 +382,7 @@
       </el-tabs>
     </el-dialog>
     <!-- 入住 -->
-    <el-dialog title="添加入住" :visible.sync="dialog_3" class="dia" width="60%">
+    <el-dialog :title="$t('reception.in_hotel')" :visible.sync="dialog_3" class="dia" width="60%">
       <!-- <el-form :inline="true" status-icon class="demo-ruleForm mars">
                 <div v-for="(items,index) in dycustomers.key" :key="index">
                     <div v-for="(item, indexs) in dynamicValidateForm.rooms" :key="indexs">
@@ -473,7 +473,7 @@
                             <el-button type="primary" @click="remove()">删除人数</el-button>
                         </el-table-column>
           </div>-->
-          <el-table-column label="房间号" prop="room_number"></el-table-column>
+          <el-table-column :label="$t('reception.room_number')" prop="room_number"></el-table-column>
 
           <el-table-column prop="type" :label="$t('reception.status2')" width="auto" align="center">
             <template slot-scope="scope">
@@ -482,7 +482,7 @@
               <el-tag v-if="scope.row.type==3" type="danger">取消</el-tag>
             </template>
           </el-table-column>
-          <el-table-column label="添加" width="150" align="center">
+          <el-table-column :label="$t('reception.add_member')" width="150" align="center">
             <template slot-scope="scope">
               <el-button
                 type="primary"
@@ -510,7 +510,7 @@
       </div>-->
       <div style="clear: both;"></div>
     </el-dialog>
-    <el-dialog title="交定金" :visible.sync="dialog_4" class="dia" width="25%">
+    <el-dialog :title="$t('reception.book_money')" :visible.sync="dialog_4" class="dia" width="25%">
       <el-form
         :model="depmoreny"
         status-icon
@@ -598,7 +598,7 @@
       </div>
     </el-dialog> -->
 
-    <el-dialog title="登记住客" :visible.sync="dialog_6" class="dia" width="20%">
+    <el-dialog :title="$t('reception.add_member')" :visible.sync="dialog_6" class="dia" width="20%">
       <el-form status-icon class="demo-ruleForm mars" :model="person" :rules="rule2" ref="person">
         <el-form-item :label="$t('reception.username2')" prop="username">
           <el-input v-model.trim="person.username"></el-input>
@@ -627,7 +627,7 @@
         <el-form-item>
           <div style="padding-top:10px;padding-bottom:10px;text-align:center">
             <el-button type="primary" @click="add('person')">{{$t('public.ok')}}</el-button>
-            <el-button type="primary" @click="dialog_6=false">取消</el-button>
+            <el-button type="primary" @click="dialog_6=false">{{$t('public.cancel')}}</el-button>
           </div>
         </el-form-item>
       </el-form>
@@ -1385,7 +1385,7 @@ export default {
         return false;
       }
     },
-    batchCheckIn() {
+    /* batchCheckIn() {
       // let id=[]
       // this.dynamicValidateForm.rooms.forEach(item=>{
       //     id.push({
@@ -1431,7 +1431,7 @@ export default {
             console.log(res);
           });
       }
-    },
+    }, */
     // 预订单取消
     handleDelete(index, row) {
       console.log(row.type);
@@ -1595,11 +1595,11 @@ export default {
           })
           .then(res => {
             if (res.data.result) {
-              console.log(res);
               arr = [];
               this.$message.success(this.$t("common." + res.data.msg));
-
+               
               this.roomList(this.currentPage, this.pagesize);
+              this.dialog_3=false
             } else {
               this.$message.error(this.$t("common." + res.data.msg));
               arr = [];
@@ -1617,11 +1617,10 @@ export default {
           })
           .then(res => {
             if (res.data.result) {
-              console.log(res);
               arr = [];
               this.$message.success(this.$t("common." + res.data.msg));
-
               this.roomList(this.currentPage, this.pagesize);
+              this.dialog_3=false
             } else {
               this.$message.error(this.$t("common." + res.data.msg));
               arr = [];

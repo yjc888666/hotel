@@ -17,7 +17,7 @@
       <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column type="index" label="ID" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column prop="ware_number" :label="$t('reception.warehouse_num')" width="auto" show-overflow-tooltip align='center'></el-table-column>
-       <el-table-column prop="remark" label="仓库名称" width="auto" show-overflow-tooltip align='center'></el-table-column>
+       <el-table-column prop="remark" :label="$t('reception.warehouse_name')" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column :label="$t('public.operate')" align="center">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">{{$t('public.edit')}}</el-button>
@@ -29,7 +29,7 @@
     <el-dialog :title="$t('left.department_1')" :visible.sync="dialogFormVisible" class="dia" width="30%">
       <el-form :model="forms" status-icon :rules="rule" ref="forms" label-width="80px" class="demo-ruleForm mars">
          
-         <el-form-item label="名称:" prop="remark">
+         <el-form-item :label="$t('reception.warehouse_name')" prop="remark">
            <el-input v-model.trim="forms.remark" ></el-input>
          </el-form-item>
       </el-form>

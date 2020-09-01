@@ -992,7 +992,6 @@ export default {
             rooms.push(item.room_number);
           });
           this.roomList2 = rooms;
-          console.log(this.roomList2);
         })
         .catch(err => {
           console.log(err);
@@ -1023,8 +1022,8 @@ export default {
         .then(res => {
           this.scardtype = res.data.pojo;
         })
-        .catch(res => {
-          console.log(res);
+        .catch(err => {
+          console.log(err);
         });
     },
     // 添加单房间
@@ -1064,7 +1063,7 @@ export default {
           this.itemInfo[this.index].customers = this.post_customers;
           this.post_customers = [];
           this.person = {};
-          console.log(this.itemInfo);
+          // console.log(this.itemInfo);
           this.dialog_6 = false;
         }
       });
@@ -1229,7 +1228,6 @@ export default {
         ...this.forms,
         ...this.dynamicValidateForm
       };
-      console.log(para);
       this.$refs[formName].validate(valid => {
         if (valid) {
           var that = this;
@@ -1271,7 +1269,7 @@ export default {
       this.$axios
         .post(this.$baseUrl + "/reservation/info", fordata)
         .then(res => {
-          console.log(res.data.pojo[0].reservationAdds);
+          // console.log(res.data.pojo[0].reservationAdds);
           if (res.data.result == true) {
             let rese = res.data.pojo[0];
             let room = [];
@@ -1286,7 +1284,7 @@ export default {
               });
             });
             this.dynamicValidateForm.rooms = room;
-            console.log(this.dynamicValidateForm);
+            // console.log(this.dynamicValidateForm);
           } else {
             this.$message.error(this.$t("common." + res.data.msg));
           }
@@ -1513,7 +1511,6 @@ export default {
     },
     // 交定金
     handledeposit(index, row) {
-      console.log(row);
       this.dialog_4 = true;
       this.depmoreny.id = row.id;
     },
@@ -1551,7 +1548,6 @@ export default {
       this.$axios
         .post(this.$baseUrl + "/reservation/deposit", this.depmoreny)
         .then(res => {
-          console.log(res);
           if (res.data.result == true) {
             this.dialog_4 = false;
             that.$message({
@@ -1564,22 +1560,29 @@ export default {
             that.$message.error(this.$t("common." + res.data.msg));
           }
         })
-        .catch(res => {
-          console.log(res);
+        .catch(err => {
+          console.log(err);
         });
         }})
     },
     // 预订单入住
     checkinByitem() {
-      var arr = [];
+
+      
+   var arr = [];
       for (var i = 0, l = this.itemInfo.length; i < l; i++) {
+        if(this.itemInfo[i].customers==null){
+            this.$message.error("请先添加入住人之后再入住！");
+            return;
+        }
+        else {
         var obj = {};
         obj.id = this.itemInfo[i].id;
         obj.re_id = this.itemInfo[i].re_id;
         obj.customers = this.itemInfo[i].customers;
         arr.push(obj);
+      } 
       }
-
       //  console.log(row)
       //  var info={}
       //  info.re_id=row.re_id;
@@ -1608,7 +1611,7 @@ export default {
           .catch(err => {
             console.log(err);
             arr = [];
-            this.$message.error(this.$t("common." + res.data.msg));
+            console.log('逻辑错误')
           });
       } else {
         this.$axios
@@ -1629,10 +1632,12 @@ export default {
           .catch(err => {
             console.log(err);
             arr = [];
-            this.$message.error(this.$t("common." + res.data.msg));
+           console.log('逻辑错误')
           });
       }
-    }
+   
+      }
+       
   },
 
   components: {

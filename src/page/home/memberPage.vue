@@ -89,8 +89,8 @@
             align="center"
           >
           <template slot-scope="scope">
-          <el-tag v-if="scope.row.gender===1">男</el-tag>
-          <el-tag v-if="scope.row.gender===2" type="danger">女</el-tag>
+          <el-tag v-if="scope.row.gender===1">{{$t('public.man')}}</el-tag>
+          <el-tag v-if="scope.row.gender===2" type="danger">{{$t('public.woman')}}</el-tag>
           </template>
           </el-table-column>
           <el-table-column

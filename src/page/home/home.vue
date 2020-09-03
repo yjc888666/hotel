@@ -18,7 +18,7 @@
       <div class="head_right">
         <el-popover placement="bottom" width="auto" trigger="hover">
           <p class="txk" @click="editpass"><i class="el-icon-edit txkd_i"></i>{{$t('reception.password')}}</p>
-          <p class="txk" @click="Cancellation"><i class="el-icon-circle-close txkd_i"></i>{{$t('reception.log_off')}}</p>
+          <p class="txk" @click="Cancellation"><i class="el-icon-caret-left txkd_i"></i>{{$t('reception.log_off')}}</p>
           <div class="tx" slot="reference">
             <img src="../../assets/default.png" alt="">
             <p>{{name}}</p>
@@ -102,7 +102,7 @@
     },
     Cancellation() {
 
-      this.$confirm(this.$t('public.info'), this.$t('public.hint'), {
+      this.$confirm(this.$t('public.info2'), this.$t('public.hint'), {
           confirmButtonText: this.$t('public.ok'),
           cancelButtonText: this.$t('public.cancel'),
           type: 'warning'

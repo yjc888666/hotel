@@ -34,13 +34,13 @@
         //  },
       };
     },
-     watch:{
-       defaultProps:{
-         handler(val){
-           console.log(val)
-         }
-       }
-     },
+    //  watch:{
+    //    defaultProps:{
+    //      handler(val){
+    //        console.log(val)
+    //      }
+    //    }
+    //  },
 
     created() {
      this.authEvent();
@@ -61,7 +61,6 @@
                  }  
                 }
         else {
-           console.log(localStorage.lang)
                  return {
                     children: 'children',
                     label: 'language' 

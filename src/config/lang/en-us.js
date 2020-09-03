@@ -206,6 +206,7 @@ module.exports = {
       hint:"Tips",
       operate:"Operation",
       info:"This operation will be permanently deleted.Do you want to continue?",
+      info2:"Are you sure?Do you want to continue?",
       alldelete_info:"This operation will be deleted in batches.Do you want to continue?",
       editstatus:"This operation modifies the status.Do you want to continue?",
       dlecancel:"This operation will be cancelled permanently.Do you want to continue?",

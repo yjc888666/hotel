@@ -250,21 +250,6 @@ const router = new Router({
           ]
         },
         {
-          path: '/memberAlter',
-          name: 'memberAlter',
-          component: resolve => require(['@/page/home/memberAlter'], resolve),
-          meta: ['客户管理','会员','会员修改'],
-        },
-        {
-          path: '/memberFrom',
-          name: 'memberFrom',
-          component: resolve => require(['@/page/home/memberFrom'], resolve),
-          meta: ['客户管理','会员','会员增加'],
-        },
-
-       
-
-        {
           path: '/integral',
           name: 'integral',
           component: resolve => require(['@/page/home/integral'], resolve),

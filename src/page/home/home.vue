@@ -50,7 +50,7 @@
     <div class="home_cont">
       <!-- 左侧菜单 -->
       <div class="home_left">
-        <head_left :fold='fold'></head_left>
+        <headleft :fold='fold'></headleft>
       </div>
 
       <!-- 右侧菜单 -->
@@ -65,7 +65,7 @@
 <script>
   import language from "../../components/language.vue";
   import screenfull from 'screenfull'
-  import head_left from '../../components/home_left.vue'
+  import headleft from '../../components/home_left.vue'
   export default {
     name: 'HelloWorld',
     data() {
@@ -82,7 +82,7 @@
       }
     },
     components: {
-      head_left,
+      headleft,
        "my-lang": language
     },
     methods: {

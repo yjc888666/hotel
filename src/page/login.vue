@@ -107,6 +107,7 @@
                           that.$message.success(that.$t("common."+res.data.msg));
                           localStorage.setItem('name',res.data.pojo.serial_number);
                           localStorage.setItem('token',res.data.pojo.sessionid);
+                         
                           let redirect = decodeURIComponent(that.$route.query.redirect || '/warehouse');
                           that.$router.push({ path: redirect })
                         }
@@ -116,11 +117,8 @@
                     }) .catch(function (error) {
                     console.log(error);
                 });
-
             },
-
         },
-
     }
 
 </script>

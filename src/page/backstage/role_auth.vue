@@ -5,7 +5,7 @@
 
     <div style="width: 90%;margin: 0 auto;margin-top: 20px;">
      <el-tree :data="tableData" show-checkbox default-expand-all node-key="id" ref="tree"
-      :check-on-click-node='true' :check-strictly=true @check="clickDeal" :expand-on-click-node="false" :default-checked-keys="xz_id" :props="defaultProps">
+         @check-change="handleCheckChange"  :default-checked-keys="xz_id" :props="defaultProps">
     </el-tree>
     
         <div class="buttons" style="margin-top: 50px;">
@@ -28,12 +28,20 @@
         
         tableData:[],
         xz_id:[],
-        defaultProps: {
-             children: 'children',    //字段里的children
-              label: 'name'    //这里我是按照title循环
-         },
+        // defaultProps: {
+        //      children: 'children',    //字段里的children
+        //       label: 'name'    //这里我是按照title循环
+        //  },
       };
     },
+     watch:{
+       defaultProps:{
+         handler(val){
+           console.log(val)
+         }
+       }
+     },
+
     created() {
      this.authEvent();
     },
@@ -43,11 +51,27 @@
        title:this.$t('left.permissions'),
        title_show:true
        }
+      },
+      defaultProps(){
+        console.log(localStorage.lang)
+         if(localStorage.lang==='zh'){
+                 return{
+                   children: 'children',
+                    label: 'name' 
+                 }  
+                }
+        else {
+           console.log(localStorage.lang)
+                 return {
+                    children: 'children',
+                    label: 'language' 
+                 }
+         }
       }
+
     },
     methods: {
-      clickDeal (currentObj, treeStatus) {
-
+     handleCheckChange(data, checked, indeterminate) {
       },
       authEvent(){
         var fordata = new FormData();
@@ -56,6 +80,7 @@
           .then((res) => {
             if (res.data.result) {
                this.tableData = res.data.pojo
+               
             var a = []
             function func (data) {
                 for(var i =0;i<data.length;i++){

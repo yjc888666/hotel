@@ -20,7 +20,7 @@
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">{{$t('public.inquire')}}</el-button>
           <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">{{$t('public.delete')}}</el-button>
-          <el-button size="mini" class="tijiao" @click="handleAuth(scope.$index, scope.row)" style="color:#fff">{{$t('backstage.auth')}}</el-button>
+          <el-button size="mini" type="success"  style="background: #066197;border-color: #066197;"  @click="handleAuth(scope.$index, scope.row)" >{{$t('backstage.auth')}}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -83,6 +83,7 @@
     },
     methods:{
        handleAuth(index,row){
+         
          this.$router.push({name:'role_auth',query:{id:row.id}})
       },
       addEvent(){

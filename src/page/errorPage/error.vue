@@ -48,10 +48,10 @@
     data() {
       return {
         jumpTime:5,
-        oops: "抱歉!",
-        headline: "当前页面不存在...",
-        info: "请检查您输入的网址是否正确，或点击下面的按钮返回首页。",
-        btn: "返回首页",
+        oops: this.$t('Validation.error_page.error.oops'),
+        headline:  this.$t('Validation.error_page.error.headline'),
+        info: this.$t('Validation.error_page.error.info'),
+        btn: this.$t('Validation.error_page.error.btn'),
         timer: 0,
       };
     },

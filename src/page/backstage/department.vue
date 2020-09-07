@@ -18,7 +18,7 @@
       </el-table-column>
     </el-table>
 
-    <el-dialog :title="$t('left.department_1')" :visible.sync="dialogFormVisible" class="dia" width="30%">
+    <el-dialog :title="$t('left.department_1')" :visible.sync="dialogFormVisible" class="dia" width="30%" @close="closeDialog('forms')">
       <el-form :model="forms" status-icon :rules="rule" ref="forms" label-width="80px" class="demo-ruleForm mars">
          <el-form-item :label="$t('backstage.dept_name')" prop="dept_name">
            <el-input v-model.trim="forms.dept_name" ></el-input>
@@ -52,11 +52,11 @@
           id:"",
           dept_name:"",
         },
-        rule: {
-          dept_name: [
-            {required: true, message: '请输入部门名称', trigger: 'blur'}
-          ]
-        },
+        // rule: {
+        //   dept_name: [
+        //     {required: true, message:this.$t('Validation.depart_name'), trigger: 'blur'}
+        //   ]
+        // },
       }
     },
     created() {
@@ -65,9 +65,21 @@
     computed:{
       titles(){
         return {title:this.$t('left.department_1')}
+      },
+      rule(){
+        const rule={
+          dept_name: [
+            {required: true, message:this.$t('Validation.depart_name'), trigger: 'blur'}
+          ]
+        }
+        return rule
       }
     },
     methods:{
+     closeDialog(formName){
+      this.$refs[formName].resetFields();
+     },
+
       addEvent(){
         this.dialogFormVisible = true;
         this.show = true

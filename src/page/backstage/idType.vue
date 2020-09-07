@@ -52,11 +52,11 @@
           id:"",
           name:"",
         },
-        rule: {
-          name: [
-            {required: true, message: '请输入证件类型名称', trigger: 'blur'}
-          ]
-        },
+        // rule: {
+        //   name: [
+        //     {required: true, message: this.$t('Validation.card_type'), trigger: 'blur'}
+        //   ]
+        // },
       }
     },
     created() {
@@ -65,6 +65,14 @@
     computed:{
       titles(){
         return {title:this.$t('left.idType_1')}
+      },
+       rule(){
+        const rule={
+          name: [
+            {required: true, message: this.$t('Validation.card_type'), trigger: 'blur'}
+          ]
+        }
+        return rule
       }
     },
     methods:{

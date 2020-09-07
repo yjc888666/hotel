@@ -348,60 +348,9 @@ export default {
 
       //挂账的协议单位
       companys: [],
-      rule: {
-        teamname: [
-          { required: true, message: "请输入团队名称", trigger: "blur" },
-        ],
-        leave_time: [
-          { required: true, message: "请输入预计退房时间", trigger: "blur" },
-        ],
-
-        day_num: [{ required: true, message: "请输入天数", trigger: "blur" }],
-        team_house_type: [
-          { required: true, message: "请输入房型", trigger: "blur" },
-        ],
-        house_type: [
-          { required: true, message: "请输入房型", trigger: "blur" },
-        ],
-        type: [{ required: true, message: "请输入客源类型", trigger: "blur" }],
-        team_username: [
-          { required: true, message: "请输入您的姓名", trigger: "blur" },
-        ],
-        username: [
-          { required: true, message: "请输入同伴姓名", trigger: "blur" },
-        ],
-        team_phone: [
-          { required: true, message: "请输入您的手机号", trigger: "blur" },
-        ],
-        phone: [
-          { required: true, message: "请输入同伴手机号", trigger: "blur" },
-        ],
-        team_card_type: [
-          { required: true, message: "请输入您的证件类型", trigger: "blur" },
-        ],
-        card_type: [
-          {
-            required: true,
-            message: "请输入跟随同伴证件类型",
-            trigger: "blur",
-          },
-        ],
-        team_gender: [
-          { required: true, message: "请输入您的性别", trigger: "blur" },
-        ],
-        gender: [
-          { required: true, message: "请输入跟随同伴性别", trigger: "blur" },
-        ],
-        team_card_num: [
-          { required: true, message: "请输入您的证件号", trigger: "blur" },
-        ],
-        card_num: [
-          { required: true, message: "请输入跟随同伴证件号", trigger: "blur" },
-        ],
-        is_together: [
-          { required: true, message: "请输入是否有同行宾客", trigger: "blur" },
-        ],
-      },
+      // rule: {
+        
+      // },
       dialogFormVisible1: false,
       forms1: {
         status: "",
@@ -410,21 +359,9 @@ export default {
         day: "",
         total_price: "",
       },
-      rule1: {
-        teamname: [
-          { required: true, message: "请输入房间号", trigger: "blur" },
-        ],
-        status: [
-          { required: true, message: "请输入入住状态", trigger: "blur" },
-        ],
-        leave_time: [
-          { required: true, message: "请输入退房时间", trigger: "blur" },
-        ],
-        day: [{ required: true, message: "请输入天数", trigger: "blur" }],
-        total_price: [
-          { required: true, message: "请输入合计总价", trigger: "blur" },
-        ],
-      },
+      // rule1: {
+        
+      // },
       dialogFormVisible2: false,
       forms2: {
         bill_id: "",
@@ -433,54 +370,23 @@ export default {
         password: "",
         project_type: "",
       },
-      rule2: {
-        bill_id: [{ required: true, message: "账单id", trigger: "blur" }],
-        cash_pledge: [
-          { required: true, message: "请输入押金", trigger: "blur" },
-        ],
-        member_card: [
-          // {required: true, message: '请输入会员卡号', trigger: 'blur'}
-        ],
-        password: [
-          // {required: true, message: '请输入密码', trigger: 'blur'}
-        ],
-        project_type: [
-          { required: true, message: "请输入账务项目", trigger: "blur" },
-        ],
-      },
+      // rule2: {
+       
+      // },
       dialogFormVisible3: false,
       forms3: {
         id: "",
         status: "0",
       },
-      rule3: {
-        status: [{ required: true, message: "请输入状态", trigger: "blur" }],
-      },
-        rule5:{
-         pay_type: [
-          { required: true, message: "请输入支付方式", trigger: "blur" },
-        ],
-        bank_name:[{
-          required: true, message: "请输入银行卡名称", trigger: "blur" 
-        }],
-        card_num:[{
-          required: true, message: "请输入卡号", trigger: "blur" 
-        }],
-        member_id: [
-          { required: true, message: "请输入会员卡号", trigger: "blur" },
-        ],
-          password: [
-          { required: true, message: "请输入会员支付密码", trigger: "blur" },
-        ],
-          integral: [
-          {required: true, message: '请输入会员使用积分', trigger: 'blur'}
-        ],
-        
-      },
-      rule6:{
-          coo_id:[ {required: true, message: '请输入协议单位',  trigger:["blur",'change'] }],
-          use_money:[{required: true, message: '请输入挂账金额', trigger: 'blur'}],
-      },
+  //  rule3: {
+          
+  //     },
+      //   rule5:{   
+      // },
+      // rule6:{
+      //     coo_id:[ {required: true, message: this.$t('Validation.check_in.cooperator_id'),  trigger:["blur",'change'] }],
+      //     use_money:[{required: true, message: this.$t('Validation.check_in.use_money'), trigger: 'blur'}],
+      // },
       // dialogFormVisible5:
       mytotal: 0,
       tableData: [],
@@ -496,97 +402,97 @@ export default {
       idtype: [],
       memberType: [
         {
-          value: 1,
-          label: "散客",
+          value: "1",
+          label: this.$t('Validation.check_in.memberType.item_1'),
         },
         {
-          value: 2,
-          label: "会员",
+          value: "2",
+          label: this.$t('Validation.check_in.memberType.item_2'),
         },
         {
-          value: 3,
-          label: "单位",
+          value: "3",
+          label: this.$t('Validation.check_in.memberType.item_3'),
         },
       ],
       registerinfos: [],
       customers: [],
       show1: 1,
       projecttype: [
-        {
+         {
           value: "1",
-          label: "现金订金",
+          label: this.$t('Validation.check_in.project_type.item_1'),
         },
         {
           value: "2",
-          label: "银行卡订金",
+          label: this.$t('Validation.check_in.project_type.item_2'),
         },
         {
           value: "3",
-          label: "会员卡订金",
+          label: this.$t('Validation.check_in.project_type.item_3'),
         },
         {
           value: "4",
-          label: "现金订金转押金",
+          label: this.$t('Validation.check_in.project_type.item_4'),
         },
         {
           value: "5",
-          label: "银行卡订金转押金",
+          label: this.$t('Validation.check_in.project_type.item_5'),
         },
         {
           value: "6",
-          label: "会员卡订金转押金",
+          label: this.$t('Validation.check_in.project_type.item_6'),
         },
         {
           value: "7",
-          label: "入住收全天房费",
+          label: this.$t('Validation.check_in.project_type.item_7'),
         },
         {
           value: "8",
-          label: "餐厅就餐挂账",
+          label: this.$t('Validation.check_in.project_type.item_8'),
         },
         {
           value: "9",
-          label: "现金押金",
+          label: this.$t('Validation.check_in.project_type.item_9'),
         },
         {
           value: "10",
-          label: "银行卡押金",
+          label: this.$t('Validation.check_in.project_type.item_10'),
         },
         {
           value: "11",
-          label: "现金收款",
+          label: this.$t('Validation.check_in.project_type.item_11'),
         },
         {
           value: "12",
-          label: "银行卡收款",
+          label: this.$t('Validation.check_in.project_type.item_12'),
         },
         {
           value: "13",
-          label: "会员卡收款",
+          label: this.$t('Validation.check_in.project_type.item_13'),
         },
         {
           value: "14",
-          label: "挂账收款",
+          label: this.$t('Validation.check_in.project_type.item_14'),
         },
         {
           value: "15",
-          label: "会员卡押金",
+          label: this.$t('Validation.check_in.project_type.item_15'),
         },
         {
           value: "16",
-          label: "主账代付",
+          label: this.$t('Validation.check_in.project_type.item_16'),
         },
         {
           value: "17",
-          label: "现金退款",
+          label: this.$t('Validation.check_in.project_type.item_17'),
         },
         {
           value: "18",
-          label: "银行卡退款",
+          label: this.$t('Validation.check_in.project_type.item_18'),
         },
         {
           value: "19",
-          label: "替房间付",
+          label: this.$t('Validation.check_in.project_type.item_19'),
         },
       ],
       order: "",
@@ -630,7 +536,137 @@ export default {
     },
     getTableHeight() {
     return this.screenHeight-390 
-  }
+  },
+  rule(){
+    const rule={
+     teamname: [
+         { required: true, message: this.$t('Validation.check_in.team_name'), trigger: "blur" },
+        ],
+        leave_time: [
+          { required: true, message: this.$t('Validation.check_in.out_time'), trigger: "blur" },
+        ],
+
+        day_num: [{ required: true, message: this.$t('Validation.check_in.days'), trigger: "blur" }],
+        team_house_type: [
+         { required: true, message: this.$t('Validation.check_in.house_type'), trigger: "blur" },
+        ],
+        house_type: [
+         { required: true, message: this.$t('Validation.check_in.house_type'), trigger: "blur" },
+        ],
+        type: { required: true, message: this.$t('Validation.check_in.source_type'), trigger: "blur" },
+        team_username: [
+         [{ required: true, message: this.$t('Validation.check_in.username'), trigger: "blur" }],
+        ],
+        username: [
+          { required: true, message: this.$t('Validation.team_check_list.together_name'), trigger: "blur" },
+        ],
+        team_phone: [
+          { required: true, message: this.$t('Validation.team_check_list.phone'), trigger: "blur" },
+        ],
+        phone: [
+          { required: true, message: this.$t('Validation.team_check_list.together_phone'), trigger: "blur" },
+        ],
+        team_card_type: [
+          { required: true, message: this.$t('Validation.team_check_list.card_type'), trigger: "blur" },
+        ],
+        card_type: [
+          {
+            required: true,
+            message: this.$t('Validation.team_check_list.together_card'),
+            trigger: "blur",
+          },
+        ],
+        team_gender: [
+          { required: true, message: this.$t('Validation.team_check_list.gender'), trigger: "blur" },
+        ],
+        gender: [
+          { required: true, message: this.$t('Validation.team_check_list.together_gender'), trigger: "blur" },
+        ],
+        team_card_num: [
+          { required: true, message: this.$t('Validation.team_check_list.id'), trigger: "blur" },
+        ],
+        card_num: [
+          { required: true, message: this.$t('Validation.team_check_list.together_id'), trigger: "blur" },
+        ],
+        is_together: [
+          { required: true, message: this.$t('Validation.team_check_list.is_together'), trigger: "blur" },
+        ], 
+    }
+    return rule
+  },
+  rule1(){
+    const rule1={
+    teamname: [
+          { required: true, message: this.$t('Validation.check_in.room_num'), trigger: "blur" },
+        ],
+       status: [
+          { required: true, message: this.$t('Validation.check_in.live_status'), trigger: "blur" },
+        ],
+        leave_time: [
+          { required: true, message: this.$t('Validation.check_in.out_time'), trigger: "blur" },
+        ],
+       day: [{ required: true, message: this.$t('Validation.check_in.days'), trigger: "blur" }],
+        total_price: [
+          { required: true, message: this.$t('Validation.check_in.total_price'), trigger: "blur" },
+        ],
+    }
+    return rule1
+  },
+  rule2(){
+    const rule2={
+     bill_id: [{ required: true, message: this.$t('Validation.check_in.bill_id'), trigger: "blur" }],
+        cash_pledge: [
+          { required: true, message: this.$t('Validation.check_in.cash_pledge'), trigger: "blur" },
+        ],
+        member_card: [
+          // {required: true, message: '请输入会员卡号', trigger: 'blur'}
+        ],
+        password: [
+          // {required: true, message: '请输入密码', trigger: 'blur'}
+        ],
+        project_type: [
+          { required: true, message: this.$t('Validation.check_in.project_type'), trigger: "blur" },
+        ],
+    }
+    return rule2
+  },
+    rule3(){
+    const rule3={
+      status: [{ required: true, message: this.$t('Validation.check_in.pay_status'), trigger: "blur" }],
+    }
+    return rule3
+  },
+   rule5(){
+    const rule5={
+      pay_type: [
+          { required: true, message: this.$t('Validation.check_in.pay_type'), trigger: "blur" },
+        ],
+         bank_name:[{
+          required: true, message: this.$t('Validation.check_in.bank_name'), trigger: "blur" 
+        }],
+        card_num:[{
+          required: true, message: this.$t('Validation.check_in.card_num'), trigger: "blur" 
+        }],
+        member_id: [
+          { required: true, message: this.$t('Validation.check_in.method_card'), trigger: "blur" },
+        ],
+          password: [
+          { required: true, message: this.$t('Validation.check_in.password'), trigger: "blur" },
+        ],
+         integral: [
+          {required: true, message: this.$t('Validation.check_in.integral'), trigger: 'blur'}
+        ],
+    }
+    return rule5
+  },
+     rule6(){
+    const rule6={
+        coo_id:[ {required: true, message: this.$t('Validation.check_in.cooperator_id'),  trigger:["blur",'change'] }],
+          use_money:[{required: true, message: this.$t('Validation.check_in.use_money'), trigger: 'blur'}],
+    }
+    return rule6
+  },
+
   },
   methods: {
   
@@ -748,23 +784,7 @@ export default {
          teamName:row.teamname,
        }
      } );
-      // this.dialogTableVisible = true;
-      // this.$axios
-      //   .post(
-      //     this.$baseUrl + `/team/getRegister`,
-      //     qs.stringify({
-      //       id: id,
-      //     })
-      //   )
-      //   .then((res) => {
-      //     console.log(res);
-      //     this.teamOrderInfo = res.data.pojo;
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
     },
-
     idTypeEvent() {
       this.$axios
         .post(this.$baseUrl + "/idType/list")
@@ -772,7 +792,6 @@ export default {
           this.idtype = res.data.pojo;
         })
         .catch((res) => {
-          console.log(res);
         });
     },
     // 房型查询
@@ -783,7 +802,6 @@ export default {
           this.housetype = res.data.pojo;
         })
         .catch((res) => {
-          console.log(res);
         });
     },
     list(a, b) {
@@ -921,7 +939,6 @@ export default {
                 that.forms3.status = "";
                 that.dialogFormVisible4 = true;
                 that.tableData1 = res.data.pojo;
-                // console.log( that.tableData1)
                 that.list(that.currentPage, that.pagesize);
               } else {
                 that.$message.error(that.$t("common." + res.data.msg));
@@ -934,7 +951,6 @@ export default {
       });
     },
     handleEdit(index, row) {
-      //  console.log(row)
       this.dialogFormVisible1 = true;
       this.forms1.status = String(row.live_type);
       this.forms1.id = row.id;
@@ -948,9 +964,7 @@ export default {
     },
     handleEdit2(index, row) {
       this.dialogFormVisible1 = true;
-      //  this.forms1.leave_time = row.leave_time;
       this.forms1.id = row.id;
-      //  console.log(row.id)
       this.forms1.day = row.day;
       this.forms1.total_price = row.total_price;
       this.show1 = 3;
@@ -978,7 +992,6 @@ export default {
                   showClose: true,
                   type: "success",
                 });
-                // this.tableData.splice(index,1)
                 that.list(that.currentPage, that.pagesize);
               } else {
                 this.$message({

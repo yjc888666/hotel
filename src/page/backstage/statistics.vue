@@ -52,11 +52,9 @@
           startTime:"",        
           endTime:"", 
         },
-        rules: {
-           phase: [
-            {required: true, message: '请输入账期', trigger: 'blur'}
-          ],
-        },
+        // rules: {
+          
+        // },
         phasetype:[]
       }
     },
@@ -114,6 +112,14 @@
     computed:{
       titles(){
         return {title:this.$t('left.statistics')}
+      },
+       rules(){
+        const rules={
+           phase: [
+            {required: true, message: this.$t('Validation.record'), trigger: 'blur'}
+          ],
+        }
+        return rules
       }
     },
     created() {

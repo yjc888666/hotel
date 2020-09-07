@@ -142,23 +142,23 @@
         dialogFormVisible: false,
         cashstatustype:[{
           value: '0',
-          label: '无'
+          label: this.$t('Validation.rest_reserve.cash_status_type.item_1')
         }, {
           value: '1',
-          label: '已交'
+          label: this.$t('Validation.rest_reserve.cash_status_type.item_2')
         }, {
           value: '2',
-          label: '已退'
+          label: this.$t('Validation.rest_reserve.cash_status_type.item_3')
         }],
         reservetype:[{
           value: '0',
-          label: '取消'
+          label: this.$t('Validation.rest_reserve.reserve_type.item_1')
         }, {
           value: '1',
-          label: '预订中'
+          label: this.$t('Validation.rest_reserve.reserve_type.item_2')
         }, {
           value: '2',
-          label: '预订完成'
+          label: this.$t('Validation.rest_reserve.reserve_type.item_3')
         }],
         forms: {
           id:"",
@@ -173,45 +173,9 @@
           cash_pledge:"",
           remark:"",
         },
-        rule: {
-          username: [
-            {required: true, message: '请输入用户名', trigger: 'blur'}
-          ],
-          phone: [
-            {required: true, message: '请输入用户名', trigger: 'blur'},
-            {validator: yz.validateMobilePhone, trigger: 'blur'}
-          ],
-           card_type: [
-            {required: true, message: '请输入证件类型', trigger: 'blur'}
-          ],
-          ID_card: [
-            {required: true, message: '请输入证件号', trigger: 'blur'},
-            {validator: yz.validateCardId, trigger: 'blur'}
-          ], 
-          restaurant_id: [
-            {required: true, message: '请输入餐厅', trigger: 'blur'}
-          ],
-           table_id : [
-            {required: true, message: '请输入餐桌', trigger: 'blur'},
-          ],
-           people_num : [
-            {required: true, message: '请输入就餐人数', trigger: 'blur'},
-            {validator: yz.validateInteger, trigger: 'blur'}
-          ],
-          eat_time : [
-            {required: true, message: '请输入就餐时间', trigger: 'blur'}
-          ],
-           cash_pledge : [
-            {required: true, message: '请输入押金', trigger: 'blur'},
-             {validator: yz.validateMoney, trigger: 'blur'}
-          ],
-           eat_time : [
-            {required: true, message: '请输入就餐时间', trigger: 'blur'}
-          ],
-          //  remark: [
-          //   {required: true, message: '请输入备注', trigger: 'blur'},
-          // ]
-        },
+        // rule: {
+         
+        // },
         mytotal:0,
         tableData:[],
         currentPage:1,
@@ -244,6 +208,48 @@
     computed:{
       titles(){
         return {title:this.$t('left.restReserve')}
+      },
+      rule(){
+        const rule={
+           username: [
+            {required: true, message: this.$t('Validation.rest_reserve.rule.username'), trigger: 'blur'}
+          ],
+          phone: [
+            {required: true, message: this.$t('Validation.rest_reserve.rule.phone'), trigger: 'blur'},
+            {validator: yz.validateMobilePhone, trigger: 'blur'}
+          ],
+           card_type: [
+            {required: true, message: this.$t('Validation.rest_reserve.rule.card_type'), trigger: 'blur'}
+          ],
+          ID_card: [
+            {required: true, message: this.$t('Validation.rest_reserve.rule.id'), trigger: 'blur'},
+            {validator: yz.validateCardId, trigger: 'blur'}
+          ], 
+          restaurant_id: [
+            {required: true, message: this.$t('Validation.rest_reserve.rule.res'), trigger: 'blur'}
+          ],
+           table_id : [
+            {required: true, message: this.$t('Validation.rest_reserve.rule.table'), trigger: 'blur'},
+          ],
+           people_num : [
+            {required: true, message: this.$t('Validation.rest_reserve.rule.people_num'), trigger: 'blur'},
+            {validator: yz.validateInteger, trigger: 'blur'}
+          ],
+          eat_time : [
+            {required: true, message: this.$t('Validation.rest_reserve.rule.eat_time'), trigger: 'blur'}
+          ],
+           cash_pledge : [
+            {required: true, message: this.$t('Validation.rest_reserve.rule.cash'), trigger: 'blur'},
+             {validator: yz.validateMoney, trigger: 'blur'}
+          ],
+           eat_time : [
+            {required: true, message: this.$t('Validation.rest_reserve.rule.eat_time'), trigger: 'blur'}
+          ],
+          //  remark: [
+          //   {required: true, message: '请输入备注', trigger: 'blur'},
+          // ]
+        }
+        return rule
       }
     },
     methods:{

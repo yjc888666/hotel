@@ -133,21 +133,21 @@
         },
         rule: {
           tactic_name: [
-            {required: true, message: '请输入规则名称 ', trigger: 'blur'}
+            {required: true, message: this.$t('Validation.tactic.tactic_name'), trigger: 'blur'}
           ],
         },
         setType: [{                                                   
           value: '0',
-          label: '上浮'
+          label: this.$t('Validation.tactic.setType.item_1')
         }, {
           value: '1',
-          label: '下浮'
+          label: this.$t('Validation.tactic.setType.item_2')
         }, {
           value: '2',
-          label: '折扣率'
+          label: this.$t('Validation.tactic.setType.item_3')
         }, {
           value: '3',
-          label: '一口价'
+          label: this.$t('Validation.tactic.setType.item_4')
         }],
         lists:[]
       }

@@ -383,46 +383,6 @@
     </el-dialog>
     <!-- 入住 -->
     <el-dialog :title="$t('reception.in_hotel')" :visible.sync="dialog_3" class="dia" width="60%">
-      <!-- <el-form :inline="true" status-icon class="demo-ruleForm mars">
-                <div v-for="(items,index) in dycustomers.key" :key="index">
-                    <div v-for="(item, indexs) in dynamicValidateForm.rooms" :key="indexs">
-                        <el-form-item :label="$t('reception.house_type')" prop="houseType">
-                            <el-select v-model.trim="item.houseType" placeholder="房型">
-                                <el-option v-for="items in houseTypes" :key="items.id" :label="items.name" :value="items.id"></el-option>
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item   :label="$t('reception.room_number')" prop="room ">
-                            <el-input v-model.trim="item.room"></el-input>
-                        </el-form-item>
-                        <div v-for="(itemd, index) in items.customers[index]" :key="'k'+index">
-                            <el-form-item :label="$t('reception.username2')" prop="username">
-                                <el-input v-model.trim="itemd.username"></el-input>
-                            </el-form-item>
-                            <el-form-item :label="$t('reception.phone2')" prop="phone">
-                                <el-input v-model.trim="itemd.phone"></el-input>
-                            </el-form-item>
-                            <el-form-item label="性别" prop="gender">
-                                <el-radio v-model="itemd.gender" label="1">男</el-radio>
-                                <el-radio v-model="itemd.gender" label="2">女</el-radio>
-                            </el-form-item>
-                            <el-form-item label="证件类型" prop="card_type">
-                                <el-select v-model="itemd.card_type" placeholder="选择证件类型">
-                                    <el-option v-for="item in scardtype" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                                </el-select>
-                            </el-form-item>
-                            <el-form-item label="证件号" prop="card_num">
-                                <el-input v-model.trim="itemd.card_num"></el-input>
-                            </el-form-item>
-                            <el-form-item>
-                                <el-button type="primary"  @click="remove(item)">删除人数</el-button>
-                            </el-form-item>
-                            <el-form-item>
-                                <el-button type="primary" @click="addman(item,index,indexs)">添加人数</el-button>
-                            </el-form-item>
-                        </div>
-                    </div>
-                </div>
-      </el-form>-->
       <el-tabs type="border-card">
         <el-table
           :data="itemInfo"
@@ -440,39 +400,6 @@
             align="center"
             :formatter="houseTypeFormat"
           ></el-table-column>
-          <!-- <div v-for="(itemd, index) in reservationAdd" :key="index">
-                        <el-table-column label="用户名" width="150" align="center">
-                            <template slot-scope="scope">
-                                <el-input v-model.trim="scope.row.username"></el-input>
-                            </template>
-                        </el-table-column>
-                        <el-table-column :label="$t('reception.phone2')" width="150" align="center">
-                            <template slot-scope="scope">
-                                <el-input v-model.trim="scope.row.phone"></el-input>
-                            </template>
-                        </el-table-column>
-                        <el-table-column label="性别" width="150" align="center">
-                            <template slot-scope="scope">
-                                <el-radio v-model="scope.row.gender" label="1">男</el-radio>
-                                <el-radio v-model="scope.row.gender" label="2">女</el-radio>
-                            </template>
-                        </el-table-column>
-                        <el-table-column label="证件类型" width="150" align="center">
-                            <template slot-scope="scope">
-                                <el-select v-model="scope.row.card_type" placeholder="选择证件类型">
-                                    <el-option v-for="item in scardtype" :key="item.id" :label="item.name" :value="item.id"></el-option>
-                                </el-select>
-                            </template>
-                        </el-table-column>
-                        <el-table-column label="证件号" width="150" align="center">
-                            <template slot-scope="scope">
-                                <el-input v-model.trim="scope.row.card_num"></el-input>
-                            </template>
-                        </el-table-column>
-                        <el-table-column label="添加" width="150" align="center">
-                            <el-button type="primary" @click="remove()">删除人数</el-button>
-                        </el-table-column>
-          </div>-->
           <el-table-column :label="$t('reception.room_number')" prop="room_number"></el-table-column>
 
           <el-table-column prop="type" :label="$t('reception.status2')" width="auto" align="center">
@@ -503,11 +430,6 @@
         >{{$t('reception.in_hotel')}}</el-button>
         <el-button @click="cancleClick()" type="primary" plain style="margin:0 10px">取消</el-button>
       </div>
-
-      <!-- <div class="dialog-footer dias">
-                <el-button @click="dialog_3= false">取消</el-button>
-                <el-button type="primary" @click="batchCheckIn()">确定</el-button>
-      </div>-->
       <div style="clear: both;"></div>
     </el-dialog>
     <el-dialog :title="$t('reception.book_money')" :visible.sync="dialog_4" class="dia" width="25%">
@@ -562,42 +484,6 @@
         <el-button type="primary" @click="moreny('depmoreny')">{{$t('public.ok')}}</el-button>
       </div>
     </el-dialog>
-    <!-- <el-dialog title="交押金" :visible.sync="dialog_5" class="dia" width="25%">
-      <el-form
-        :model="Pledge"
-        status-icon
-        :rules="rule3"
-        ref="Pledge"
-        label-width="85px"
-        class="demo-ruleForm mars"
-      >
-        <el-form-item :label="$t('reception.cash_pledge')" prop="cash_pledge" >
-          <el-input v-model.trim="Pledge.cash_pledge"></el-input>
-        </el-form-item>
-        <el-form-item :label="$t('reception.pay_project')" prop="project_type">
-          <el-select v-model="Pledge.project_type" placeholder="账务项目">
-            <el-option
-              v-for="(item,index) in project"
-              :key="index"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item :label="$t('reception.vip_card')" prop="member_card" >
-          <el-input v-model="Pledge.member_card"></el-input>
-        </el-form-item>
-        <el-form-item :label="$t('reception.password2')" prop="password" >
-          <el-input v-model="Pledge.password"></el-input>
-        </el-form-item>
-        <div style="clear: both;"></div>
-      </el-form>
-      <div style="padding-top:10px;padding-bottom:10px;text-align:center">
-          <el-button @click="dialog_5= false">{{$t('public.cancel')}}</el-button>
-          <el-button type="primary" @click="Pledge('Pledge')">{{$t('public.ok')}}</el-button>
-      </div>
-    </el-dialog> -->
-
     <el-dialog :title="$t('reception.add_member')" :visible.sync="dialog_6" class="dia" width="20%">
       <el-form status-icon class="demo-ruleForm mars" :model="person" :rules="rule2" ref="person">
         <el-form-item :label="$t('reception.username2')" prop="username">
@@ -618,12 +504,6 @@
         <el-form-item :label="$t('reception.id')" prop="card_num">
           <el-input v-model.trim="person.card_num"></el-input>
         </el-form-item>
-        <!-- <el-form-item>
-                        <el-button type="primary"  @click="remove(itemd)">{{$t('reception.remove_player')}}</el-button>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button type="primary" @click="addmanss(itemd)">{{$t('reception.add_player')}}</el-button>
-        </el-form-item>-->
         <el-form-item>
           <div style="padding-top:10px;padding-bottom:10px;text-align:center">
             <el-button type="primary" @click="add('person')">{{$t('public.ok')}}</el-button>
@@ -680,76 +560,42 @@ export default {
       source_type: [
         {
           value: "1",
-          label: "散客"
+          label: this.$t('Validation.reservation.source_type.item_1')
         },
         {
           value: "2",
-          label: "会员"
+          label: this.$t('Validation.reservation.source_type.item_2')
         },
         {
           value: "3",
-          label: "单位"
+          label: this.$t('Validation.reservation.source_type.item_3')
         }
       ],
       // 公费项目
       public_pays: [
         {
           value: "0",
-          label: "无"
+          label: this.$t('Validation.reservation.public_pays.item_1')
         },
         {
           value: "1",
-          label: "房费"
+          label: this.$t('Validation.reservation.public_pays.item_2')
         },
         {
           value: "2",
-          label: "房费+消费"
+          label: this.$t('Validation.reservation.public_pays.item_3')
         }
       ],
       // 表单验证
-      rule: {
-        username: [{ required: true, message: "姓名", trigger: "blur" }],
-        phone: [
-          { required: true, message: "请输入手机号", trigger: "blur" },
-          { validator: yz.validatePhTelNumber, trigger: "blur" }
-        ],
-        day: [{ required: true, message: "天数", trigger: "blur" }],
-        reserve_time: [
-          { required: true, message: "请输入保留时间", trigger: "blur" }
-        ],
-        checkin_time: [
-          { required: true, message: "请输入入驻时间", trigger: "blur" }
-        ],
-        checkout_time: [
-          { required: true, message: "请输入退房时间", trigger: "blur" }
-        ],
-        source_type: [
-          { required: true, message: "选择客源类型", trigger: "blur" }
-        ],
-        isteam: [{ required: true, message: "选择是否团队", trigger: "blur" }]
-      },
-      rule2: {
-        username: [{ required: true, message: "请输入姓名", trigger: "blur" }],
-        phone: [
-          { required: true, message: "请输入手机号", trigger: "blur" },
-          { validator: yz.validateMobilePhone, trigger: "blur" }
-        ],
-        gender: [{ required: true, message: "请输入性别", trigger: "blur" }],
-        card_type: [
-          { required: true, message: "请输入证件类型", trigger: "blur" }
-        ],
-        card_num: [
-          { required: true, message: "请输入证件号", trigger: "blur" },
-          { validator: yz.validatenum, trigger: "blur" }
-        ]
-      },
-      rule3:{
-          deposit:[{required:true,message:'请输入定金金额',trigger:'blur'}],
-          method:[{required:true,message:'请选择付款方式',trigger:'blur'}],
-          project_type:[{required:true,message:'请选择账目项目',trigger:'blur'}],
-          entry:[{required:true,message:'请选择账务明细',trigger:'blur'}],
-          cash_pledge:[{required:true,message:'请输入押金金额',trigger:'blur'}],
-      },
+      // rule: {
+       
+      // },
+      // rule2: {
+      
+      // },
+      // rule3:{
+          
+      // },
       activeName: "0",
       // 房间列表
       tableData: [],
@@ -807,73 +653,73 @@ export default {
       methodlist: [
         {
           value: "1",
-          label: "现金"
+          label: this.$t('Validation.reservation.method_list.item_1')
         },
         {
           value: "2",
-          label: "刷卡"
+          label: this.$t('Validation.reservation.method_list.item_2')
         },
         {
           value: "3",
-          label: "会员"
+          label: this.$t('Validation.reservation.method_list.item_3')
         }
       ],
       // 财务明细
       itemtype: [
         {
           value: "1",
-          label: "现金押金"
+          label: this.$t('Validation.check_in.entry_type.item_1')
         },
         {
           value: "2",
-          label: "现金收款"
+          label: this.$t('Validation.check_in.entry_type.item_2')
         },
         {
           value: "3",
-          label: "现金订金"
+          label: this.$t('Validation.check_in.entry_type.item_3')
         },
         {
           value: "4",
-          label: "现金退款"
+          label: this.$t('Validation.check_in.entry_type.item_4')
         },
         {
           value: "5",
-          label: "银行卡押金"
+          label: this.$t('Validation.check_in.entry_type.item_5')
         },
         {
           value: "6",
-          label: "银行卡收款"
+          label: this.$t('Validation.check_in.entry_type.item_6')
         },
         {
           value: "7",
-          label: "银行卡订金"
+          label: this.$t('Validation.check_in.entry_type.item_7')
         },
         {
           value: "8",
-          label: "银行卡退款"
+          label: this.$t('Validation.check_in.entry_type.item_8')
         }
       ],
       // 财务项目
       project: [
         {
           value: "1",
-          label: "现金订金"
+          label: this.$t('Validation.check_in.project_type.item_1')
         },
         {
           value: "2",
-          label: "银行卡订金"
+          label: this.$t('Validation.check_in.project_type.item_2')
         },
         {
           value: "3",
-          label: "会员卡订金"
+          label: this.$t('Validation.check_in.project_type.item_3')
         },
         {
           value: "4",
-          label: "现金订金转押金"
+          label: this.$t('Validation.check_in.project_type.item_4')
         },
         {
           value: "5",
-          label: "银行卡订金转押金"
+          label: this.$t('Validation.check_in.project_type.item_5')
         }
       ],
       // 入住
@@ -930,6 +776,58 @@ export default {
   computed: {
     titles() {
       return { title: this.$t("left.Booking") };
+    },
+    rule(){
+      const rule={
+         username: [{ required: true, message: this.$t('Validation.reservation.rule.username'), trigger: "blur" }],
+        phone: [
+          { required: true, message: this.$t('Validation.reservation.rule.phone'), trigger: "blur" },
+          { validator: yz.validatePhTelNumber, trigger: "blur" }
+        ],
+        day: [{ required: true, message: this.$t('Validation.reservation.rule.days'), trigger: "blur" }],
+        reserve_time: [
+          { required: true, message: this.$t('Validation.reservation.rule.res_time'), trigger: "blur" }
+        ],
+        checkin_time: [
+          { required: true, message: this.$t('Validation.reservation.rule.in_time'), trigger: "blur" }
+        ],
+        checkout_time: [
+          { required: true, message: this.$t('Validation.reservation.rule.out_time'), trigger: "blur" }
+        ],
+        source_type: [
+          { required: true, message: this.$t('Validation.reservation.rule.type'), trigger: "blur" }
+        ],
+        isteam: [{ required: true, message: this.$t('Validation.reservation.rule.is_team'), trigger: "blur" }]
+      }
+      return rule
+    },
+    rule2(){
+      const rule2={
+         username: [{ required: true, message: this.$t('Validation.reservation.rule.username'), trigger: "blur" }],
+        phone: [
+          { required: true, message: this.$t('Validation.reservation.rule.phone'), trigger: "blur" },
+          { validator: yz.validateMobilePhone, trigger: "blur" }
+        ],
+        gender: [{ required: true, message: this.$t('Validation.reservation.rule.gender'), trigger: "blur" }],
+        card_type: [
+          { required: true, message: this.$t('Validation.reservation.rule.card_type'), trigger: "blur" }
+        ],
+        card_num: [
+          { required: true, message: this.$t('Validation.reservation.rule.card_num'), trigger: "blur" },
+          { validator: yz.validatenum, trigger: "blur" }
+        ]
+      }
+      return rule2
+    },
+    rule3(){
+      const rule3={
+          deposit:[{required:true,message:this.$t('Validation.reservation.rule.deposit'),trigger:'blur'}],
+          method:[{required:true,message:this.$t('Validation.reservation.rule.pay_ty'),trigger:'blur'}],
+          project_type:[{required:true,message:this.$t('Validation.reservation.rule.pro_ty'),trigger:'blur'}],
+          entry:[{required:true,message:this.$t('Validation.reservation.rule.entry'),trigger:'blur'}],
+          cash_pledge:[{required:true,message:this.$t('Validation.reservation.rule.cash_pledge'),trigger:'blur'}],
+      }
+      return rule3
     }
   },
   methods: {
@@ -999,13 +897,8 @@ export default {
     },
 
     handleSelectionChange(val) {
-      // let customers=[]
-      // customers.push({
-      //     ...val
-      // })
       let kes = [];
       val.forEach((item, index, arr) => {
-        // console.log(item)
         kes.push({
           customers: [item],
           id: this.id,
@@ -1013,7 +906,6 @@ export default {
         });
       });
       this.multipleSelection = kes;
-      // console.log(kes)
     },
     // 证件类型
     idTypeEvent() {
@@ -1038,22 +930,7 @@ export default {
       console.log(index);
       this.dialog_6 = true;
       this.index = index;
-      // console.log(row)
-      // this.reservationAdd=[row]
-      // console.log(this.reservationAdd)
-      // this.reservationAdd[index+1].push(row);
-      // this.dynamicValidateForm.rooms.push(row)
-      // this.customers[index].push
     },
-    // addmanss(item){
-    //     this.customers.push({
-    //         username:"",
-    //         phone:"",
-    //         gender:"1",
-    //         card_type:"",
-    //         card_num:""
-    //     })
-    // },
     add(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -1068,14 +945,6 @@ export default {
         }
       });
     },
-    // // 删除人数
-    // remove(item){
-    //     let index = this.customers.indexOf(item)
-    //     console.log(index)
-    //     if (index !== -1) {
-    //         this.customers.splice(index, 1)
-    //     }
-    // },
     // 删除房间
     removeDomain(item) {
       console.log(item);
@@ -1083,75 +952,6 @@ export default {
       if (index !== -1) {
         this.dynamicValidateForm.rooms.splice(index, 1);
       }
-      // console.log(item)
-      // if(item.status==1){
-      //     this.$confirm('此操作将永久删除该信息, 是否继续?', '提示', {
-      //         confirmButtonText: '确定',
-      //         cancelButtonText: '取消',
-      //         type: 'warning'
-      //         }).then(() => {
-      //         var that = this;
-      //         let fordata = new FormData();
-      //         fordata.append("id",item.id)
-      //         fordata.append("status",3)
-      //         that.$axios.post(this.$baseUrl + '/reservation/cancel',fordata)
-      //         .then((res) => {
-      //             if (res.data.result) {
-      //             this.$message({
-      //                 message: this.$t("common."+res.data.msg),
-      //                 showClose: true,
-      //                 type: 'success'
-      //             });
-      //             // if (index !== -1) {
-      //             //     this.dynamicValidateForm.rooms.splice(index, 1)
-      //             // }
-      //             }else{
-      //             this.$message({
-      //                 message: this.$t("common."+res.data.msg),
-      //                 showClose: true,
-      //                 type: 'error'
-      //             });
-      //             }
-      //         })
-      //         }).catch(() => {
-      //             this.$message({
-      //                 type: 'info',
-      //                 message: this.$t('public.cancel')
-      //             });
-      //     });
-      // }else if(item.status==3){
-      //     this.$confirm('此操作将增加该信息, 是否继续?', '提示', {
-      //         confirmButtonText: '确定',
-      //         cancelButtonText: '取消',
-      //         type: 'warning'
-      //         }).then(() => {
-      //         var that = this;
-      //         let fordata = new FormData();
-      //         fordata.append("id",item.id)
-      //         fordata.append("status",1)
-      //         that.$axios.post(this.$baseUrl + '/reservation/cancel',fordata)
-      //         .then((res) => {
-      //             if (res.data.result) {
-      //             this.$message({
-      //                 message: this.$t("common."+res.data.msg),
-      //                 showClose: true,
-      //                 type: 'success'
-      //             });
-      //             }else{
-      //             this.$message({
-      //                 message: this.$t("common."+res.data.msg),
-      //                 showClose: true,
-      //                 type: 'error'
-      //             });
-      //             }
-      //         })
-      //         }).catch(() => {
-      //             this.$message({
-      //                 type: 'info',
-      //                 message: this.$t('public.cancel')
-      //             });
-      //     });
-      // }
     },
     addEvent() {
       this.dialogFormVisible = true;
@@ -1204,9 +1004,6 @@ export default {
             that.tableData = [];
             that.$message.error(that.$t("common." + res.data.msg));
           }
-          // console.log(res)
-
-          // console.log(this.tableData)
         })
         .catch(res => {
           console.log("逻辑错误");
@@ -1269,12 +1066,10 @@ export default {
       this.$axios
         .post(this.$baseUrl + "/reservation/info", fordata)
         .then(res => {
-          // console.log(res.data.pojo[0].reservationAdds);
           if (res.data.result == true) {
             let rese = res.data.pojo[0];
             let room = [];
             this.itemInfo = res.data.pojo[0].reservationAdds;
-            // console.log(this.itemInfo);
             rese.reservationAdds.forEach(item => {
               room.push({
                 id: item.id,
@@ -1284,7 +1079,6 @@ export default {
               });
             });
             this.dynamicValidateForm.rooms = room;
-            // console.log(this.dynamicValidateForm);
           } else {
             this.$message.error(this.$t("common." + res.data.msg));
           }
@@ -1383,53 +1177,6 @@ export default {
         return false;
       }
     },
-    /* batchCheckIn() {
-      // let id=[]
-      // this.dynamicValidateForm.rooms.forEach(item=>{
-      //     id.push({
-      //         id:item.id
-      //     })
-      // })
-      // console.log(id)
-      // console.log(this.multipleSelection)
-      // return false
-      if (this.multipleSelection.length == "") {
-        this.$message.warning("请选择修改项");
-        return;
-      }
-      let para = {
-        reservationAdds: this.multipleSelection
-      };
-      if (this.isteam == 1) {
-        this.$axios
-          .post(this.$baseUrl + "/reservation/teamCheckIn", para)
-          .then(res => {
-            console.log(res);
-            if (res.data.result == true) {
-              console.log("成功");
-            } else {
-              this.$message.error(this.$t("common." + res.data.msg));
-            }
-          })
-          .catch(res => {
-            console.log(res);
-          });
-      } else {
-        this.$axios
-          .post(this.$baseUrl + "/reservation/batchCheckIn", para)
-          .then(res => {
-            console.log(res);
-            if (res.data.result == true) {
-              console.log(res);
-            } else {
-              this.$message.error(this.$t("common." + res.data.msg));
-            }
-          })
-          .catch(res => {
-            console.log(res);
-          });
-      }
-    }, */
     // 预订单取消
     handleDelete(index, row) {
       console.log(row.type);
@@ -1514,11 +1261,6 @@ export default {
       this.dialog_4 = true;
       this.depmoreny.id = row.id;
     },
-    // // 交押金
-    // cashPledge(index, row) {
-    //   this.dialog_5 = true;
-    //   this.Pledge.bill_id = row.bill_id;
-    // },
     cashmoreny() {
       this.$axios
         .post(this.$baseUrl + "/registerinfo/cashPledge", this.Pledge)
@@ -1566,11 +1308,9 @@ export default {
         }})
     },
     // 预订单入住
-    checkinByitem() {
-
-      
-   var arr = [];
-      for (var i = 0, l = this.itemInfo.length; i < l; i++) {
+    checkinByitem() { 
+        var arr = [];
+        for (var i = 0, l = this.itemInfo.length; i < l; i++) {
         if(this.itemInfo[i].customers==null){
             this.$message.error("请先添加入住人之后再入住！");
             return;
@@ -1583,13 +1323,6 @@ export default {
         arr.push(obj);
       } 
       }
-      //  console.log(row)
-      //  var info={}
-      //  info.re_id=row.re_id;
-      //  info.id=row.id;
-      //  info.customers=this.customers
-      //  this.reservationAdd.push(info)
-
       //判断是不是团队入住
       if (this.isteam == 1) {
         this.$axios

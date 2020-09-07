@@ -177,7 +177,7 @@ export default {
     //用户类型的转换
     userType(row, column) {
       if (row.userType_name == null) {
-        return "普通用户";
+        return this.$t('Validation.guest_list.common');
       } else {
         return row.userType_name;
       }

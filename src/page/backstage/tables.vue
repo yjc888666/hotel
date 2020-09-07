@@ -112,31 +112,17 @@
           restaurant_id:"",
           status:""
         },
-        rule: {
-          serial_number: [
-            {required: true, message: '请输入编号', trigger: 'blur'}
-          ],
-           capacity: [
-            {required: true, message: '请输入容纳人数', trigger: 'blur'},
-            {validator: yz.validateInteger, trigger: 'blur'}
-          ],
-          restaurant_id: [
-            {required: true, message: '请输入餐厅', trigger: 'blur'}
-          ],
-           status: [
-            {required: true, message: '请输入餐桌状态', trigger: 'blur'}
-          ]
-        },
+        // rule: {
+         
+        // },
         dialogFormVisible1: false,
         forms1: {
           id:"",
           status:""
         },
-        rule1: {
-           status: [
-            {required: true, message: '请输入餐桌状态', trigger: 'blur'}
-          ]
-        },
+        // rule1: {
+         
+        // },
         restauranType:[],
       }
     },
@@ -153,6 +139,32 @@
     computed:{
       titles(){
         return {title:this.$t('backstage.table_list')}
+      },
+      rule(){
+        const rule={
+          serial_number: [
+            {required: true, message: this.$t('Validation.table.table_num'), trigger: 'blur'}
+          ],
+           capacity: [
+            {required: true, message: this.$t('Validation.table.table_people'), trigger: 'blur'},
+            {validator: yz.validateInteger, trigger: 'blur'}
+          ],
+          restaurant_id: [
+            {required: true, message: this.$t('Validation.table.res'), trigger: 'blur'}
+          ],
+           status: [
+            {required: true, message: this.$t('Validation.table.table_st'), trigger: 'blur'}
+          ]
+        }
+        return rule
+      },
+       rule1(){
+        const rule1={
+           status: [
+            {required: true, message: this.$t('Validation.table.table_st'), trigger: 'blur'}
+          ]
+        }
+        return rule1
       }
     },
     methods:{

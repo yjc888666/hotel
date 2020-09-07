@@ -68,15 +68,13 @@
           ware_number:"",
           remark:"",
         },
-        rule: {
-          // ware_number: [
-          //   {required: true, message: '请输入仓库编号', trigger: 'blur'},
-          //   {validator: yz.validateInteger, trigger: 'blur'}
-          // ],
-          remark: [
-            {required: true, message: '请输入仓库名称', trigger: 'blur'}
-          ]
-        },
+        // rule: {
+        //   // ware_number: [
+        //   //   {required: true, message: '请输入仓库编号', trigger: 'blur'},
+        //   //   {validator: yz.validateInteger, trigger: 'blur'}
+        //   // ],
+         
+        // },
       }
     },
     created() {
@@ -229,6 +227,14 @@
     computed:{
       titles(){
         return {title:this.$t('reception.warehouse_list')}
+      },
+      rule(){
+        const rule={
+          remark: [
+            {required: true, message: this.$t('Validation.ware_house.remark'), trigger: 'blur'}
+          ]
+        }
+        return rule
       }
     },
   }

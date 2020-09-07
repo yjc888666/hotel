@@ -61,28 +61,28 @@
         },
         itemtype:[{
           value: '1',
-          label: '现金押金'
+          label: this.$t('Validation.item_type.item_1')
         }, {
           value: '2',
-          label: '现金收款',
+          label: this.$t('Validation.item_type.item_2')
         },{
           value: '3',
-          label: '现金订金'
+          label: this.$t('Validation.item_type.item_3')
         }, {
           value: '4',
-          label: '现金退款',
+          label: this.$t('Validation.item_type.item_4')
         },{
           value: '5',
-          label: '银行卡押金'
+          label: this.$t('Validation.item_type.item_5')
         }, {
           value: '6',
-          label: '银行卡收款',
+          label: this.$t('Validation.item_type.item_6')
         },{
           value: '7',
-          label: '银行卡订金'
+          label: this.$t('Validation.item_type.item_7')
         }, {
           value: '8',
-          label: '银行卡退款',
+          label: this.$t('Validation.item_type.item_8')
         },]
       }
     },

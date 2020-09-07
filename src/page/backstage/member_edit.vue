@@ -55,27 +55,27 @@
           consume_mix:"",
           consume_max:""
         },
-        rules: {
-          name: [
-            {required: true, message: '请输入会员等级名称', trigger: 'blur'},
-          ],
-          discount:[
-            {required: true, message: '请输入享有折扣', trigger: 'blur'},
-            {validator: yz.validateInp, trigger: 'blur'}
-          ],
-          consume_mix:[
-            {required: true, message: '请输入最少消费', trigger: 'blur'},
-            {validator: yz.validateInteger, trigger: 'blur'}
-          ],
-           recharge:[
-            {required: true, message: '请输入单次充值', trigger: 'blur'},
-            {validator: yz.validateInteger, trigger: 'blur'}
-          ],
-           consume_max:[
-            {required: true, message: '请输入消费上限', trigger: 'blur'},
-            {validator: yz.validateInteger, trigger: 'blur'}
-          ],
-        },
+        // rules: {
+        //   name: [
+        //     {required: true, message: this.$t('Validation.vip_name'), trigger: 'blur'},
+        //   ],
+        //   discount:[
+        //     {required: true, message: this.$t('Validation.discount'), trigger: 'blur'},
+        //     {validator: yz.validateInp, trigger: 'blur'}
+        //   ],
+        //   consume_mix:[
+        //     {required: true, message: this.$t('Validation.least_use'), trigger: 'blur'},
+        //     {validator: yz.validateInteger, trigger: 'blur'}
+        //   ],
+        //    recharge:[
+        //     {required: true, message: this.$t('Validation.charge'), trigger: 'blur'},
+        //     {validator: yz.validateInteger, trigger: 'blur'}
+        //   ],
+        //    consume_max:[
+        //     {required: true, message: this.$t('Validation.pay_limited'), trigger: 'blur'},
+        //     {validator: yz.validateInteger, trigger: 'blur'}
+        //   ],
+        // },
       };
     },
     created() {
@@ -102,6 +102,30 @@
        title:this.$t('backstage.altername'),
        title_show:true
        }
+      },
+       rules(){
+        const rules={
+          name: [
+            {required: true, message: this.$t('Validation.vip_name'), trigger: 'blur'},
+          ],
+          discount:[
+            {required: true, message: this.$t('Validation.discount'), trigger: 'blur'},
+            {validator: yz.validateInp, trigger: 'blur'}
+          ],
+          consume_mix:[
+            {required: true, message: this.$t('Validation.least_use'), trigger: 'blur'},
+            {validator: yz.validateInteger, trigger: 'blur'}
+          ],
+           recharge:[
+            {required: true, message: this.$t('Validation.charge'), trigger: 'blur'},
+            {validator: yz.validateInteger, trigger: 'blur'}
+          ],
+           consume_max:[
+            {required: true, message: this.$t('Validation.pay_limited'), trigger: 'blur'},
+            {validator: yz.validateInteger, trigger: 'blur'}
+          ],
+        }
+        return rules
       }
     },
     methods: {

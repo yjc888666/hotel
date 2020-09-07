@@ -96,24 +96,39 @@
           permissions:"",
           pid:"0"
         },
-        rule: {
-          name: [
-            {required: true, message: '请输入权限名称', trigger: 'blur'}
-          ],
-          permissions: [
-            {required: true, message: '请输入权限规则', trigger: 'blur'}
-          ],
-          pid: [
-            {required: true, message: '请输入父级权限', trigger: 'blur'}
-          ]
-        },
+        // rule: {
+        //   name: [
+        //     {required: true, message: this.$t('Validation.permission_name'), trigger: 'blur'}
+        //   ],
+        //   permissions: [
+        //     {required: true, message: this.$t('Validation.permission_rule'), trigger: 'blur'}
+        //   ],
+        //   pid: [
+        //     {required: true, message: this.$t('Validation.permission_father'), trigger: 'blur'}
+        //   ]
+        // },
       }
     },
     created() {
       this.list();
-    },computed:{
+    },
+    computed:{
       titles(){
         return {title:this.$t('left.permissions')}
+      },
+      rule(){
+        const rule={
+         name: [
+            {required: true, message: this.$t('Validation.permission_name'), trigger: 'blur'}
+          ],
+          permissions: [
+            {required: true, message: this.$t('Validation.permission_rule'), trigger: 'blur'}
+          ],
+          pid: [
+            {required: true, message: this.$t('Validation.permission_father'), trigger: 'blur'}
+          ]
+        }
+        return rule
       }
     },
     methods:{

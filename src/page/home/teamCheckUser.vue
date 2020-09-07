@@ -121,7 +121,7 @@
     <el-button @click="submitData('teamplayer')">{{$t('public.ok')}}</el-button>
     <el-button @click="cancelData">{{$t('public.cancel')}}</el-button>
 
-    <el-dialog title="同客来宾信息" :visible.sync="dialogFormVisible" class="dia" width="30%">
+    <el-dialog title="info" :visible.sync="dialogFormVisible" class="dia" width="30%">
       <el-form
         :model="forms"
         status-icon
@@ -173,39 +173,9 @@ export default {
       teamDataByFather: {},
       model:{
        tableData: [],
-       rules: {
-        room_number: [
-          { required: true, message: "请输入房间号", trigger: "blur" },
-        ],
-        checkin_time: [
-          { required: true, message: "请输入入住时间", trigger: "blur" },
-        ],
-        checkout_time: [
-          { required: true, message: "请输入预计退房时间", trigger: "blur" },
-        ],
-        day: [{ required: true, message: "请输入天数", trigger: "blur" }],
-        house_type: [
-          { required: true, message: "请输入房型", trigger: "blur" },
-        ],
-        source_type: [
-          { required: true, message: "请输入客源类型", trigger: "blur" },
-        ],
-        username: [{ required: true, message: "请输入姓名", trigger: "blur" }],
-        phone: [{ required: true, message: "请输入手机号", trigger: "blur" },
-        {validator: yz.validateMobilePhone, trigger: 'blur'}],
-        card_type: [
-          { required: true, message: "请输入证件类型", trigger: "blur" },
-        ],
-        certificate_type:[{ required: true, message: "请输入证件类型", trigger: "blur" }],
-        id_number:[ { required: true, message: "请输入证件号", trigger: "blur" },
-             {validator: yz.validatenum, trigger: 'blur'}
-        ],
-        gender: [{ required: true, message: "请输入性别", trigger: "blur" }],
-        card_num: [
-          { required: true, message: "请输入证件号", trigger: "blur" },
-          {validator: yz.validatenum, trigger: 'blur'}
-        ],
-      },
+      //  rules: {
+       
+      // },
       },
     
       forms: {},
@@ -221,6 +191,38 @@ export default {
       //  房间的列表
       roomList: [],
     };
+  },
+  computed:{
+    rules(){
+      const rules={
+         checkout_time: [
+          { required: true, message: this.$t('Validation.check_in.out_time'), trigger: "blur" },
+        ],
+        day: [{ required: true, message: this.$t('Validation.check_in.days'), trigger: "blur" }],
+        house_type: [
+          { required: true, message: this.$t('Validation.check_in.house_type'), trigger: "blur" },
+        ],
+        source_type: [
+          { required: true, message: this.$t('Validation.check_in.source_type'), trigger: "blur" },
+        ],
+        username: [{ required: true, message: this.$t('Validation.check_in.username'), trigger: "blur" }],
+        phone: [{ required: true, message: this.$t('Validation.check_in.phone'), trigger: "blur" },
+        {validator: yz.validateMobilePhone, trigger: 'blur'}],
+        card_type: [
+          { required: true, message: this.$t('Validation.check_in.card_type'), trigger: "blur" },
+        ],
+        certificate_type:[{ required: true, message: this.$t('Validation.check_in.card_type'), trigger: "blur" }],
+        id_number:[ { required: true, message: this.$t('Validation.check_in.card_num'), trigger: "blur" },
+             {validator: yz.validatenum, trigger: 'blur'}
+        ],
+        gender: [{ required: true, message: this.$t('Validation.check_in.gender'), trigger: "blur" }],
+        card_num: [
+          { required: true, message: this.$t('Validation.check_in.card_num'), trigger: "blur" },
+          {validator: yz.validatenum, trigger: 'blur'}
+        ],
+      }
+      return rules
+    }
   },
   created() {
     this.idTypeEvent();

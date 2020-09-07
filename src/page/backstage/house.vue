@@ -70,15 +70,15 @@
           name:"",
           prices:"",
         },
-        rule: {
-          name: [
-            {required: true, message: '请输入房型名称', trigger: 'blur'}
-          ],
-           prices: [
-            {required: true, message: '请输入房型价格', trigger: 'blur'},
-            {validator: yz.validateMoney, trigger: 'blur'}
-          ]
-        },
+        // rule: {
+        //   name: [
+        //     {required: true, message: this.$t('Validation.house_name'), trigger: 'blur'}
+        //   ],
+        //    prices: [
+        //     {required: true, message:this.$t('Validation.house_price'), trigger: 'blur'},
+        //     {validator: yz.validateMoney, trigger: 'blur'}
+        //   ]
+        // },
         mytotal:0,
         tableData:[],
         currentPage:1,
@@ -97,6 +97,18 @@
     computed:{
       titles(){
         return {title:this.$t('left.house_1')}
+      },
+       rule(){
+        const rule={
+          name: [
+            {required: true, message: this.$t('Validation.house_name'), trigger: 'blur'}
+          ],
+           prices: [
+            {required: true, message:this.$t('Validation.house_price'), trigger: 'blur'},
+            {validator: yz.validateMoney, trigger: 'blur'}
+          ]
+        }
+        return rule
       }
     },
     methods:{

@@ -63,14 +63,14 @@
           role_name:"",
           status:"1",
         },
-        rule: {
-          role_name: [
-            {required: true, message: '请输入角色名称', trigger: 'blur'}
-          ],
-          status : [
-            {required: true, message: '请输入状态', trigger: 'blur'}
-          ],
-        },
+        // rule: {
+        //   role_name: [
+        //     {required: true, message: this.$t('Validation.role_name'), trigger: 'blur'}
+        //   ],
+        //   status : [
+        //     {required: true, message: this.$t('Validation.role_status'), trigger: 'blur'}
+        //   ],
+        // },
       }
     },
     created() {
@@ -79,6 +79,17 @@
     computed:{
       titles(){
         return {title:this.$t('left.role_1')}
+      },
+       rule(){
+        const rule={
+          role_name: [
+            {required: true, message: this.$t('Validation.role_name'), trigger: 'blur'}
+          ],
+          status : [
+            {required: true, message: this.$t('Validation.role_status'), trigger: 'blur'}
+          ],
+        }
+        return rule
       }
     },
     methods:{

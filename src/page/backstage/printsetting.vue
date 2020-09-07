@@ -64,21 +64,21 @@
           phone:"",
           address:"",
         },
-        rules: {
-          name: [
-            {required: true, message: '请输入单据名称', trigger: 'blur'},
-          ],
-          remark:[
-            {required: true, message: '请输入单据备注', trigger: 'blur'},
-          ],
-           phone:[
-            {required: true, message: '请输入电话', trigger: 'blur'},
-            // {validator: yz.validatePhTelNumber, trigger: 'blur'}
-          ],
-           address:[
-            {required: true, message: '请输入地址', trigger: 'blur'},
-          ],
-        },
+        // rules: {
+        //   name: [
+        //     {required: true, message: this.$t('Validation.bill_name'), trigger: 'blur'},
+        //   ],
+        //   remark:[
+        //     {required: true, message: this.$t('Validation.bill_remark'), trigger: 'blur'},
+        //   ],
+        //    phone:[
+        //     {required: true, message: this.$t('Validation.bill_phone'), trigger: 'blur'},
+        //     // {validator: yz.validatePhTelNumber, trigger: 'blur'}
+        //   ],
+        //    address:[
+        //     {required: true, message: this.$t('Validation.bill_add'), trigger: 'blur'},
+        //   ],
+        // },
         tableData:[],
         dialogFormVisible:false,
 
@@ -90,6 +90,24 @@
       computed:{
       titles(){
         return {title:this.$t('left.printsetting')}
+      },
+      rules(){
+        const rules={
+          name: [
+            {required: true, message: this.$t('Validation.bill_name'), trigger: 'blur'},
+          ],
+          remark:[
+            {required: true, message: this.$t('Validation.bill_remark'), trigger: 'blur'},
+          ],
+           phone:[
+            {required: true, message: this.$t('Validation.bill_phone'), trigger: 'blur'},
+            // {validator: yz.validatePhTelNumber, trigger: 'blur'}
+          ],
+           address:[
+            {required: true, message: this.$t('Validation.bill_add'), trigger: 'blur'},
+          ],
+        }
+        return rules
       }
     },
     methods: {

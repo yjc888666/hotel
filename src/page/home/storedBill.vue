@@ -261,13 +261,13 @@ export default {
         this.detailsData = res.data.pojo;
         let item = this.detailsData.item;
         if (item == 1) {
-          this.detailsData.item = "会员充值 ";
+          this.detailsData.item = this.$t('Validation.store_bill.item_1');
         } else if (item == 2) {
-          this.detailsData.item = "充值赠送";
+          this.detailsData.item = this.$t('Validation.store_bill.item_2');
         } else if (item == 3) {
-          this.detailsData.item = "撤销充值";
+          this.detailsData.item = this.$t('Validation.store_bill.item_3');
         } else {
-          this.detailsData.item = "撤销充值赠送";
+          this.detailsData.item = this.$t('Validation.store_bill.item_4');
         }
       });
     },

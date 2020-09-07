@@ -176,51 +176,9 @@
           remark:"", 
           time:""
          },                 
-        rule: {
-          company_name: [
-            {required: true, message: '请输入单位名称', trigger: 'blur'}
-          ],
-          contacts: [
-            {required: true, message: '请输入联系人', trigger: 'blur'},
-          ],
-          phone: [
-            {required: true, message: '请输入电话', trigger: 'blur'},
-            {validator: yz.validatePhTelNumber, trigger: 'blur'}
-          ],
-           content: [
-            {required: true, message: '请输入协议内容', trigger: 'blur'}
-          ],
-           ptype_id: [
-            {required: true, message: '请输入价格策略', trigger: 'blur'}
-          ],
-          paccount_price: [
-            {required: true, message: '请输入挂账额度', trigger: 'blur'},
-            {validator: yz.validateMoney, trigger: 'blur'}
-          ],
-          start_time: [
-            {required: true, message: '请输入生效日期', trigger: 'blur'},
-          ],
-          end_time: [
-            {required: true, message: '请输入失效日期', trigger: 'blur'}
-          ],
-          breakfast_num: [
-            {required: true, message: '请输入早餐券数', trigger: 'blur'},
-            {validator: yz.validateInteger, trigger: 'blur'}
-          ],
-          contract_number: [
-            {required: true, message: '请输入合同号', trigger: 'blur'}
-          ],
-           email: [
-            {required: true, message: '请输入邮箱', trigger: 'blur'},
-             {validator: yz.validateEmail, trigger: 'blur'}
-          ],
-           address: [
-            {required: true, message: '请输入地址', trigger: 'blur'}
-          ], 
-          time:[
-            {required: true, message: '请输入协议时间 ', trigger: 'blur'}
-          ],    
-        },
+        // rule: {
+          
+        // },
         mytotal:0,
         tableData:[],
         currentPage:1,
@@ -250,7 +208,55 @@
     computed:{
       titles(){
         return {title:this.$t('reception.room_list')}
-      }
+      },
+       rule(){
+        const rule={
+       company_name: [
+            {required: true, message: this.$t('Validation.cooperator.unit_name'), trigger: 'blur'}
+          ],
+          contacts: [
+            {required: true, message: this.$t('Validation.cooperator.contacts'), trigger: 'blur'},
+          ],
+          phone: [
+            {required: true, message: this.$t('Validation.cooperator.phone'), trigger: 'blur'},
+            {validator: yz.validatePhTelNumber, trigger: 'blur'}
+          ],
+           content: [
+            {required: true, message: this.$t('Validation.cooperator.content'), trigger: 'blur'}
+          ],
+           ptype_id: [
+            {required: true, message: this.$t('Validation.cooperator.p_type_id'), trigger: 'blur'}
+          ],
+          paccount_price: [
+            {required: true, message: this.$t('Validation.cooperator.account_price'), trigger: 'blur'},
+            {validator: yz.validateMoney, trigger: 'blur'}
+          ],
+          start_time: [
+            {required: true, message: this.$t('Validation.cooperator.start_time'), trigger: 'blur'},
+          ],
+          end_time: [
+            {required: true, message: this.$t('Validation.cooperator.end_time'), trigger: 'blur'}
+          ],
+          breakfast_num: [
+            {required: true, message: this.$t('Validation.cooperator.breakfast_num'), trigger: 'blur'},
+            {validator: yz.validateInteger, trigger: 'blur'}
+          ],
+          contract_number: [
+            {required: true, message: this.$t('Validation.cooperator.contract_number'), trigger: 'blur'}
+          ],
+           email: [
+            {required: true, message: this.$t('Validation.cooperator.email'), trigger: 'blur'},
+             {validator: yz.validateEmail, trigger: 'blur'}
+          ],
+           address: [
+            {required: true, message: this.$t('Validation.cooperator.address'), trigger: 'blur'}
+          ], 
+          time:[
+            {required: true, message: this.$t('Validation.cooperator.time'), trigger: 'blur'}
+          ],    
+        }
+        return rule
+      },
     },
     methods:{
 

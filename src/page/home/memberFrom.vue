@@ -167,44 +167,9 @@ export default {
       detailsShow: false,
       aloneShow: true,
       detailsId: "",
-      rules: {
-        level: [{ required: true, message: "请选择卡号类型", trigger: "blur" }],
-        member_card: [
-          { required: true, message: "请输入卡号", trigger: "blur" },
-          { type: "number", message: "卡号必须为数字" }
-        ],
-        idType: [
-          { required: true, message: "请选择证件类型", trigger: "blur" }
-        ],
-        idcard: [
-          { required: true, message: "请输入证件号", trigger: "blur" },
-          { validator: yz.validateCardIdNo, trigger: "blur" }
-        ],
-        username: [
-          { required: true, message: "请输入会员名", trigger: "blur" }
-        ],
-        phone: [
-          { required: true, message: "请输入手机号", trigger: "blur" },
-          { validator: yz.validateMobilePhoneNo, trigger: "blur" }
-        ],
-        password: [
-          { required: true, message: "请再次输入密码", trigger: "blur" },
-          // { validator: yz.validatePass, trigger: "blur" }
-          { validator: validatePass, trigger: "blur" }
-        ],
-        gender: [{ required: true, message: "请选择性别", trigger: "blur" }],
-        money: [
-          { required: true, message: "请输入充值金额", trigger: "blur" },
-          { validator: yz.validateMoney, trigger: "blur" }
-        ],
-        birthday: [{ required: true, message: "请选择生日", trigger: "blur" }],
-        pay_status: [
-          { required: true, message: "请选择支付方式", trigger: "blur" }
-        ],
-        passwordData: [
-          { required: true, message: "请输入密码", trigger: "blur" }
-        ]
-      },
+      // rules: {
+        
+      // },
       options: [],
       optionsPapers: []
     };
@@ -214,6 +179,47 @@ export default {
       return {title:this.$t('left.members'),
        title_show:true
       }
+    },
+    rules(){
+      const rules={
+     level: [{ required: true, message: this.$t('Validation.member_form.level'), trigger: "blur" }],
+        member_card: [
+          { required: true, message: this.$t('Validation.member_form.member_card'), trigger: "blur" },
+          { type: "number", message: this.$t('Validation.member_form.member_card2') }
+        ],
+        idType: [
+          { required: true, message: this.$t('Validation.member_form.id_type'), trigger: "blur" }
+        ],
+        idcard: [
+          { required: true, message: this.$t('Validation.member_form.id_card'), trigger: "blur" },
+          { validator: yz.validateCardIdNo, trigger: "blur" }
+        ],
+        username: [
+          { required: true, message: this.$t('Validation.member_form.username'), trigger: "blur" }
+        ],
+        phone: [
+          { required: true, message: this.$t('Validation.member_form.phone'), trigger: "blur" },
+          { validator: yz.validateMobilePhoneNo, trigger: "blur" }
+        ],
+        password: [
+          { required: true, message: this.$t('Validation.member_form.password'), trigger: "blur" },
+          // { validator: yz.validatePass, trigger: "blur" }
+          { validator: validatePass, trigger: "blur" }
+        ],
+        gender: [{ required: true, message:  this.$t('Validation.member_form.gender'), trigger: "blur" }],
+        money: [
+          { required: true, message: this.$t('Validation.member_form.money'), trigger: "blur" },
+          { validator: yz.validateMoney, trigger: "blur" }
+        ],
+        birthday: [{ required: true, message: this.$t('Validation.member_form.birthday'), trigger: "blur" }],
+        pay_status: [
+          { required: true, message: this.$t('Validation.member_form.pay_sta'), trigger: "blur" }
+        ],
+        passwordData: [
+          { required: true, message: this.$t('Validation.member_form.pass'), trigger: "blur" }
+        ]
+      }
+      return rules
     }
   },
   methods: {

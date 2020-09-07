@@ -158,11 +158,9 @@
           id:"",
           type:"1",
         },
-        rule: {
-          type: [
-            {required: true, message: '请输入出入库类型', trigger: 'blur'}
-          ]
-        },
+        // rule: {
+         
+        // },
         number:"",
         apply_times:"",
         audit_time:"",
@@ -176,6 +174,14 @@
     computed:{
       titles(){
         return {title:this.$t('left.entryapply')}
+      },
+      rule(){
+        const rule={
+         type: [
+            {required: true, message: this.$t('Validation.entry_apply.type'), trigger: 'blur'}
+          ]
+        }
+        return rule
       }
     },
     methods:{

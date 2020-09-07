@@ -90,41 +90,9 @@
           role_id:"",
           email:""
         },
-        rules: {
-          username: [
-            {required: true, message: '请输入用户姓名', trigger: 'blur'},
-          ],
-          serial_number:[
-            {required: true, message: '请输入员工编号', trigger: 'blur'},
-            {validator: yz.validateInteger, trigger: 'blur'}
-         ],
-          entry_time:[
-            {required: true, message: '请输入入职时间', trigger: 'blur'},
-          ],
-          gender:[
-            {required: true, message: '请输入性别', trigger: 'blur'},
-          ],
-           phone:[
-            {required: true, message: '请输入电话', trigger: 'blur'},
-            {validator: yz.validatePhTelNumber, trigger: 'blur'}
-          ],
-           dept_id:[
-            {required: true, message: '请输入部门', trigger: 'blur'},
-          ],
-           birthday:[
-            {required: true, message: '请输入生日', trigger: 'blur'},
-          ],
-           status:[
-            {required: true, message: '请输入状态', trigger: 'blur'},
-          ],
-           email:[
-            // {required: true, message: '请输入邮箱', trigger: 'blur'},
-            {validator: yz.validateEmail, trigger: 'blur'}
-          ],
-          role_id:[
-            {required: true, message: '请输入角色', trigger: 'blur'},
-          ],
-        },
+        // rules: {
+         
+        // },
         deptType:[],
         roleType:[],
         options: [],
@@ -140,6 +108,44 @@
         return {title:this.$t('backstage.addplayer'),
         title_show:true
         }
+      },
+       rules(){
+        const rules={
+           username: [
+            {required: true, message: this.$t('Validation.user_list.username'), trigger: 'blur'},
+          ],
+          serial_number:[
+            {required: true, message: this.$t('Validation.user_list.staff_num'), trigger: 'blur'},
+            {validator: yz.validateInteger, trigger: 'blur'}
+         ],
+          entry_time:[
+            {required: true, message: this.$t('Validation.user_list.entry_time'), trigger: 'blur'},
+          ],
+          gender:[
+            {required: true, message: this.$t('Validation.user_list.gender'), trigger: 'blur'},
+          ],
+           phone:[
+            {required: true, message: this.$t('Validation.user_list.phone'), trigger: 'blur'},
+            {validator: yz.validatePhTelNumber, trigger: 'blur'}
+          ],
+           dept_id:[
+            {required: true, message:  this.$t('Validation.user_list.depart'), trigger: 'blur'},
+          ],
+           birthday:[
+            {required: true, message: this.$t('Validation.user_list.birthday'), trigger: 'blur'},
+          ],
+           status:[
+            {required: true, message: this.$t('Validation.user_list.user_status'), trigger: 'blur'},
+          ],
+           email:[
+            // {required: true, message: '请输入邮箱', trigger: 'blur'},
+            {validator: yz.validateEmail, trigger: 'blur'}
+          ],
+          role_id:[
+            {required: true, message: this.$t('Validation.user_list.roles'), trigger: 'blur'},
+          ],
+        }
+        return rules
       }
     },
     methods: {

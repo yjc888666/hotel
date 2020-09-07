@@ -66,11 +66,7 @@
           id:"",
           classify_name:"",
         },
-        rule: {
-          classify_name: [
-            {required: true, message: this.$t('reception.goods_name'), trigger: 'blur'}
-          ]
-        },
+        
       }
     },
     created() {
@@ -219,6 +215,14 @@
     computed:{
       titles(){
         return {title:this.$t('reception.tabulation')}
+      },
+      rule(){
+        const rule={
+         classify_name: [
+            {required: true, message: this.$t('reception.goods_name'), trigger: 'blur'}
+          ]
+        }
+        return rule
       }
     },
   }

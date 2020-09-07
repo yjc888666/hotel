@@ -59,11 +59,11 @@
           id:"",
           dishes:"",
         },
-        rule: {
-          dishes: [
-            {required: true, message: '请输入菜品分类名称', trigger: 'blur'}
-          ]
-        },
+        // rule: {
+        //   dishes: [
+        //     {required: true, message: this. $t('Validation.dish_name'), trigger: 'blur'}
+        //   ]
+        // },
       }
     },
     created() {
@@ -72,6 +72,14 @@
     computed:{
       titles(){
         return {title:this.$t('left.dishes')}
+      },
+      rule(){
+        const rule={
+          dishes: [
+            {required: true, message: this. $t('Validation.dish_name'), trigger: 'blur'}
+          ]
+        }
+        return rule
       }
     },
     methods:{

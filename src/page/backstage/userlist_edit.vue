@@ -5,57 +5,57 @@
 
     <div class="User_list_Add_cont">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="用户名" prop="username">
+          <el-form-item :label="$t('public.username')" prop="username">
             <el-input v-model.trim="ruleForm.username" class="widthinp"></el-input>
           </el-form-item>
-          <el-form-item label="员工编号" prop="serial_number">
+          <el-form-item :label="$t('backstage.serial_number')" prop="serial_number">
             <el-input v-model.trim="ruleForm.serial_number"  class="widthinp"></el-input>
           </el-form-item>
-           <el-form-item label="性别" prop="gender">
+           <el-form-item :label="$t('public.gender')" prop="gender">
              <el-radio v-model="ruleForm.gender" label="1">男</el-radio>
              <el-radio v-model="ruleForm.gender" label="2">女</el-radio>
           </el-form-item>
-           <el-form-item label="生日" prop="birthday">
+           <el-form-item :label="$t('backstage.birthday')" prop="birthday">
             <el-date-picker
              class="widthinp"
               v-model="ruleForm.birthday"
               value-format="yyyy-MM-dd"
               type="date"
-              placeholder="选择生日">
+              :placeholder="$t('backstage.birthday')">
           </el-date-picker>
            </el-form-item>
-          <el-form-item label="电话号码" prop="phone">
+          <el-form-item :label="$t('public.phone')" prop="phone">
             <el-input v-model.trim="ruleForm.phone"  class="widthinp"></el-input>
           </el-form-item>
-          <el-form-item label="邮箱" prop="email">
+          <el-form-item :label="$t('public.email')" prop="email">
             <el-input v-model.trim="ruleForm.email"  class="widthinp"></el-input>
           </el-form-item>
-          <el-form-item label="入职时间" prop="entry_time">
+          <el-form-item :label="$t('backstage.entry_time')" prop="entry_time">
             <el-date-picker
              class="widthinp"
              v-model="ruleForm.entry_time"
              type="date"
              value-format="yyyy-MM-dd"
-             placeholder="选择入职时间">
+             :placeholder="$t('backstage.entry_time')">
           </el-date-picker>
           </el-form-item>
-          <el-form-item label="部门名称" prop="dept_id">
-            <el-select v-model.trim="ruleForm.dept_id" placeholder="请选择"  class="widthinp">
+          <el-form-item :label="$t('backstage.dept_name')" prop="dept_id">
+            <el-select v-model.trim="ruleForm.dept_id" :placeholder="$t('public.please_select')"  class="widthinp">
               <el-option v-for="item in deptType" :key="item.id" :label="item.dept_name" :value="item.id"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="角色" prop="role_id">
-            <el-select v-model.trim="ruleForm.role_id" placeholder="请选择"  class="widthinp">
+          <el-form-item :label="$t('backstage.role_id')" prop="role_id">
+            <el-select v-model.trim="ruleForm.role_id" :placeholder="$t('public.please_select')"  class="widthinp">
               <el-option v-for="item in roleType" :key="item.id" :label="item.role_name" :value="item.id"></el-option>
             </el-select>
           </el-form-item>
-        <el-form-item label="状态" prop="status">
-          <el-radio v-model="ruleForm.status" label="1">正常</el-radio>
-          <el-radio v-model="ruleForm.status" label="2">禁用</el-radio>
+        <el-form-item :label="$t('public.status')" prop="status">
+          <el-radio v-model="ruleForm.status" label="1">{{$t('backstage.status_1')}}</el-radio>
+          <el-radio v-model="ruleForm.status" label="2">{{$t('backstage.status_2')}}</el-radio>
           <!-- <el-switch v-model="ruleForm.status" active-color="#13ce66" inactive-color="#ccc"></el-switch> -->
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')" class="tijiao">立即修改</el-button>
+          <el-button type="primary" @click="submitForm('ruleForm')" class="tijiao">{{$t('backstage.alter')}}</el-button>
           <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
         </el-form-item>
       </el-form>
@@ -91,40 +91,9 @@
           role_id:"",
           email:""
         },
-        rules: {
-          username: [
-            {required: true, message: '请输入用户姓名', trigger: 'blur'},
-          ],
-          serial_number:[
-            {required: true, message: '请输入员工编号', trigger: 'blur'},
-          ],
-          entry_time:[
-            {required: true, message: '请输入入职时间', trigger: 'blur'},
-          ],
-          gender:[
-            {required: true, message: '请输入性别', trigger: 'blur'},
-          ],
-           phone:[
-            {required: true, message: '请输入电话', trigger: 'blur'},
-            {validator: yz.validatePhTelNumber, trigger: 'blur'}
-          ],
-           dept_id:[
-            {required: true, message: '请输入部门', trigger: 'blur'},
-          ],
-           birthday:[
-            {required: true, message: '请输入生日', trigger: 'blur'},
-          ],
-           status:[
-            {required: true, message: '请输入状态', trigger: 'blur'},
-          ],
-           email:[
-            // {required: true, message: '请输入邮箱', trigger: 'blur'},
-            {validator: yz.validateEmail, trigger: 'blur'}
-          ],
-          role_id:[
-            {required: true, message: '请输入角色', trigger: 'blur'},
-          ],
-        },
+        // rules: {
+         
+        // },
         deptType:[],
         roleType:[],
         options: [],
@@ -154,6 +123,45 @@
         .catch((res)=>{
           console.log(res)
         })
+    },
+    computed:{
+       rules(){
+        const rules={
+           username: [
+            {required: true, message: this.$t('Validation.user_list.username'), trigger: 'blur'},
+          ],
+          serial_number:[
+            {required: true, message: this.$t('Validation.user_list.staff_num'), trigger: 'blur'},
+          ],
+          entry_time:[
+            {required: true, message: this.$t('Validation.user_list.entry_time'), trigger: 'blur'},
+          ],
+          gender:[
+            {required: true, message: this.$t('Validation.user_list.gender'), trigger: 'blur'},
+          ],
+           phone:[
+            {required: true, message: this.$t('Validation.user_list.phone'), trigger: 'blur'},
+            {validator: yz.validatePhTelNumber, trigger: 'blur'}
+          ],
+           dept_id:[
+            {required: true, message: this.$t('Validation.user_list.depart'), trigger: 'blur'},
+          ],
+           birthday:[
+            {required: true, message: this.$t('Validation.user_list.birthday'), trigger: 'blur'},
+          ],
+           status:[
+            {required: true, message: this.$t('Validation.user_list.user_status'), trigger: 'blur'},
+          ],
+           email:[
+            // {required: true, message: '请输入邮箱', trigger: 'blur'},
+            {validator: yz.validateEmail, trigger: 'blur'}
+          ],
+          role_id:[
+            {required: true, message: this.$t('Validation.user_list.roles'), trigger: 'blur'},
+          ],
+        }
+        return rules
+      }
     },
     methods: {
       // 角色列表查询

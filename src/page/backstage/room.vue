@@ -101,15 +101,6 @@
               <el-option v-for="item in houseType" :key="item.id" :label="item.name" :value="item.id"  ></el-option>
             </el-select>
           </el-form-item>
-
-           <!-- <el-select
-            v-model.trim="forms.house_type"
-            :placeholder="$t('reception.house_type')"
-            clearable
-            @change="queryRoomList"
-          >
-            <el-option v-for="item in housetype" :key="item.id" :label="item.name" :value="item.id"></el-option>
-          </el-select> -->
         <el-form-item :label="$t('backstage.prices')" prop="prices" class="floatleft">
            <el-input v-model.trim="forms.prices" disabled ></el-input>
          </el-form-item>
@@ -121,10 +112,6 @@
               <el-option v-for="item in statustype" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
          </el-form-item>
-         
-         <!-- <el-form-item label="备注" prop="remark" class="floatleft">
-           <el-input v-model.trim="forms.remark" ></el-input>
-         </el-form-item> -->
         <el-form-item label="备注" prop="remark" class="floatleft">
         <el-input  type="textarea" :rows="2" v-model.trim="forms.remark"></el-input>
         </el-form-item>
@@ -185,29 +172,29 @@
         dialogFormVisible: false,
         sta:[{
           value: '1',
-          label: '有'
+          label: this.$t('Validation.room.sta.item_1')
         }, {
           value: '2',
-          label: '无'
+          label: this.$t('Validation.room.sta.item_2')
         }, {
           value: '3',
-          label: '保修'
+          label: this.$t('Validation.room.sta.item_3')
         }],
         statustype:[{
           value: '1',
-          label: '空闲'
+          label: this.$t('Validation.room.sta.item_4')
         }, {
           value: '2',
-          label: '预订'
+          label: this.$t('Validation.room.sta.item_5')
         }, {
           value: '3',
-          label: '有客'
+          label: this.$t('Validation.room.sta.item_6')
         },{
           value: '4',
-          label: '打扫'
+          label: this.$t('Validation.room.sta.item_7')
         },{
           value: '5',
-          label: '维修'
+          label: this.$t('Validation.room.sta.item_8')
         }],
         forms:{
           room_number:"",
@@ -226,83 +213,26 @@
           remark:"",
           comp:""
         },
-        rule: {
-          comp: [
-            {required: true, message: '请输入电脑状态', trigger: 'blur'}
-          ],
-          room_number: [
-            {required: true, message: '请输入房间编号', trigger: 'blur'},
-            {validator: yz.validateInteger, trigger: 'blur'}
-          ],
-          peoples: [
-            {required: true, message: '请输入可住人数', trigger: 'blur'},
-            {validator: yz.validateInteger, trigger: 'blur'}
-          ],
-           beds: [
-            {required: true, message: '请输入床位数', trigger: 'blur'},
-            {validator: yz.validateInteger, trigger: 'blur'}
-          ],
-           floor: [
-            {required: true, message: '请输入楼层', trigger: 'blur'},
-            {validator: yz.validateInteger, trigger: 'blur'}
-          ],
-          tv: [
-            {required: true, message: '请输入电视状态', trigger: 'blur'}
-          ],
-          tel: [
-            {required: true, message: '请输入座机号码', trigger: 'blur'},
-            {validator: yz.validatePhTelNumber, trigger: 'blur'}
-          ],
-          toli: [
-            {required: true, message: '请输入热水器', trigger: 'blur'}
-          ],
-          house_type: [
-            {required: true, message: '请输入房型', trigger: 'blur'}
-          ],
-          omp: [
-            {required: true, message: '请输入电脑状态', trigger: 'blur'}
-          ],
-           aircondition: [
-            {required: true, message: '请输入空调状态', trigger: 'blur'}
-          ],
-           status: [
-            {required: true, message: '请输入状态', trigger: 'blur'}
-          ],
-           cash_pledge: [
-            {required: true, message: '请输入入住押金', trigger: 'blur'},
-            {validator: yz.validateMoney, trigger: 'blur'}
-          ],
-          prices: [
-            {required: true, message: '请输入价格', trigger: 'blur'},
-            {validator: yz.validateMoney, trigger: 'blur'}
-          ],
+        // rule: {
+         
           
-        },
+        // },
         dialogFormVisible1:false,
         forms1:{
           room_number:"",
           status:""
         },
-        rule1: {
-           room_number: [
-            {required: true, message: '请输入房间编号', trigger: 'blur'},
-            {validator: yz.validateInteger, trigger: 'blur'}
-          ],
-          status: [
-            {required: true, message: '请输入状态', trigger: 'blur'}
-          ],
-        },
+        // rule1: {
+          
+        // },
         dialogFormVisible2:false,
         forms2:{
           room_number:"",
           status:""
         },
-        rule2: {
-           room_number: [
-            {required: true, message: '请输入房间编号', trigger: 'blur'},
-            {validator: yz.validateInteger, trigger: 'blur'}
-          ],
-        },
+        // rule2: {
+           
+        // },
         mytotal:0,
         tableData:[],
         currentPage:1,
@@ -326,6 +256,81 @@
     computed:{
       titles(){
         return {title:this.$t('left.room')}
+      },
+      rule(){
+        const rule={
+          comp: [
+            {required: true, message: this.$t('Validation.room.com_status'), trigger: 'blur'}
+          ],
+          room_number: [
+            {required: true, message: this.$t('Validation.room.room_num'), trigger: 'blur'},
+            {validator: yz.validateInteger, trigger: 'blur'}
+          ],
+          peoples: [
+            {required: true, message: this.$t('Validation.room.lives_people'), trigger: 'blur'},
+            {validator: yz.validateInteger, trigger: 'blur'}
+          ],
+           beds: [
+            {required: true, message:  this.$t('Validation.room.bads'), trigger: 'blur'},
+            {validator: yz.validateInteger, trigger: 'blur'}
+          ],
+           floor: [
+            {required: true, message: this.$t('Validation.room.floors'), trigger: 'blur'},
+            {validator: yz.validateInteger, trigger: 'blur'}
+          ],
+          tv: [
+            {required: true, message: this.$t('Validation.room.tv_status'), trigger: 'blur'}
+          ],
+          tel: [
+            {required: true, message:this.$t('Validation.room.tel'), trigger: 'blur'},
+            {validator: yz.validatePhTelNumber, trigger: 'blur'}
+          ],
+          toli: [
+            {required: true, message: this.$t('Validation.room.hot_wat'), trigger: 'blur'}
+          ],
+          house_type: [
+            {required: true, message: this.$t('Validation.room.house_type'), trigger: 'blur'}
+          ],
+          omp: [
+            {required: true, message: this.$t('Validation.room.com_status'), trigger: 'blur'}
+          ],
+           aircondition: [
+            {required: true, message: this.$t('Validation.room.air_status'), trigger: 'blur'}
+          ],
+           status: [
+            {required: true, message: this.$t('Validation.room.room_status'), trigger: 'blur'}
+          ],
+           cash_pledge: [
+            {required: true, message: this.$t('Validation.room.room_cas'), trigger: 'blur'},
+            {validator: yz.validateMoney, trigger: 'blur'}
+          ],
+          prices: [
+            {required: true, message: this.$t('Validation.room.room_price'), trigger: 'blur'},
+            {validator: yz.validateMoney, trigger: 'blur'}
+          ],
+        }
+        return rule
+      },
+      rule1(){
+        const rule1={
+          room_number: [
+            {required: true, message: this.$t('Validation.room.room_num'), trigger: 'blur'},
+            {validator: yz.validateInteger, trigger: 'blur'}
+          ],
+          status: [
+            {required: true, message: this.$t('Validation.room.room_status'), trigger: 'blur'}
+          ],
+        }
+        return rule1
+      },
+      rule2(){
+        const rule2={
+          room_number: [
+            {required: true, message: this.$t('Validation.room.room_num'), trigger: 'blur'},
+            {validator: yz.validateInteger, trigger: 'blur'}
+          ],
+        }
+        return rule2
       }
     },
     methods:{

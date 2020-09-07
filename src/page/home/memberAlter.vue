@@ -48,8 +48,8 @@
      
       <el-form-item :label="$t('public.gender')" prop="gender">
         <el-radio-group v-model="ruleForm.gender" @change="changeGender">
-          <el-radio class="radio" label="1">男</el-radio>
-          <el-radio class="radio" label="2">女</el-radio>
+          <el-radio class="radio" label="1">{{$t('public.man')}}</el-radio>
+          <el-radio class="radio" label="2">{{$t('public.woman')}}</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item :label="$t('reception.balance')" prop="money">
@@ -188,17 +188,9 @@ export default {
         password: ""
       },
       passwordData: "",
-      rules: {
-        username: [
-          { required: true, message: "请输入会员名", trigger: "blur" }
-        ],
-        phone: [
-          { required: true, message: "请输入手机号", trigger: "blur" },
-          { validator: yz.validateMobilePhoneNo, trigger: "blur" }
-        ],
-        gender: [{ required: true, message: "请选择性别", trigger: "blur" }],
-        birthday: [{ required: true, message: "请选择生日", trigger: "blur" }]
-      },
+      // rules: {
+       
+      // },
       options: [],
       optionsPapers: [],
       alterId: "", //修改的id
@@ -232,47 +224,16 @@ export default {
         member_card: ""
       },
       //卡办理验证
-      repairRules: {
-        type: [
-          { required: true, message: "请选择换卡的方式", trigger: "blur" }
-        ],
-        member_card: [
-          { required: true, message: "请输入新卡号", trigger: "blur" },
-          
-        ],
-        old_card: [
-          { required: true, message: "请输入当前卡号", trigger: "blur" },
+      // repairRules: {
+       
+      // },
+      // passRules: {
+      //   //修改密码的验证
         
-        ],
-        price: [{ required: true, message: "请输入费用", trigger: "blur" }],
-        pay_type: [{ required: true, message: "请选择支付方式", trigger: "blur" }],
-        remark: [{ required: true, message: "请输入描述", trigger: "blur" }]
-      },
-      passRules: {
-        //修改密码的验证
-        status: [
-          { required: true, message: "请选择修改密码的原因", trigger: "blur" }
-        ],
-        newPsd: [
-          { required: true, message: "请输入新密码", trigger: "blur" },
-          // { type: "number", message: "密码必须为数字值" }
-           { validator: yz.validatePass, trigger: "blur" }
-        ],
-        oldPsd: [
-          { required: true, message: "请旧密码", trigger: "blur" },
-          { validator: yz.validatePass, trigger: "blur" }
-        ]
-      },
-      rechargeRules: {
-        //充值验证
-        money: [{ required: true, message: "请输入金额", trigger: "blur" }],
-        pay_status: [
-          { required: true, message: "请选择方式", trigger: "blur" }
-        ],
-        member_card: [
-          { required: true, message: "请输入会员卡号", trigger: "blur" }
-        ]
-      }
+      // },
+      // rechargeRules: {
+       
+      // }
     };
   },
   computed:{
@@ -280,7 +241,70 @@ export default {
       return {title:this.$t('left.members'),
         title_show:true
       }
+    },
+    rules(){
+      const rules={
+        username: [
+          { required: true, message: this.$t('Validation.member_alter.username'), trigger: "blur" }
+        ],
+        phone: [
+          { required: true, message: this.$t('Validation.member_alter.phone'), trigger: "blur" },
+          { validator: yz.validateMobilePhoneNo, trigger: "blur" }
+        ],
+        gender: [{ required: true, message: this.$t('Validation.member_alter.gender'), trigger: "blur" }],
+        birthday: [{ required: true, message: this.$t('Validation.member_alter.birthday'), trigger: "blur" }]
+      }
+      return rules
+    },
+    repairRules(){
+      const repairRules={
+      type: [
+          { required: true, message: this.$t('Validation.member_alter.type'), trigger: "blur" }
+        ],
+        member_card: [
+          { required: true, message: this.$t('Validation.member_alter.member_card'), trigger: "blur" }, 
+        ],
+        old_card: [
+          { required: true, message: this.$t('Validation.member_alter.old_card'), trigger: "blur" },
+        ],
+        price: [{ required: true, message: this.$t('Validation.member_alter.money'), trigger: "blur" }],
+        pay_type: [{ required: true, message:this.$t('Validation.member_alter.price'), trigger: "blur" }],
+        remark: [{ required: true, message: this.$t('Validation.member_alter.remark'), trigger: "blur" }]
+      }
+      return repairRules
+    },
+    passRules(){
+      const passRules={
+       status: [
+          { required: true, message: this.$t('Validation.member_alter.status'), trigger: "blur" }
+        ],
+        newPsd: [
+          { required: true, message: this.$t('Validation.member_alter.new_pass'), trigger: "blur" },
+          // { type: "number", message: "密码必须为数字值" }
+           { validator: yz.validatePass, trigger: "blur" }
+        ],
+        oldPsd: [
+          { required: true, message: this.$t('Validation.member_alter.old_pass'), trigger: "blur" },
+          { validator: yz.validatePass, trigger: "blur" }
+        ]
+      }
+      return passRules
+    },
+    rechargeRules(){
+      const rechargeRules={
+       //充值验证
+        money: [{ required: true, message: this.$t('Validation.member_alter.money'), trigger: "blur" }],
+        pay_status: [
+          { required: true, message:this.$t('Validation.member_alter.pay_status'), trigger: "blur" }
+        ],
+        member_card: [
+          { required: true, message: this.$t('Validation.member_alter.member_card'), trigger: "blur" }
+        ]
+      }
+      return rechargeRules
     }
+    
+
   },
   methods: {
     // 获取会员类型
@@ -332,9 +356,9 @@ export default {
         // this.passwordData = this.ruleForm.password;
         this.ruleForm.gender = JSON.stringify(this.ruleForm.gender);
         if (this.ruleForm.status == 1) {
-          this.ruleForm.status = "正常";
+          this.ruleForm.status = this.$t('Validation.member_alter.card_com');
         } else {
-          this.ruleForm.status = "注销";
+          this.ruleForm.status = this.$t('Validation.member_alter.card_log');
         }
       });
     },

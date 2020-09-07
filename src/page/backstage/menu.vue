@@ -115,34 +115,34 @@
           dishes_id:"",
           price:""
         },
-        rule: {
-          serial_number: [
-            {required: true, message: '请输入菜品编号', trigger: 'blur'}
-          ],
-           menu_name: [
-            {required: true, message: '请输入菜品名称', trigger: 'blur'}
-          ],
-           status: [
-            {required: true, message: '请输入菜品状态', trigger: 'blur'}
-          ],
-          price: [
-            {required: true, message: '请输入菜品价格', trigger: 'blur'},
-            {validator: yz.validateMoney, trigger: 'blur'}
-          ],
-          dishes_id: [
-            {required: true, message: '请输入菜品分类', trigger: 'blur'}
-          ]
-        },
+        // rule: {
+        //   serial_number: [
+        //     {required: true, message: this.$t('Validation.dish_num'), trigger: 'blur'}
+        //   ],
+        //    menu_name: [
+        //     {required: true, message: this.$t('Validation.dish_name'), trigger: 'blur'}
+        //   ],
+        //    status: [
+        //     {required: true, message: this.$t('Validation.dish_status'), trigger: 'blur'}
+        //   ],
+        //   price: [
+        //     {required: true, message:  this.$t('Validation.dish_price'), trigger: 'blur'},
+        //     {validator: yz.validateMoney, trigger: 'blur'}
+        //   ],
+        //   dishes_id: [
+        //     {required: true, message: this.$t('Validation.dish_sort'), trigger: 'blur'}
+        //   ]
+        // },
         dialogFormVisible1: false,
         forms1: {
           id:"",
           status:""
         },
-        rule1: {
-           status: [
-            {required: true, message: '请输入状态', trigger: 'blur'}
-          ]
-        },
+        // rule1: {
+        //    status: [
+        //     {required: true, message: this.$t('Validation.status'), trigger: 'blur'}
+        //   ]
+        // },
       }
     },
     created() {
@@ -158,6 +158,35 @@
     computed:{
       titles(){
         return {title:this.$t('left.menu')}
+      },
+       rule(){
+        const rule={
+          serial_number: [
+            {required: true, message: this.$t('Validation.dish_num'), trigger: 'blur'}
+          ],
+           menu_name: [
+            {required: true, message: this.$t('Validation.dish_name'), trigger: 'blur'}
+          ],
+           status: [
+            {required: true, message: this.$t('Validation.dish_status'), trigger: 'blur'}
+          ],
+          price: [
+            {required: true, message:  this.$t('Validation.dish_price'), trigger: 'blur'},
+            {validator: yz.validateMoney, trigger: 'blur'}
+          ],
+          dishes_id: [
+            {required: true, message: this.$t('Validation.dish_sort'), trigger: 'blur'}
+          ]
+        }
+        return rule
+      },
+      rule1(){
+        const rule1={
+           status: [
+            {required: true, message: this.$t('Validation.status'), trigger: 'blur'}
+          ]
+        }
+        return rule1
       }
     },
     methods:{

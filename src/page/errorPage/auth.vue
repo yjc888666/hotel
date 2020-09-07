@@ -48,10 +48,10 @@
     data() {
       return {
         jumpTime: 5,
-        oops: "抱歉!",
-        headline: "您没有操作权限...",
-        info: "当前帐号没有操作权限,请联系管理员。",
-        btn: "返回",
+        oops: this.$t('Validation.error_page.auth.oops'),
+        headline: this. $t('Validation.error_page.auth.headline'),
+        info: this.$t('Validation.error_page.auth.info'),
+        btn: this.$t('Validation.error_page.auth.btn'),
         timer: 0,
       };
     },

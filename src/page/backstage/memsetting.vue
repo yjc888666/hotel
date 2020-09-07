@@ -58,36 +58,36 @@
           top_money:"",
           give_money:"",
         },
-        rules: {
-          least: [
-            {required: true, message: '请输入最少充值', trigger: 'blur'},
-            {validator: yz.validateInteger, trigger: 'blur'}
-          ],
-          increase:[
-            {required: true, message: '请输入递增', trigger: 'blur'},
-            {validator: yz.validateInteger, trigger: 'blur'}
-          ],
-           score:[
-            {required: true, message: '请输入积分抵现规则', trigger: 'blur'},
-            {validator: yz.validateInteger, trigger: 'blur'}
-          ],
-           money:[
-            {required: true, message: '请输入抵现规则', trigger: 'blur'},
-            {validator: yz.validateInteger, trigger: 'blur'}
-          ],
-           max_score:[
-            {required: true, message: '请输入积分抵现限额', trigger: 'blur'},
-            {validator: yz.validateInteger, trigger: 'blur'}
-          ],
-           top_money:[
-            {required: true, message: '请输入充值赠送规则（满赠)', trigger: 'blur'},
-            {validator: yz.validateInteger, trigger: 'blur'}
-          ],
-           give_money:[
-            {required: true, message: '请输入充值赠送金额', trigger: 'blur'},
-            {validator: yz.validateInteger, trigger: 'blur'}
-          ],
-        },
+        // rules: {
+        //   least: [
+        //     {required: true, message: this.$t('Validation.least_charge'), trigger: 'blur'},
+        //     {validator: yz.validateInteger, trigger: 'blur'}
+        //   ],
+        //   increase:[
+        //     {required: true, message: this.$t('Validation.increase'), trigger: 'blur'},
+        //     {validator: yz.validateInteger, trigger: 'blur'}
+        //   ],
+        //    score:[
+        //     {required: true, message: this.$t('Validation.integral_rule'), trigger: 'blur'},
+        //     {validator: yz.validateInteger, trigger: 'blur'}
+        //   ],
+        //    money:[
+        //     {required: true, message: this.$t('Validation.rule'), trigger: 'blur'},
+        //     {validator: yz.validateInteger, trigger: 'blur'}
+        //   ],
+        //    max_score:[
+        //     {required: true, message: this.$t('Validation.integral_limited'), trigger: 'blur'},
+        //     {validator: yz.validateInteger, trigger: 'blur'}
+        //   ],
+        //    top_money:[
+        //     {required: true, message: this.$t('Validation.gift'), trigger: 'blur'},
+        //     {validator: yz.validateInteger, trigger: 'blur'}
+        //   ],
+        //    give_money:[
+        //     {required: true, message: this.$t('Validation.charge_gift'), trigger: 'blur'},
+        //     {validator: yz.validateInteger, trigger: 'blur'}
+        //   ],
+        // },
       };
     },
     created() {
@@ -109,6 +109,39 @@
       computed:{
       titles(){
         return {title:this.$t('left.memsetting')}
+      },
+       rules(){
+        const rules={
+          least: [
+            {required: true, message: this.$t('Validation.least_charge'), trigger: 'blur'},
+            {validator: yz.validateInteger, trigger: 'blur'}
+          ],
+          increase:[
+            {required: true, message: this.$t('Validation.increase'), trigger: 'blur'},
+            {validator: yz.validateInteger, trigger: 'blur'}
+          ],
+           score:[
+            {required: true, message: this.$t('Validation.integral_rule'), trigger: 'blur'},
+            {validator: yz.validateInteger, trigger: 'blur'}
+          ],
+           money:[
+            {required: true, message: this.$t('Validation.rule'), trigger: 'blur'},
+            {validator: yz.validateInteger, trigger: 'blur'}
+          ],
+           max_score:[
+            {required: true, message: this.$t('Validation.integral_limited'), trigger: 'blur'},
+            {validator: yz.validateInteger, trigger: 'blur'}
+          ],
+           top_money:[
+            {required: true, message: this.$t('Validation.gift'), trigger: 'blur'},
+            {validator: yz.validateInteger, trigger: 'blur'}
+          ],
+           give_money:[
+            {required: true, message: this.$t('Validation.charge_gift'), trigger: 'blur'},
+            {validator: yz.validateInteger, trigger: 'blur'}
+          ],
+        }
+        return rules
       }
     },
     methods: {

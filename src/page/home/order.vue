@@ -217,14 +217,9 @@
           table_num:"",
           restaurant_id:"",
         },
-        rule: {
-          table_num: [
-            {required: true, message: '请输入餐桌编号', trigger: 'blur'}
-          ],
-          restaurant_id: [
-            {required: true, message: '请输入餐厅', trigger: 'blur'}
-          ]
-        },
+        // rule: {
+         
+        // },
         number:"",
         apply_times:"",
         audit_time:"",
@@ -249,23 +244,9 @@
           score:"",
           room_number:"",
         },
-        rule1: {
-          pay_method: [
-            {required: true, message: '请输入支付方式', trigger: 'blur'}
-          ],
-          method_card: [
-            {required: true, message: '请输入会员卡号', trigger: 'blur'}
-          ],
-           password: [
-            {required: true, message: '请输入会员支付密码', trigger: 'blur'}
-          ],
-          //  score: [
-          //   {required: true, message: '请输入会员使用积分', trigger: 'blur'}
-          // ],
-           room_number: [
-            {required: true, message: '请输入房间号', trigger: 'blur'}
-          ]
-        },
+        // rule1: {
+         
+        // },
       }
     },
     created() {
@@ -278,6 +259,37 @@
     computed:{
       titles(){
         return {title:this.$t('left.order')}
+      },
+      rule(){
+        const rule={
+           table_num: [
+            {required: true, message: this.$t('Validation.order.table_num'), trigger: 'blur'}
+          ],
+          restaurant_id: [
+            {required: true, message: this.$t('Validation.order.restaurant_id'), trigger: 'blur'}
+          ]
+        }
+        return rule
+      },
+      rule1(){
+        const rule1={
+           pay_method: [
+            {required: true, message:  this.$t('Validation.order.pay_method'), trigger: 'blur'}
+          ],
+          method_card: [
+            {required: true, message:  this.$t('Validation.order.card'), trigger: 'blur'}
+          ],
+           password: [
+            {required: true, message: this.$t('Validation.order.password'), trigger: 'blur'}
+          ],
+          //  score: [
+          //   {required: true, message: '请输入会员使用积分', trigger: 'blur'}
+          // ],
+           room_number: [
+            {required: true, message: this.$t('Validation.order.room_num'), trigger: 'blur'}
+          ]
+        }
+        return rule1
       }
     },
      filters:{

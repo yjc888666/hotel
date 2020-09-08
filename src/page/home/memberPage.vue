@@ -363,15 +363,9 @@ export default {
       formData.append("id", val.id);
       this.$axios.post(this.$baseUrl + `/member/delete`, formData).then(res => {
         if (res.data.result == true) {
-          this.$message({
-            type: "success",
-            message: "删除成功"
-          });
+           this.$message.success(this.$t("common."+res.data.msg))
         } else {
-          this.$message({
-            type: "warning",
-            message: "删除失败"
-          });
+          this.$message.error(this.$t("common."+res.data.msg))
         }
       });
     },
@@ -381,15 +375,9 @@ export default {
       formData.append("id", val);
       this.$axios.post(this.$baseUrl + `/member/cancel`, formData).then(res => {
         if (res.data.result == true) {
-          this.$message({
-            type: "success",
-            message: "注销成功"
-          });
+           this.$message.success(this.$t("common."+res.data.msg))
         } else {
-          this.$message({
-            type: "warning",
-            message: "注销失败"
-          });
+           this.$message.error(this.$t("common."+res.data.msg))
         }
       });
     },

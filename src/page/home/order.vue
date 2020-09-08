@@ -59,7 +59,7 @@
             </template>
         </el-table-column>
        
-        <el-table-column prop="pay_status" :label="$t('reception.pay_status')" width="auto" align="center">
+     <el-table-column prop="pay_status" :label="$t('reception.pay_status')" width="auto" align="center">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.pay_status==0" type="danger">{{$t('reception.no_pay')}}</el-tag>
           <el-tag v-if="scope.row.pay_status==1">{{$t('reception.is_pay')}}</el-tag>
@@ -71,9 +71,7 @@
            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">{{$t('public.edit')}}</el-button>
            <el-button size="mini" @click="handleChange(scope.$index, scope.row)" type="danger">{{$t('reception.trade')}}</el-button>
            <el-button size="mini" @click="handleDelete(scope.$index, scope.row)">{{$t('reception.settle')}}</el-button>
-           <!-- <el-button size="mini" @click="printRestaurantOrder(scope.row.id)">订单打印</el-button> -->
-           <el-button type="primary" size="mini" 
-           @click="printRestaurantOrder(scope.row.id)">{{$t('reception.print')}}</el-button>
+           <el-button type="primary" size="mini" @click="printRestaurantOrder(scope.row)">{{$t('reception.print')}}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -307,11 +305,11 @@
      
 
      //打印餐厅订单
-      printRestaurantOrder(id){
+      printRestaurantOrder(row){
         this.dialogTableVisible=true;
-        console.log(id);
-       this.$axios.post(this.$baseUrl+'/rstartact/printingOrderRstrt',{
-         id:id
+        console.log(row);
+       this.$axios.post(this.$baseUrl+ '/rstartact/printingOrderRstrt',{
+         id:row.id
        })
        .then((res)=>{
          console.log(res)
@@ -323,7 +321,7 @@
             if(this.printOrderData.pay_method===1){
                 this.member_flag=false;
                  this.room_flag=false;
-                 this. payByWhat=this.$t('reception.cash3')
+                 this.payByWhat=this.$t('reception.cash3')
               }
               if(this.printOrderData.pay_method===2){
                    this.member_flag=false;
@@ -342,8 +340,8 @@
          else {
              this.isPay=this.$t('reception.no_pay')
               this.payFlag=false;
-               this.member_flag=false;
-                 this.room_flag=false;
+              this.member_flag=false;
+              this.room_flag=false;
              
          }
          console.log(this.isPay)

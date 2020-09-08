@@ -275,9 +275,9 @@
         <el-form-item :label="$t('reception.phone2')" prop="phone" class="floatleft">
           <el-input v-model.trim="forms.phone"></el-input>
         </el-form-item>
-        <el-form-item :label="$t('public.gender')" prop="gender" class="floatleft">
-          <el-radio v-model="forms.gender" label="1">男</el-radio>
-          <el-radio v-model="forms.gender" label="2">女</el-radio>
+        <el-form-item :label="$t('public.gender')" prop="gender" class="floatleft" >
+          <el-radio v-model="forms.gender" label="1" style="width:30px">{{$t('public.man')}}</el-radio>
+          <el-radio v-model="forms.gender" label="2" style="width:30px">{{$t('public.woman')}}</el-radio>
         </el-form-item>
         <el-form-item :label="$t('reception.card_type')" prop="card_type" class="floatleft">
           <el-select v-model.trim="forms.card_type " :placeholder="$t('reception.card_type')" clearable>
@@ -1007,79 +1007,79 @@ export default {
       projecttype: [
         {
           value: "1",
-          label: this.$t('Validation.check_in.project_type.item_1'),
+          label: this.$t('Validation.check_in.project_type2.item_1'),
         },
         {
           value: "2",
-          label: this.$t('Validation.check_in.project_type.item_2'),
+          label: this.$t('Validation.check_in.project_type2.item_2'),
         },
         {
           value: "3",
-          label: this.$t('Validation.check_in.project_type.item_3'),
+          label: this.$t('Validation.check_in.project_type2.item_3'),
         },
         {
           value: "4",
-          label: this.$t('Validation.check_in.project_type.item_4'),
+          label: this.$t('Validation.check_in.project_type2.item_4'),
         },
         {
           value: "5",
-          label: this.$t('Validation.check_in.project_type.item_5'),
+          label: this.$t('Validation.check_in.project_type2.item_5'),
         },
         {
           value: "6",
-          label: this.$t('Validation.check_in.project_type.item_6'),
+          label: this.$t('Validation.check_in.project_type2.item_6'),
         },
         {
           value: "7",
-          label: this.$t('Validation.check_in.project_type.item_7'),
+          label: this.$t('Validation.check_in.project_type2.item_7'),
         },
         {
           value: "8",
-          label: this.$t('Validation.check_in.project_type.item_8'),
+          label: this.$t('Validation.check_in.project_type2.item_8'),
         },
         {
           value: "9",
-          label: this.$t('Validation.check_in.project_type.item_9'),
+          label: this.$t('Validation.check_in.project_type2.item_9'),
         },
         {
           value: "10",
-          label: this.$t('Validation.check_in.project_type.item_10'),
+          label: this.$t('Validation.check_in.project_type2.item_10'),
         },
         {
           value: "11",
-          label: this.$t('Validation.check_in.project_type.item_11'),
+          label: this.$t('Validation.check_in.project_type2.item_11'),
         },
         {
           value: "12",
-          label: this.$t('Validation.check_in.project_type.item_12'),
+          label: this.$t('Validation.check_in.project_type2.item_12'),
         },
         {
           value: "13",
-          label: this.$t('Validation.check_in.project_type.item_13'),
+          label: this.$t('Validation.check_in.project_type2.item_13'),
         },
         {
           value: "14",
-          label: this.$t('Validation.check_in.project_type.item_14'),
+          label: this.$t('Validation.check_in.project_type2.item_14'),
         },
         {
           value: "15",
-          label: this.$t('Validation.check_in.project_type.item_15'),
+          label: this.$t('Validation.check_in.project_type2.item_15'),
         },
         {
           value: "16",
-          label: this.$t('Validation.check_in.project_type.item_16'),
+          label: this.$t('Validation.check_in.project_type2.item_16'),
         },
         {
           value: "17",
-          label: this.$t('Validation.check_in.project_type.item_17'),
+          label: this.$t('Validation.check_in.project_type2.item_17'),
         },
         {
           value: "18",
-          label: this.$t('Validation.check_in.project_type.item_18'),
+          label: this.$t('Validation.check_in.project_type2.item_18'),
         },
         {
           value: "19",
-          label: this.$t('Validation.check_in.project_type.item_19'),
+          label: this.$t('Validation.check_in.project_type2.item_19'),
         },
       ],
 

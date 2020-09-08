@@ -134,13 +134,13 @@ export default {
     Title
   },
   data() {
-    var validatePass = (rule, value, callback) => {
-     if (value !== this.ruleForm.passwordData) {
-        callback(new Error("两次输入密码不一致!"));
-      } else {
-        callback();
-      }
-    };
+    // var validatePass = (rule, value, callback) => {
+    //  if (value !== this.ruleForm.passwordData) {
+    //     callback(new Error("两次输入密码不一致!"));
+    //   } else {
+    //     callback();
+    //   }
+    // };
     return {
       // title: {
       //   title: "会员信息",
@@ -182,7 +182,7 @@ export default {
     },
     rules(){
       const rules={
-     level: [{ required: true, message: this.$t('Validation.member_form.level'), trigger: "blur" }],
+        level: [{ required: true, message: this.$t('Validation.member_form.level'), trigger: "blur" }],
         member_card: [
           { required: true, message: this.$t('Validation.member_form.member_card'), trigger: "blur" },
           { type: "number", message: this.$t('Validation.member_form.member_card2') }
@@ -203,8 +203,8 @@ export default {
         ],
         password: [
           { required: true, message: this.$t('Validation.member_form.password'), trigger: "blur" },
-          // { validator: yz.validatePass, trigger: "blur" }
-          { validator: validatePass, trigger: "blur" }
+          { validator: yz.validatePass, trigger: "blur" }
+            //  { validator: this.validatePass, trigger: "blur" }
         ],
         gender: [{ required: true, message:  this.$t('Validation.member_form.gender'), trigger: "blur" }],
         money: [

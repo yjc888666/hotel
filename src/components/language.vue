@@ -1,7 +1,7 @@
 <template>
   <ul class="lang" @click="changeLang">
     <li :class="isActive?'active':''">中文</li>
-    <li :class="!isActive?'active':''">英文</li>
+    <li :class="!isActive?'active':''">English</li>
   </ul>
 </template>
 
@@ -18,7 +18,7 @@
         if(lang == "中文"){
           lang = "zh";
         }
-        if(lang == "英文"){
+        if(lang == "English"){
           lang = "en";
         }
         this.$i18n.locale = lang;
@@ -49,7 +49,7 @@
 
 <style scoped>
   .lang li{
-    width:40px;
+    width:50px;
     height:20px;
     padding:5px 10px;
     border:1px solid #b5b5b5;

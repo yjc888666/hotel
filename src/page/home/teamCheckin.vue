@@ -16,10 +16,10 @@
         
 
           <el-form-item :label="$t('reception.leave_time')" prop="leave_time"  class="floatleft">
-             <el-date-picker clearable v-model="forms.leave_time" type="date" placeholder="选择退房时间" value-format="timestamp" :disabled="edit"></el-date-picker>
+             <el-date-picker clearable v-model="forms.leave_time" type="date" :placeholder="$t('reception.leave_time')" value-format="timestamp" :disabled="edit"></el-date-picker>
          </el-form-item>
           <el-form-item :label="$t('reception.source_type')" prop="type" class="floatleft">
-            <el-select v-model.trim="forms.type" placeholder="请输客源类型" clearable>
+            <el-select v-model.trim="forms.type" :placeholder="$t('reception.source_type')" clearable>
               <el-option v-for="item in memberType" :key="item.value" :label="item.label" :value="item.value" :disabled="edit"></el-option>
             </el-select>
           </el-form-item>

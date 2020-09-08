@@ -5,7 +5,7 @@
 //ElementUI
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-
+ import i18n from '@/config/lang'
 import Vue from 'vue'
 import App from './App'
 import router from './router'
@@ -17,23 +17,23 @@ Vue.use(ElementUI)
 import less from 'less'
 Vue.use(less)
 
-//语言包
-import  LangENUS from '@/config/lang/en-us'
-import  LangZHCN from '@/config/lang/zh-cn'
-import VueI18n from 'vue-i18n'
-import  enLocale from 'element-ui/lib/locale/lang/en'
-import  zhLocale from 'element-ui/lib/locale/lang/zh-CN'
-import  locale from 'element-ui/lib/locale';
-Vue.use(VueI18n)
-// 使用多文件管理不同的语言是一个好习惯：localStorage.setItem
-const i18n = new VueI18n({
-  locale: localStorage.getItem('lang')||'zh', // 语言标识，后面会用做切换和将用户习惯存储到本地浏览器
-  messages: {
-    'en':Object.assign(LangENUS, enLocale),
-    'zh':Object.assign(LangZHCN, zhLocale)
-  }
-})
-locale.i18n((key, value) => i18n.t(key, value)) //为了实现element插件的多语言切换
+// //语言包
+// import  LangENUS from '@/config/lang/en-us'
+// import  LangZHCN from '@/config/lang/zh-cn'
+// import VueI18n from 'vue-i18n'
+// import  enLocale from 'element-ui/lib/locale/lang/en'
+// import  zhLocale from 'element-ui/lib/locale/lang/zh-CN'
+// import  locale from 'element-ui/lib/locale';
+// Vue.use(VueI18n)
+// // 使用多文件管理不同的语言是一个好习惯：localStorage.setItem
+// const i18n = new VueI18n({
+//   locale: localStorage.getItem('lang')||'zh', // 语言标识，后面会用做切换和将用户习惯存储到本地浏览器
+//   messages: {
+//     'en':Object.assign(LangENUS, enLocale),
+//     'zh':Object.assign(LangZHCN, zhLocale)
+//   }
+// })
+// locale.i18n((key, value) => i18n.t(key, value)) //为了实现element插件的多语言切换
 //axios
 import axios from 'axios'
 Vue.prototype.$axios = axios

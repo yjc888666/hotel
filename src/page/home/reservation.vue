@@ -217,8 +217,8 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('reception.is_team')" prop="isteam" class="floatleft">
-          <el-radio v-model="forms.isteam" label="1">是</el-radio>
-          <el-radio v-model="forms.isteam" label="0">否</el-radio>
+          <el-radio v-model="forms.isteam" label="1">{{$t('public.yes')}}</el-radio>
+          <el-radio v-model="forms.isteam" label="0">{{$t('public.no')}}</el-radio>
         </el-form-item>
         <el-form-item :label="$t('reception.team_name')" prop="team_name" class="floatleft">
           <el-input v-model.trim="forms.team_name"></el-input>
@@ -404,9 +404,9 @@
 
           <el-table-column prop="type" :label="$t('reception.status2')" width="auto" align="center">
             <template slot-scope="scope">
-              <el-tag v-if="scope.row.type==1" type="danger">未入住</el-tag>
-              <el-tag v-if="scope.row.type==2">已入住</el-tag>
-              <el-tag v-if="scope.row.type==3" type="danger">取消</el-tag>
+              <el-tag v-if="scope.row.type==1" type="danger">{{$t('reception.no_leave')}}</el-tag>
+              <el-tag v-if="scope.row.type==2">{{$t('reception.leave_in')}}</el-tag>
+              <el-tag v-if="scope.row.type==3" type="danger">{{$t('public.cancel')}}</el-tag>
             </template>
           </el-table-column>
           <el-table-column :label="$t('reception.add_member')" width="150" align="center">
@@ -428,7 +428,7 @@
           plain
           style="margin:0 10px"
         >{{$t('reception.in_hotel')}}</el-button>
-        <el-button @click="cancleClick()" type="primary" plain style="margin:0 10px">取消</el-button>
+        <el-button @click="cancleClick()" type="primary" plain style="margin:0 10px">{{$t('public.cancel')}}</el-button>
       </div>
       <div style="clear: both;"></div>
     </el-dialog>
@@ -445,7 +445,7 @@
           <el-input v-model.trim="depmoreny.deposit"></el-input>
         </el-form-item>
         <el-form-item :label="$t('reception.payf')" prop="method">
-          <el-select v-model="depmoreny.method" placeholder="选择支付方式">
+          <el-select v-model="depmoreny.method" :placeholder="$t('reception.payf')">
             <el-option
               v-for="(item,index) in methodlist"
               :key="index"
@@ -455,7 +455,7 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('reception.pay_project')" prop="project_type">
-          <el-select v-model="depmoreny.project_type" placeholder="账务项目">
+          <el-select v-model="depmoreny.project_type" :placeholder="$t('reception.pay_project')">
             <el-option
               v-for="(item,index) in project"
               :key="index"
@@ -468,7 +468,7 @@
           <el-input v-model="depmoreny.member_card"></el-input>
         </el-form-item>
         <el-form-item :label="$t('reception.money_detail')" prop="entry">
-          <el-select v-model="depmoreny.entry" placeholder="财务明细">
+          <el-select v-model="depmoreny.entry" :placeholder="$t('reception.money_detail')">
             <el-option
               v-for="(item,index) in itemtype"
               :key="index"
@@ -493,11 +493,11 @@
           <el-input v-model.trim="person.phone"></el-input>
         </el-form-item>
         <el-form-item :label="$t('public.gender')" prop="gender">
-          <el-radio v-model="person.gender" label="1">男</el-radio>
-          <el-radio v-model="person.gender" label="2">女</el-radio>
+          <el-radio v-model="person.gender" label="1">{{$t('public.man')}}</el-radio>
+          <el-radio v-model="person.gender" label="2">{{$t('public.woman')}}</el-radio>
         </el-form-item>
         <el-form-item :label="$t('reception.card_type')" prop="card_type">
-          <el-select v-model="person.card_type" placeholder="选择证件类型">
+          <el-select v-model="person.card_type" :placeholder="$t('reception.card_type')">
             <el-option v-for="item in scardtype" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
@@ -703,23 +703,23 @@ export default {
       project: [
         {
           value: "1",
-          label: this.$t('Validation.check_in.project_type.item_1')
+          label: this.$t('Validation.check_in.project_type2.item_1')
         },
         {
           value: "2",
-          label: this.$t('Validation.check_in.project_type.item_2')
+          label: this.$t('Validation.check_in.project_type2.item_2')
         },
         {
           value: "3",
-          label: this.$t('Validation.check_in.project_type.item_3')
+          label: this.$t('Validation.check_in.project_type2.item_3')
         },
         {
           value: "4",
-          label: this.$t('Validation.check_in.project_type.item_4')
+          label: this.$t('Validation.check_in.project_type2.item_4')
         },
         {
           value: "5",
-          label: this.$t('Validation.check_in.project_type.item_5')
+          label: this.$t('Validation.check_in.project_type2.item_5')
         }
       ],
       // 入住
@@ -1167,7 +1167,7 @@ export default {
     // 入住
     handlebatch(index, row) {
       if (row.deposit == 0) {
-        this.$message.error("请先交定金再入住!");
+        this.$message.error(this.$t('public.dis_warn'));
       } else {
         this.info(index, row);
         this.dialog_3 = true;
@@ -1181,9 +1181,9 @@ export default {
     handleDelete(index, row) {
       console.log(row.type);
       if (row.type == 3) {
-        this.$confirm("此操作将增加订单, 是否继续?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
+        this.$confirm(this.$t('public.editstatus'), this.$t('public.hint'), {
+          confirmButtonText: this.$t('public.ok'),
+          cancelButtonText: this.$t('public.cancel'),
           type: "warning"
         })
           .then(() => {
@@ -1218,9 +1218,9 @@ export default {
             });
           });
       } else {
-        this.$confirm("此操作将删除订单, 是否继续?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
+        this.$confirm(this.$t('public.info'), this.$t('public.hint'), {
+          confirmButtonText: this.$t('public.ok'),
+          cancelButtonText: this.$t('public.cancel'),
           type: "warning"
         })
           .then(() => {

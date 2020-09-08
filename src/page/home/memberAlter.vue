@@ -380,15 +380,9 @@ export default {
       };
       this.$axios.post(this.$baseUrl + `/member/edit`, obj).then(res => {
         if (res.data.result == true) {
-          this.$message({
-            type: "success",
-            message: "修改成功"
-          });
+          this.$message.success(this.$t("common."+res.data.msg))
         } else {
-          this.$message({
-            type: "warning",
-            message: "修改失败"
-          });
+          this.$message.error(this.$t("common."+res.data.msg))
         }
       });
     },
@@ -414,17 +408,11 @@ export default {
         .post(this.$baseUrl + `/member/action/change`, this.repairData)
         .then(res => {
           if (res.data.result == true) {
-            this.$message({
-              type: "success",
-              message: "办理成功"
-            });
+             this.$message.success(this.$t("common."+res.data.msg))
             this.repairEmpty();
             this.dialogRepair = false;
           } else {
-            this.$message({
-              type: "warning",
-              message: "办理失败"
-            });
+            this.$message.error(this.$t("common."+res.data.msg))
             this.repairEmpty();
           }
         });
@@ -481,16 +469,10 @@ export default {
         .post(this.$baseUrl + `/member/newpsd`, this.passAlter)
         .then(res => {
           if (res.data.result == true) {
-            this.$message({
-              type: "success",
-              message: "修改成功"
-            });
+           this.$message.success(this.$t("common."+res.data.msg))
             this.passEmpty();
           } else {
-            this.$message({
-              type: "warning",
-              message: "修改失败"
-            });
+             this.$message.error(this.$t("common."+res.data.msg))
             this.passEmpty();
           }
         });
@@ -552,17 +534,11 @@ export default {
         .post(this.$baseUrl + `/recharge/set`, this.rechargeRuleform)
         .then(res => {
           if (res.data.result == true) {
-            this.$message({
-              type: "success",
-              message: "充值成功"
-            });
+            this.$message.success(this.$t("common."+res.data.msg))
             this.passEmpty();
             this.dialogFormVisible = false;
           } else {
-            this.$message({
-              type: "warning",
-              message: "充值失败"
-            });
+            this.$message.error(this.$t("common."+res.data.msg))
             this.passEmpty();
           }
         });

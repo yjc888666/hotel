@@ -22,8 +22,8 @@
        </el-table-column>
        <el-table-column prop="grant" :label="$t('backstage.auth')" width="200px" align='center'>
         <template slot-scope='scope' >
-           <el-tag  v-if="scope.row.grant==1" type="danger">{{$t('backstage.grant_1')}}</el-tag>
-           <el-tag  v-if="scope.row.grant==0">{{$t('backstage.grant_0')}}</el-tag>
+           <el-tag  v-if="scope.row.grant==true" type="danger">{{$t('backstage.grant_1')}}</el-tag>
+           <el-tag  v-if="scope.row.grant==false">{{$t('backstage.grant_0')}}</el-tag>
         </template>
        </el-table-column>
       <el-table-column :label="$t('public.operate')" align="center">         
@@ -149,7 +149,7 @@
         this.show = true
       },
       list(){
-       this.$axios.post(this.$baseUrl + '/permissions/list')
+       this.$axios.post(this.$baseUrl + '/permissions/userList')
         .then((res) => {
           this.tableData = res.data.pojo;
         })

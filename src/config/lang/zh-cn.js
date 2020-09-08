@@ -195,6 +195,7 @@ module.exports = {
   // 公共文字
   public:{
     checkList:"入住列表",
+    room_info:'房间信息',
     add:"新增",
     addTeamPlayer:'添加团队住户',
     alldelete:"批量删除",
@@ -202,6 +203,8 @@ module.exports = {
     inquire:"查询",
     edit:"修改",
     delete:"删除",
+    yes:'是',
+    no:'否',
     cancel:"取 消",
     ok:"确 定",
     hint:"提示",
@@ -212,6 +215,7 @@ module.exports = {
     editstatus:"此操作修改状态, 是否继续?",
     dlecancel:"此操作将永久取消, 是否继续?",
     restpass:"此操作将重置密码, 是否继续?",
+    dis_warn:'请先交定金再入住!',
     please:"请输入",
     please_select:"请选择",
     status:"状态",
@@ -245,7 +249,7 @@ module.exports = {
     permissions:"权限规则",
     delete_1:"未删除",
     delete_0:"已删除",
-    grant_1:"未授权",
+    grant_1:"已授权",
     grant_0:"未授权",
     power:"权限",
     pid:"父级权限",

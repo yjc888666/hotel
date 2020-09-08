@@ -59,7 +59,7 @@
         :total="mytotal"
         v-if="mytotal!=0">
       </el-pagination>
-    <el-dialog title="房间信息" :visible.sync="dialogFormVisible" class="dia" width="40%">
+    <el-dialog :title= "$t('public.room_info')" :visible.sync="dialogFormVisible" class="dia" width="40%">
       <el-form :model="forms" status-icon :rules="rule" ref="forms" label-width="80px" class="demo-ruleForm mars">
          <el-form-item :label="$t('backstage.room_number')" prop="room_number"  class="floatleft">
            <el-input v-model.trim="forms.room_number" ></el-input>

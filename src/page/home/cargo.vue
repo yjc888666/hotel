@@ -203,12 +203,12 @@
         var that = this;
         this.dialogFormVisible = true;
         this.show = true;
-        that.forms.id = "";
-        that.forms.cargo_id = "";
-        that.forms.cargo_name = "";
-        that.forms.number = "";
-        that.forms.warehouse_id = "";
-        that.forms.classigy_id = ""; 
+        // that.forms.id = "";
+        // that.forms.cargo_id = "";
+        // that.forms.cargo_name = "";
+        // that.forms.number = "";
+        // that.forms.warehouse_id = "";
+        // that.forms.classigy_id = ""; 
       },
       list(a,b){
         var para = {
@@ -312,8 +312,9 @@
          that.forms.cargo_id = row.cargo_id;
          that.forms.cargo_name = row.cargo_name;
          that.forms.number = row.number;
-         that.forms.warehouse_id = row.warehouse_id;
-         that.forms.classify_id = row.classify_id;
+         that.forms.warehouse_id= this.warehouseFormat(row)
+        //  that.forms.warehouse_id = row.warehouse_id;
+         that.forms.classify_id = this.classifyFormat(row);
       },
       handleDelete(index,row){
         this.$confirm(this.$t('public.info'), this.$t('public.hint'), {

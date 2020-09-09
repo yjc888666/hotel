@@ -40,7 +40,7 @@
     <el-table :data="tableData" stripe style="width: 100%" header-align='center'  @selection-change="handleSelectionChange1">
        <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column type="index" label="ID" width="auto" show-overflow-tooltip align='center'></el-table-column>
-      <el-table-column prop="apply_time" :label="$t('reception.apply_time')" width="auto" show-overflow-tooltip align='center' :formatter="dateFormat"></el-table-column>
+      <el-table-column prop="apply_time" :label="$t('reception.apply_time')" width="auto" show-overflow-tooltip align='center' :formatter="dateFormat2"></el-table-column>
       <el-table-column prop="audit_time" :label="$t('reception.audit_time')" width="auto" show-overflow-tooltip align='center' :formatter="dateFormat"></el-table-column>
       <el-table-column prop="type" :label="$t('reception.type')" width="auto" show-overflow-tooltip align='center'>
         <template slot-scope='scope'>
@@ -152,6 +152,7 @@
         pages:0,
         pageNums:0,
         applyCargoList:[],
+        applyCargoList1:[],
         show:true,
         dialogFormVisible: false,
         forms: {
@@ -186,9 +187,25 @@
     },
     methods:{
         dateFormat(row, column){
+          if(row.audit_time!=""&&row.audit_time!=null){
+        var moment = require('moment');
+          var date = (row[column.property])*1000;
+          return moment(date).format("YYYY-MM-DD HH:mm:ss")
+          }
+          else{
+            return null
+          }
+        },
+         dateFormat2(row, column){
+          if(row.apply_time!=null){
           var moment = require('moment');
           var date = (row[column.property])*1000;
           return moment(date).format("YYYY-MM-DD HH:mm:ss")
+          }
+          else {
+            return 
+          }
+         
         },
        cargoEvent(){
         this.$axios.post(this.$baseUrl + '/cargo/getcargo')
@@ -276,11 +293,23 @@
            this.multipleSelection.forEach(function(item){
               item.cargo_id = item.id
            })
-          var para = {
-            type:this.forms.type,
-            applyCargoList:this.multipleSelection
-          }
-          that.$axios.post(this.$baseUrl +`/entryApply/addentryApply`,para)
+           var arr={};
+           var arrlist=[];
+           this.multipleSelection.forEach(item=>{
+              arr.cargo_id= item.cargo_id;
+              arr.number=item.number;
+              arr.delete_status='';
+              arrlist.push(arr)
+              arr={}
+            })
+          // var para = {
+          //   type:this.forms.type,
+          //   applyCargoList:arrlist
+          // }
+          that.$axios.post(this.$baseUrl +`/entryApply/addentryApply`,{
+             type:this.forms.type,
+            applyCargoList:arrlist
+          })
           .then(function (res) {
             if (res.data.result== true) {
               that.$message.success(that.$t("common."+res.data.msg))

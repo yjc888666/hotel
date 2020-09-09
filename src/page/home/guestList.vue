@@ -170,7 +170,7 @@ export default {
   },
   computed: {
     titles() {
-      return { title: this.$t("left.integral") };
+      return { title: this.$t("left.guest") };
     }
   },
   methods: {

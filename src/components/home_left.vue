@@ -286,7 +286,6 @@
           this.$axios.post(this.$baseUrl + '/permissions/userList')
           .then((res) => {
               this.grantList=res.data.pojo;
-              console.log(this.grantList)
           })
           .catch(err=>{
             console.log(err)

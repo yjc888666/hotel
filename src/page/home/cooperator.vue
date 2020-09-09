@@ -219,7 +219,7 @@
           ],
           phone: [
             {required: true, message: this.$t('Validation.cooperator.phone'), trigger: 'blur'},
-            {validator: yz.validatePhTelNumber, trigger: 'blur'}
+            {validator: yz.validateMobilePhoneNo, trigger: 'blur'}
           ],
            content: [
             {required: true, message: this.$t('Validation.cooperator.content'), trigger: 'blur'}

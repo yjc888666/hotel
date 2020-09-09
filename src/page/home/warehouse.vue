@@ -8,7 +8,7 @@
       <el-button type="danger" size="small"   icon='el-icon-delete'  @click="delEvent()">{{$t('public.alldelete')}}</el-button>
     <div class="lists">
      <el-input v-model.trim="ruleForm.ware_number" class="time-left" :placeholder="$t('reception.warehouse_num')" clearable></el-input>
-     <el-input v-model.trim="ruleForm.remark" class="time-left" :placeholder="$t('public.remark')" clearable></el-input>
+     <el-input v-model.trim="ruleForm.remark" class="time-left" :placeholder="$t('reception.warehouse_name')" clearable></el-input>
      <el-button type="primary tijiao" @click="submitForm('ruleForm')" class="tijiao">{{$t('public.inquire')}}</el-button>
      </div>
     </div>

@@ -96,8 +96,10 @@ var validatePhone = (rule, value, callback) => {
 //邮箱验证
 var validateEmail = (rule, value, callback) => {
   if (value) {
-    var reg = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
-    if (!reg.test(value)) {
+    // var reg1=/^\w[a-z]([a-z0-9]*[-_]?[a-z0-9]+)*@([a-z0-9]*[-_]?[a-z0-9]+)+[\.][a-z]{2,3}([\.][a-z]{2})$/i;
+    var reg2=/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@(([0-9a-zA-Z])+([-\w]*[0-9a-zA-Z])*\.)+[a-zA-Z]{2,9}/;
+    //  var reg = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+    if (!reg2.test(value)) {
       callback(new Error(i18n.t('Validation.val.email_val')));
     }else{
       callback();

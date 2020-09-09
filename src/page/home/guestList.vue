@@ -126,11 +126,12 @@
         <el-pagination
           @size-change="handleSizeChangeCont"
           @current-change="handleCurrentChangeCont"
-          :current-page="getData.page"
+          :current-page="currentPage"
           :page-sizes="[5,10, 20, 30, 40]"
-          :page-size="getData.size"
+          :page-size="pagesize"
           layout="total, sizes, prev, pager, next, jumper"
           :total="toltal"
+           v-if="toltal!=0"
         ></el-pagination>
       </div>
 </template>
@@ -152,12 +153,16 @@ export default {
       },
       time: "",
       getData: {
-        page: 1,
-        size: 10,
         memberName: "",
         phone: "",
         member_card: ""
       },
+       
+      currentPage: 1,
+      pagesize: 10,
+      pages: 0,
+      pageNums: 0,
+
       toltal: 0,
       listData: [],
       evocation: false,
@@ -202,25 +207,47 @@ export default {
       }
     },
 
-    handleSizeChangeCont(val) {
-      this.getData.size = val;
-      this.getList(this.getData);
+    handleSizeChangeCont: function (size) {
+      this.pagesize = size;
+      this.getList(this.currentPage, size);
     },
-    handleCurrentChangeCont(val) {
-      this.getData.page = val;
-      this.getList(this.getData);
+    handleCurrentChangeCont: function (currentPage) {
+      this.currentPage = currentPage;
+      this.getList(currentPage, this.pagesize);
     },
     // 查询
     integralQuery() {
-      this.getList(this.getData);
+     var that = this;
+      that.getList(1, this.pagesize);
     },
-    getList() {
+    getList(a,b) {
+     var that = this;
+      var para = {
+        page: a,
+        size: b,
+        username: that.getData.memberName,
+        phone: that.getData.phone,
+        member_card: that.getData.member_card,
+      };
       this.$axios
-        .post(this.$baseUrl + `/customer/bypage`, this.getData)
+        .post(this.$baseUrl + `/customer/bypage`, para)
         .then(res => {
-          console.log(res);
-          this.listData = res.data.pojo.list;
-          this.toltal = res.data.pojo.total;
+          if (res.data.result == true) {
+          that.listData = res.data.pojo.list;
+          that.toltal = res.data.pojo.total;
+          that.pageNums = res.data.pojo.pageNum;
+          that.pages = res.data.pojo.pages;
+            if (that.pageNums > that.pages && that.currentPage != 0) {
+              that.currentPage = that.pages;
+              that.getList(that.currentPage, that.pagesize);
+            }
+          } else {
+            that.listData = [];
+            that.$message.error(that.$t("common." + res.data.msg));
+          }
+        })
+        .catch(function (error) {
+          console.log("逻辑错误");
         });
     },
     historyButton(val) {

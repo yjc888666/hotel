@@ -1,7 +1,7 @@
 <template>
   <div class="adduser">
       
-  <el-form :rules="model.rules" :model="model"  ref="teamplayer">
+  <el-form :rules="rules" :model="model"  ref="teamplayer">
     <!-- 表格布局 -->
     <el-table :data="model.tableData" border stripe style="width: 100%;" header-align="center"
     >
@@ -11,7 +11,7 @@
            <el-select
             v-if="scope.row.edit"
             v-model="scope.row.house_type"
-            placeholder="请选择"
+            :placeholder="$t('reception.house_type')"
             @change="queryRoomList"
           >
             <el-option v-for="item in housetype" :key="item.id" :label="item.name" :value="item.id"></el-option>
@@ -25,7 +25,7 @@
           <el-form-item :prop="'tableData.'+scope.$index+'.room_number'" :rules='model.rules.room_number'>
           <el-select
             v-model.trim="scope.row.room_number"
-            placeholder="请输入房间号"
+            :placeholder="$t('reception.room_number')"
             clearable
             v-if="scope.row.edit"
           >
@@ -38,7 +38,7 @@
       <el-table-column  :label="$t('reception.username2')" show-overflow-tooltip align="center">
         <template slot-scope="scope">
           <el-form-item :prop="'tableData.'+scope.$index+'.username'" :rules='model.rules.username'>
-          <el-input v-if="scope.row.edit" v-model="scope.row.username" placeholder="姓名"></el-input>
+          <el-input v-if="scope.row.edit" v-model="scope.row.username" :placeholder="$t('reception.username2')"></el-input>
           <span v-else>{{scope.row.username}}</span>
           </el-form-item>
         </template>
@@ -46,7 +46,7 @@
       <el-table-column prop="phone" :label="$t('reception.phone2')" show-overflow-tooltip align="center">
         <template slot-scope="scope">
             <el-form-item :prop="'tableData.'+scope.$index+'.phone'" :rules='model.rules.phone'>
-          <el-input v-if="scope.row.edit" v-model="scope.row.phone" placeholder="手机号"></el-input>
+          <el-input v-if="scope.row.edit" v-model="scope.row.phone" :placeholder="$t('reception.phone2')"></el-input>
           <span v-else>{{scope.row.phone}}</span>
             </el-form-item>
         </template>
@@ -55,13 +55,13 @@
       <el-table-column  :label="$t('public.gender')" show-overflow-tooltip align="center">
         <template slot-scope="scope">
             <el-form-item :prop="'tableData.'+scope.$index+'.gender'" :rules='model.rules.gender'>
-          <el-select v-if="scope.row.edit" v-model="scope.row.gender" placeholder="请选择">
-            <el-option label="男" value="1">男</el-option>
-            <el-option label="女" value="2">女</el-option>
+          <el-select v-if="scope.row.edit" v-model="scope.row.gender" :placeholder="$t('public.gender')">
+            <el-option label="男" value="1">{{$t('public.man')}}</el-option>
+            <el-option label="女" value="2">{{$t('public.woman')}}</el-option>
           </el-select>
           <span v-else>
-            <p v-if="scope.row.gender==1">男</p>
-            <p v-if="scope.row.gender==2">女</p>
+            <p v-if="scope.row.gender==1">{{$t('public.man')}}</p>
+            <p v-if="scope.row.gender==2">{{$t('public.woman')}}</p>
           </span>
             </el-form-item>
         </template>
@@ -70,7 +70,7 @@
       <el-table-column prop="certificate_type" :label="$t('reception.card_type')" show-overflow-tooltip align="center">
         <template slot-scope="scope">
             <el-form-item :prop="'tableData.'+scope.$index+'.certificate_type'" :rules='model.rules.certificate_type'>
-          <el-select v-if="scope.row.edit" v-model="scope.row.certificate_type" placeholder="请选择">
+          <el-select v-if="scope.row.edit" v-model="scope.row.certificate_type" :placeholder="$t('reception.card_type')">
             <el-option v-for="item in idtype" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
           </el-form-item>
@@ -80,7 +80,7 @@
       <el-table-column prop="id_number" :label="$t('reception.id')" show-overflow-tooltip align="center">
         <template slot-scope="scope">
            <el-form-item :prop="'tableData.'+scope.$index+'.id_number'" :rules='model.rules.id_number'>
-          <el-input v-if="scope.row.edit" v-model="scope.row.id_number" placeholder="姓名"></el-input>
+          <el-input v-if="scope.row.edit" v-model="scope.row.id_number" :placeholder="$t('reception.id')"></el-input>
           <span v-else>{{scope.row.id_number}}</span>
           </el-form-item>
         </template>
@@ -137,11 +137,11 @@
           <el-input v-model.trim="forms.phone"></el-input>
         </el-form-item>
         <el-form-item :label="$t('public.gender')" prop="gender" class="floatleft">
-          <el-radio v-model="forms.gender" label="1">男</el-radio>
-          <el-radio v-model="forms.gender" label="2">女</el-radio>
+          <el-radio v-model="forms.gender" label="1">{{$t('public.man')}}</el-radio>
+          <el-radio v-model="forms.gender" label="2">{{$t('public.woman')}}</el-radio>
         </el-form-item>
         <el-form-item :label="$t('reception.card_type')" prop="card_type" class="floatleft">
-          <el-select v-model.trim="forms.card_type " placeholder="证件类型" clearable>
+          <el-select v-model.trim="forms.card_type " :placeholder="$t('reception.card_type')" clearable>
             <el-option v-for="item in idtype" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
@@ -173,9 +173,33 @@ export default {
       teamDataByFather: {},
       model:{
        tableData: [],
-      //  rules: {
-       
-      // },
+       rules: {
+       checkout_time: [
+          { required: true, message: this.$t('Validation.check_in.out_time'), trigger: "blur" },
+        ],
+        day: [{ required: true, message: this.$t('Validation.check_in.days'), trigger: "blur" }],
+        house_type: [
+          { required: true, message: this.$t('Validation.check_in.house_type'), trigger: "blur" },
+        ],
+        source_type: [
+          { required: true, message: this.$t('Validation.check_in.source_type'), trigger: "blur" },
+        ],
+        username: [{ required: true, message: this.$t('Validation.check_in.username'), trigger: "blur" }],
+        phone: [{ required: true, message: this.$t('Validation.check_in.phone'), trigger: "blur" },
+        {validator: yz.validateMobilePhone, trigger: 'blur'}],
+        card_type: [
+          { required: true, message: this.$t('Validation.check_in.card_type'), trigger: "blur" },
+        ],
+        certificate_type:[{ required: true, message: this.$t('Validation.check_in.card_type'), trigger: "blur" }],
+        id_number:[ { required: true, message: this.$t('Validation.check_in.card_num'), trigger: "blur" },
+             {validator: yz.validatenum, trigger: 'blur'}
+        ],
+        gender: [{ required: true, message: this.$t('Validation.check_in.gender'), trigger: "blur" }],
+        card_num: [
+          { required: true, message: this.$t('Validation.check_in.card_num'), trigger: "blur" },
+          {validator: yz.validatenum, trigger: 'blur'}
+        ],
+      },
       },
     
       forms: {},

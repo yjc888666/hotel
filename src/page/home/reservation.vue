@@ -186,7 +186,7 @@
         >
           <el-date-picker
             v-model="forms.checkin_time"
-            type="datetime"
+            type="date"
             value-format="timestamp"
             :placeholder="$t('reception.expect_check_time')"
           ></el-date-picker>
@@ -198,7 +198,7 @@
         >
           <el-date-picker
             v-model="forms.checkout_time"
-            type="datetime"
+            type="date"
             value-format="timestamp"
             :placeholder="$t('reception.expect_out_time')"
           ></el-date-picker>
@@ -414,7 +414,7 @@
               <el-button
                 type="primary"
                 @click="addman(scope.$index,scope.row)"
-              >{{$t('reception.add_player')}} {{scope.$index}}</el-button>
+              >{{$t('reception.add_player')}}</el-button>
             </template>
           </el-table-column>
 
@@ -767,6 +767,51 @@ export default {
       post_customers: []
     };
   },
+   watch:{
+      'forms.checkout_time'(val){
+       let a= val;
+      if(val!=""){
+        if(this.forms.checkin_time!=null){
+           this.forms.day= (a-this.forms.checkin_time)/3600/24/1000;
+        }
+        else{
+           this.forms.day=0;
+        }
+      }
+      else{
+       this.forms.day=0;
+       }
+    },
+    'forms.checkin_time'(val){
+       let a= val;
+      if(val!=""){
+        if(this.forms.checkout_time!=null){
+           this.forms.day= (this.forms.checkout_time-a)/3600/24/1000;
+        }
+        else{
+           this.forms.day=0;
+        }
+      }
+      else{
+       this.forms.day=0;
+       }
+    },
+    'forms.day'(val){
+       let a= val;
+      if(val!=""){
+        if(this.forms.checkin_time!=''){
+           this.forms.checkout_time=a*1000*24*3600+this.forms.checkin_time
+        }
+        else{
+           this.checkout_time='';
+        }
+      }
+      else{
+       this.checkout_time='';
+       }
+    },
+   },
+
   created() {
     this.houseEvent();
     this.queryWorker();
@@ -838,7 +883,8 @@ export default {
     //query 方法
     submitForm() {
       var that = this;
-      that.roomList(that.currentPage, that.pagesize);
+      console.log(this.currentPage)
+      that.roomList(1, that.pagesize);
     },
 
     //查询操作员列表
@@ -982,7 +1028,7 @@ export default {
     // 房间查询列表
     roomList(a, b) {
       var that = this;
-      let para = {
+      var para = {
         page: a,
         size: b,
         username: that.ruleForm.username,
@@ -998,7 +1044,7 @@ export default {
             that.pages = res.data.pojo.pages;
             if (that.pageNums > that.pages && that.currentPage != 0) {
               that.currentPage = that.pages;
-              that.list(that.currentPage, that.pagesize);
+              that.roomList(that.currentPage, that.pagesize);
             }
           } else {
             that.tableData = [];
@@ -1013,7 +1059,7 @@ export default {
     dateFormat(row, column) {
       let moment = require("moment");
       let date = row[column.property] * 1000;
-      return moment(date).format("YYYY-MM-DD");
+      return moment(date).format("YYYY-MM-DD hh:mm:ss");
     },
     // 新增房间
     submitForms(formName) {

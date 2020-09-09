@@ -96,8 +96,12 @@
           <el-button size="mini" type="danger" plain @click="handleorder(scope.$index, scope.row)">
           {{$t('reception.bill')}}
           </el-button>
-          <el-button size="mini" @click="handleEdit1(scope.$index, scope.row)">{{$t('reception.change_room')}}</el-button>
-          <el-button size="mini" type="primary" @click="handleEdit2(scope.$index, scope.row)">
+          <el-button size="mini" @click="handleEdit1(scope.$index, scope.row)"
+           :disabled="scope.row.pay_status==1"
+          >{{$t('reception.change_room')}}</el-button>
+          <el-button size="mini" type="primary" @click="handleEdit2(scope.$index, scope.row)"
+           :disabled="scope.row.pay_status==1"
+          >
             {{$t('reception.add_day')}}
           </el-button>
           <el-button size="mini" @click="printCheckInfo(scope.$index, scope.row)">
@@ -832,79 +836,79 @@ export default {
       projecttype: [
          {
           value: "1",
-          label: this.$t('Validation.check_in.project_type.item_1'),
+          label: this.$t('Validation.check_in.project_type2.item_1'),
         },
         {
           value: "2",
-          label: this.$t('Validation.check_in.project_type.item_2'),
+          label: this.$t('Validation.check_in.project_type2.item_2'),
         },
         {
           value: "3",
-          label: this.$t('Validation.check_in.project_type.item_3'),
+          label: this.$t('Validation.check_in.project_type2.item_3'),
         },
         {
           value: "4",
-          label: this.$t('Validation.check_in.project_type.item_4'),
+          label: this.$t('Validation.check_in.project_type2.item_4'),
         },
         {
           value: "5",
-          label: this.$t('Validation.check_in.project_type.item_5'),
+          label: this.$t('Validation.check_in.project_type2.item_5'),
         },
         {
           value: "6",
-          label: this.$t('Validation.check_in.project_type.item_6'),
+          label: this.$t('Validation.check_in.project_type2.item_6'),
         },
         {
           value: "7",
-          label: this.$t('Validation.check_in.project_type.item_7'),
+          label: this.$t('Validation.check_in.project_type2.item_7'),
         },
         {
           value: "8",
-          label: this.$t('Validation.check_in.project_type.item_8'),
+          label: this.$t('Validation.check_in.project_type2.item_8'),
         },
         {
           value: "9",
-          label: this.$t('Validation.check_in.project_type.item_9'),
+          label: this.$t('Validation.check_in.project_type2.item_9'),
         },
         {
           value: "10",
-          label: this.$t('Validation.check_in.project_type.item_10'),
+          label: this.$t('Validation.check_in.project_type2.item_10'),
         },
         {
           value: "11",
-          label: this.$t('Validation.check_in.project_type.item_11'),
+          label: this.$t('Validation.check_in.project_type2.item_11'),
         },
         {
           value: "12",
-          label: this.$t('Validation.check_in.project_type.item_12'),
+          label: this.$t('Validation.check_in.project_type2.item_12'),
         },
         {
           value: "13",
-          label: this.$t('Validation.check_in.project_type.item_13'),
+          label: this.$t('Validation.check_in.project_type2.item_13'),
         },
         {
           value: "14",
-          label: this.$t('Validation.check_in.project_type.item_14'),
+          label: this.$t('Validation.check_in.project_type2.item_14'),
         },
         {
           value: "15",
-          label: this.$t('Validation.check_in.project_type.item_15'),
+          label: this.$t('Validation.check_in.project_type2.item_15'),
         },
         {
           value: "16",
-          label: this.$t('Validation.check_in.project_type.item_16'),
+          label: this.$t('Validation.check_in.project_type2.item_16'),
         },
         {
           value: "17",
-          label: this.$t('Validation.check_in.project_type.item_17'),
+          label: this.$t('Validation.check_in.project_type2.item_17'),
         },
         {
           value: "18",
-          label: this.$t('Validation.check_in.project_type.item_18'),
+          label: this.$t('Validation.check_in.project_type2.item_18'),
         },
         {
           value: "19",
-          label: this.$t('Validation.check_in.project_type.item_19'),
+          label: this.$t('Validation.check_in.project_type2.item_19'),
         },
       ],
       entry: [
@@ -1169,11 +1173,11 @@ export default {
   },
   watch:{
     
-    'forms1.day': function (data) {
+   'forms1.day': function (data) {
       let a= data;
       if(data!=""){
       this.forms1.total_price= a*this.singlePrice;
-      console.log(this.forms1.total_price)
+      this.forms1.checkout_time=this.row_leavetime*1000 + a*24*3600*1000
       }
       else{
        this.forms1.total_price=0;
@@ -1243,68 +1247,68 @@ export default {
     formatterCloumn(row, column) {
       switch (row.project || row.pay_type) {
         case 1:
-          return this.$t('Validation.check_in.project_type.item_1');
+          return this.$t('Validation.check_in.project_type2.item_1');
           break;
         case 2:
-          return this.$t('Validation.check_in.project_type.item_2');
+          return this.$t('Validation.check_in.project_type2.item_2');
           break;
         case 3:
-          return this.$t('Validation.check_in.project_type.item_3');
+          return this.$t('Validation.check_in.project_type2.item_3');
           break;
         case 4:
-          return this.$t('Validation.check_in.project_type.item_4');
+          return this.$t('Validation.check_in.project_type2.item_4');
           break;
         case 5:
-          return this.$t('Validation.check_in.project_type.item_5');
+          return this.$t('Validation.check_in.project_type2.item_5');
           break;
         case 6:
-          return this.$t('Validation.check_in.project_type.item_6');
+          return this.$t('Validation.check_in.project_type2.item_6');
           break;
         case 7:
-          return this.$t('Validation.check_in.project_type.item_7');
+          return this.$t('Validation.check_in.project_type2.item_7');
           break;
         case 8:
-          return this.$t('Validation.check_in.project_type.item_8');
+          return this.$t('Validation.check_in.project_type2.item_8');
           break;
         case 9:
-          return this.$t('Validation.check_in.project_type.item_9');
+          return this.$t('Validation.check_in.project_type2.item_9');
           break;
         case 10:
-          return this.$t('Validation.check_in.project_type.item_10');
+          return this.$t('Validation.check_in.project_type2.item_10');
           break;
         case 11:
-          return this.$t('Validation.check_in.project_type.item_11');
+          return this.$t('Validation.check_in.project_type2.item_11');
           break;
         case 12:
-          return this.$t('Validation.check_in.project_type.item_12');
+          return this.$t('Validation.check_in.project_type2.item_12');
           break;
 
         case 13:
-          return this.$t('Validation.check_in.project_type.item_13');
+          return this.$t('Validation.check_in.project_type2.item_13');
           break;
 
         case 14:
-          return this.$t('Validation.check_in.project_type.item_14');
+          return this.$t('Validation.check_in.project_type2.item_14');
           break;
 
         case 15:
-          return this.$t('Validation.check_in.project_type.item_15');
+          return this.$t('Validation.check_in.project_type2.item_15');
           break;
 
         case 16:
-          return this.$t('Validation.check_in.project_type.item_16');
+          return this.$t('Validation.check_in.project_type2.item_16');
           break;
 
         case 17:
-          return this.$t('Validation.check_in.project_type.item_17');
+          return this.$t('Validation.check_in.project_type2.item_17');
           break;
 
         case 18:
-          return this.$t('Validation.check_in.project_type.item_18');
+          return this.$t('Validation.check_in.project_type2.item_18');
           break;
 
         case 19:
-          return this.$t('Validation.check_in.project_type.item_19');
+          return this.$t('Validation.check_in.project_type2.item_19');
           break;
       }
     },

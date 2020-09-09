@@ -132,8 +132,12 @@
             @click="togetherRoom(scope.$index, scope.row)"
             :disabled="scope.row.isteam==1"
           >{{$t('reception.united_room')}}</el-button>
-          <el-button size="mini" @click="handleEdit1(scope.$index, scope.row)">{{$t('reception.change_room')}}</el-button>
-          <el-button size="mini" type="primary" @click="handleEdit2(scope.$index, scope.row)">
+          <el-button size="mini" @click="handleEdit1(scope.$index, scope.row)"
+           :disabled="scope.row.pay_status==1"
+          >{{$t('reception.change_room')}}</el-button>
+          <el-button size="mini" type="primary" @click="handleEdit2(scope.$index, scope.row)"
+           :disabled="scope.row.pay_status==1"
+          >
             {{$t('reception.add_day')}}
           </el-button>
           <el-button size="mini" @click="printCheckInfo(scope.$index, scope.row)">
@@ -284,7 +288,7 @@
             <el-option v-for="item in idtype" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('reception.id')" prop="card_num" class="floatleft">
+        <el-form-item :label="$t('reception.id')" prop="card_num" class="floatleft" style="width:300px">
           <el-input v-model.trim="forms.card_num"></el-input>
         </el-form-item>
       </el-form>
@@ -296,7 +300,7 @@
     </el-dialog>
      
      <!-- 换房 -->
-    <el-dialog :title="$t('reception.add_day')" :visible.sync="dialogFormVisible1" class="dia" width="30%">
+    <el-dialog :title="$t('public.operate')" :visible.sync="dialogFormVisible1" class="dia" width="30%">
       <el-form
         :model="forms1"
         status-icon
@@ -1192,6 +1196,7 @@ export default {
 
       // 团队里边的结账
       isteam_:null,
+      row_leavetime:'',
     };
   },
   filters: {
@@ -1201,18 +1206,73 @@ export default {
     },
   },
   watch:{
+    //  'forms1.checkout_time'(val){
+    //     let a= val;
+    //   if(val!=""){  
+    //     let nowTime=new Date();
+    //   this.forms1.day= parseInt((a- Date.parse(nowTime))/3600/24/1000)+1;
+    //   console.log(this.forms1.day)
+    //   }
+    //   else{
+    //    this.forms1.day=0;
+    //    }
+    // },
  
     'forms1.day': function (data) {
       let a= data;
       if(data!=""){
       this.forms1.total_price= a*this.singlePrice;
-      console.log(this.forms1.total_price)
+      this.forms1.checkout_time=this.row_leavetime*1000 + a*24*3600*1000
       }
       else{
        this.forms1.total_price=0;
        }
      
     },
+    'forms.checkout_time'(val){
+       let a= val;
+      if(val!=""){
+        if(this.forms.checkin_time!=null){
+           this.forms.day= (a-this.forms.checkin_time)/3600/24/1000;
+        }
+        else{
+           this.forms.day=0;
+        }
+      }
+      else{
+       this.forms.day=0;
+       }
+    },
+    'forms.checkin_time'(val){
+       let a= val;
+      if(val!=""){
+        if(this.forms.checkout_time!=null){
+           this.forms.day= (this.forms.checkout_time-a)/3600/24/1000;
+        }
+        else{
+           this.forms.day=0;
+        }
+      }
+      else{
+       this.forms.day=0;
+       }
+    },
+    'forms.day'(val){
+       let a= val;
+      if(val!=""){
+        if(this.forms.checkin_time!=''){
+           this.forms.checkout_time=a*1000*24*3600+this.forms.checkin_time
+        }
+        else{
+           this.checkout_time='';
+        }
+      }
+      else{
+       this.checkout_time='';
+       }
+    },
+   
+
   },
   created() {
     this.submitForm();
@@ -1417,68 +1477,68 @@ export default {
     formatterCloumn(row, column) {
       switch (row.project || row.pay_type) {
         case 1:
-          return this.$t('Validation.check_in.project_type.item_1');
+          return this.$t('Validation.check_in.project_type2.item_1');
           break;
         case 2:
-          return this.$t('Validation.check_in.project_type.item_2');
+          return this.$t('Validation.check_in.project_type2.item_2');
           break;
         case 3:
-          return this.$t('Validation.check_in.project_type.item_3');
+          return this.$t('Validation.check_in.project_type2.item_3');
           break;
         case 4:
-          return this.$t('Validation.check_in.project_type.item_4');
+          return this.$t('Validation.check_in.project_type2.item_4');
           break;
         case 5:
-          return this.$t('Validation.check_in.project_type.item_5');
+          return this.$t('Validation.check_in.project_type2.item_5');
           break;
         case 6:
-          return this.$t('Validation.check_in.project_type.item_6');
+          return this.$t('Validation.check_in.project_type2.item_6');
           break;
         case 7:
-          return this.$t('Validation.check_in.project_type.item_7');
+          return this.$t('Validation.check_in.project_type2.item_7');
           break;
         case 8:
-          return this.$t('Validation.check_in.project_type.item_8');
+          return this.$t('Validation.check_in.project_type2.item_8');
           break;
         case 9:
-          return this.$t('Validation.check_in.project_type.item_9');
+          return this.$t('Validation.check_in.project_type2.item_9');
           break;
         case 10:
-          return this.$t('Validation.check_in.project_type.item_10');
+          return this.$t('Validation.check_in.project_type2.item_10');
           break;
         case 11:
-          return this.$t('Validation.check_in.project_type.item_11');
+          return this.$t('Validation.check_in.project_type2.item_11');
           break;
         case 12:
-          return this.$t('Validation.check_in.project_type.item_12');
+          return this.$t('Validation.check_in.project_type2.item_12');
           break;
 
         case 13:
-          return this.$t('Validation.check_in.project_type.item_13');
+          return this.$t('Validation.check_in.project_type2.item_13');
           break;
 
         case 14:
-          return this.$t('Validation.check_in.project_type.item_14');
+          return this.$t('Validation.check_in.project_type2.item_14');
           break;
 
         case 15:
-          return this.$t('Validation.check_in.project_type.item_15');
+          return this.$t('Validation.check_in.project_type2.item_15');
           break;
 
         case 16:
-          return this.$t('Validation.check_in.project_type.item_16');
+          return this.$t('Validation.check_in.project_type2.item_16');
           break;
 
         case 17:
-          return this.$t('Validation.check_in.project_type.item_17');
+          return this.$t('Validation.check_in.project_type2.item_17');
           break;
 
         case 18:
-          return this.$t('Validation.check_in.project_type.item_18');
+          return this.$t('Validation.check_in.project_type2.item_18');
           break;
 
         case 19:
-          return this.$t('Validation.check_in.project_type.item_19');
+          return this.$t('Validation.check_in.project_type2.item_19');
           break;
       }
     },
@@ -1754,14 +1814,15 @@ export default {
       this.show1 = 2;
     },
     handleEdit2(index, row) {
+      this.row_leavetime=Number(row.checkout_time) ;
       this.dialogFormVisible1 = true;
       //  this.forms1.checkout_time = row.checkout_time;
       this.forms1.id = row.id;
       //  console.log(row.id)
-      this.forms1.day = row.day;
+      // this.forms1.day = row.day;
       // this. basePrice=row.total_price;
       this.singlePrice=row.total_price/row.day;
-      this.forms1.total_price = row.total_price;
+      // this.forms1.total_price = row.total_price;
       this.show1 = 3;
     },
     handleEdit3(index, row) {
@@ -1854,8 +1915,14 @@ export default {
       this.$axios
         .post(this.$baseUrl + `/roomact/onAccount`, this.formCompany)
         .then((res) => {
+          if(res.data.result==true){
           this.$message.success(that.$t("common." + res.data.msg));
           this.dialogFormVisibleCompany = false;
+          }
+          else {
+            this.$message.error(that.$t("common." + res.data.msg));
+          }
+          
         })
         .catch((err) => {
           console.log(err);

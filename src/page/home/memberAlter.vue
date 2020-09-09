@@ -80,7 +80,7 @@
       >
         <el-form-item :label="$t('reception.fang_shi')" prop="type">
           <el-radio-group v-model="repairData.type" @change="radioRepair">
-            <el-radio class="radio" label="0">{{$t('reception.change_card')}}</el-radio>
+            <el-radio class="radio"  label="0">{{$t('reception.change_card')}}</el-radio>
             <el-radio class="radio" label="1">{{$t('reception.gua_shi_card')}}</el-radio>
             <el-radio class="radio" label="2">{{$t('reception.gua_shi')}}</el-radio>
           </el-radio-group>
@@ -91,10 +91,10 @@
         <el-form-item :label="$t('reception.old_card')" prop="old_card">
           <el-input  :disabled="true" v-model.trim="repairData.old_card" ></el-input>
         </el-form-item>
-        <el-form-item :label="$t('reception.fei_yong')" prop="price">
-          <el-input v-model.trim="repairData.price "></el-input>
+        <el-form-item :label="$t('reception.fei_yong')" prop="price" v-if="priceShow" >
+          <el-input :disabled="true" v-model.trim="repairData.price "></el-input>
         </el-form-item>
-        <el-form-item :label="$t('reception.payf')" prop="pay_type">
+        <el-form-item :label="$t('reception.payf')" prop="pay_type" v-if="priceShow" >
           <el-radio-group v-model="repairData.pay_type">
             <el-radio class="radio" label="1">{{$t('reception.cash3')}}</el-radio>
             <el-radio class="radio" label="2">{{$t('reception.use_a_card')}}</el-radio>
@@ -207,7 +207,7 @@ export default {
       bukaId: '',
       cardShow: true,
       priceShow: false,
-      remarkShow:false,
+      remarkShow:true,
       passAlter: {
         //修改密码的数据---
         status: '0',
@@ -392,6 +392,7 @@ export default {
     },
     // 挂失补卡弹窗----------------
     repairCar() {
+       this.repairData.price=this.ruleForm.balance
        this.repairData.old_card=this.ruleForm.member_card
       this.dialogRepair = true;
     },
@@ -421,12 +422,16 @@ export default {
     radioRepair(val) {
       this.repairEmpty(val);
       this.bukaId= val
-       if (this.bukaId == 2) {
+       if (this.repairData.type == 2) {
         this.cardShow = false;
         this.priceShow = true;
         // delete this.repairRules.member_card;
         // delete this.repairData.remark;
-      } else {
+      }else if(this.repairData.type==1){
+         this.priceShow = true;
+         this.cardShow = true;
+      } 
+      else {
         this.cardShow = true;
         this.priceShow = false;
         // delete this.repairRules.price;
@@ -434,7 +439,8 @@ export default {
         // delete this.repairData.price;
         // delete this.repairData.pay_type;
       }
-      if(this.bukaId == 0){
+
+      if(this.repairData.type == 0){
         this.remarkShow=true;
       }
       else{
@@ -447,7 +453,7 @@ export default {
       this.repairData.member_card = "";
       this.repairData.type = val;
       //this.repairData.old_card = "";
-      this.repairData.price = "";
+      // this.repairData.price = "";
       this.repairData.pay_type = "";
       this.repairData.remark = "";
     },

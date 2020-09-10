@@ -642,7 +642,6 @@ module.exports = {
         item_2:'无',
         item_3:'保修',
         item_4:'空闲',
-        item_5:'预订',
         item_6:'有客',
         item_7:'打扫',
         item_8:'维修',

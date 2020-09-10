@@ -16,7 +16,7 @@
         
 
           <el-form-item :label="$t('reception.leave_time')" prop="leave_time"  class="floatleft">
-             <el-date-picker clearable v-model="forms.leave_time" type="date" :placeholder="$t('reception.leave_time')" value-format="timestamp" :disabled="edit"></el-date-picker>
+             <el-date-picker   v-model="forms.leave_time" type="date" :placeholder="$t('reception.leave_time')" value-format="timestamp" :disabled="edit"></el-date-picker>
          </el-form-item>
           <el-form-item :label="$t('reception.source_type')" prop="type" class="floatleft">
             <el-select v-model.trim="forms.type" :placeholder="$t('reception.source_type')" clearable>
@@ -312,22 +312,18 @@
       this.remark='';  
      }
   } ,
-    // 'forms.leave_time'(val){
-    //    let a= val;
-    //   if(val!=""){  
-    //     let nowTime=new Date();
-    //   this.forms.day_num= parseInt((a- Date.parse(nowTime))/3600/24/1000)+1;
-    //   console.log(this.forms.day_num)
-    //   }
-    //   else{
-    //    this.forms.day_num=0;
-    //    }
-    // },
+    'forms.leave_time'(val){
+       let a= val;
+      if(val!=""){  
+        let nowTime=new Date();
+      this.forms.day_num= Math.ceil(val/1000/3600/24)-parseInt(Date.parse(nowTime)/1000/24/3600);
+      } 
+    },
     'forms.day_num'(val){
        let a= val;
       if(val!=""){
         let nowTime2=new Date();
-           this.forms.leave_time=a*1000*24*3600+ Date.parse(nowTime2)
+           this.forms.leave_time=a*1000*24*3600+parseInt(Date.parse(nowTime2)/1000/3600/24)*1000*3600*24
       }
       else{
        this.forms.leave_time='';

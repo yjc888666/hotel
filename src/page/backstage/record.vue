@@ -8,7 +8,18 @@
      <div class="lists">
      <!-- <el-input v-model.trim="ruleForm.username" class="time-left" placeholder="用户名" clearable></el-input> -->
      <el-input v-model.trim="ruleForm.serial_number" class="time-left" :placeholder="$t('backstage.serial_number')" clearable></el-input>
-     <el-input v-model.trim="ruleForm.action" class="time-left" :placeholder="$t('backstage.action')" clearable></el-input>
+     <!-- <el-input v-model.trim="ruleForm.action" class="time-left" :placeholder="$t('backstage.action')" clearable></el-input> -->
+
+
+      <el-select 
+          v-model.trim="ruleForm.action "
+          :placeholder="$t('backstage.action')"
+          clearable
+          class="time-left"
+        >
+          <el-option v-for="item in setType" :key="item.id" :label="item.label" :value="item.value"></el-option>
+        </el-select>
+
      <el-date-picker v-model="ruleForm.startTime" type="date" :placeholder="$t('backstage.startTime')" value-format="timestamp" clearable></el-date-picker>
      <el-date-picker v-model="ruleForm.endTime" type="date" :placeholder="$t('backstage.endTime') " value-format="timestamp" clearable></el-date-picker>
       <el-button type="primary tijiao" @click="submitForm('ruleForm')" class="tijiao">{{$t('public.inquire')}}</el-button>
@@ -69,6 +80,19 @@
         rules: {
          
         },
+         setType: [{                                                   
+          value: '1',
+          label: this.$t('backstage.grant')
+        }, {
+          value: '2',
+          label: this.$t('backstage.vip_push')
+        }, {
+          value: '3',
+          label: this.$t('backstage.vip_del')
+        }, {
+          value: '4',
+          label: this.$t('backstage.setBill')
+        }],
       }
     },
     computed:{
@@ -79,7 +103,41 @@
     methods:{
       list(a,b) {
         var that=this;
-        var para ={
+        var time='';
+        var end='';
+        time=that.ruleForm.startTime/1000;
+        end=that.ruleForm.endTime/1000
+        if(time!=0||end!=0){
+          var para ={
+          page:a,
+          size:b,
+          serial_number:that.ruleForm.serial_number,	
+          action:that.ruleForm.action,  
+          startTime:time,        
+          endTime:end,
+        }
+        that.$axios.post(this.$baseUrl +`/action/bypage`,para)
+          .then(function (res) {
+            if (res.data.result==true) {
+              that.tableData = res.data.pojo.list
+              that.mytotal = res.data.pojo.total;
+              that.pageNums = res.data.pojo.pageNum;
+              that.pages = res.data.pojo.pages;
+               if(that.pageNums > that.pages && that.currentPage!=0){
+                that.currentPage = that.pages
+                that.list(that.currentPage,that.pagesize)
+              }
+            } else {
+              that.tableData = [];
+              that.mytotal = 0;
+              that.$message.error(that.$t("common."+res.data.msg))
+            }
+          }).catch(function (error) {
+          console.log('逻辑错误')
+        })
+        }
+        else {
+         var para ={
           page:a,
           size:b,
           serial_number:that.ruleForm.serial_number,	
@@ -106,6 +164,8 @@
           }).catch(function (error) {
           console.log('逻辑错误')
         })
+        }
+       
       },
        submitForm() {
         var that=this;

@@ -9,7 +9,7 @@
        <el-select v-model.trim="ruleForm.restaurant_id" :placeholder="$t('backstage.restaurant_id')" clearable @change="selectChanged1(ruleForm.restaurant_id)">
           <el-option v-for="item in restauranttype" :key="item.id" :label="item.restaurant" :value="item.id"></el-option>
         </el-select>
-        <el-select v-model.trim="ruleForm.table_num " :placeholder="$t('reception.table_num')" clearable>
+        <el-select v-model.trim="ruleForm.table_num" :placeholder="$t('reception.table_num')" clearable>
           <el-option v-for="item in tabletype" :key="item.id" :label="item.serial_number" :value="item.serial_number"></el-option>
         </el-select>
      <el-date-picker clearable
@@ -359,6 +359,8 @@
          this.tableEvent(val);
       },
       selectChanged(val){
+         this.ruleForm.table_num=''
+          this.forms.table_num='';
         // console.log(11111)
          this.tableEvent(val);
       },
@@ -383,8 +385,10 @@
         tableEvent(a){
         var fordata = new FormData();
         fordata.append("restaurant_id",a)
+        fordata.append("status",0)
         this.$axios.post(this.$baseUrl + '/table/getList',fordata)
         .then((res) => {
+          this.ruleForm.table_num='';
           this.tabletype = res.data.pojo
         })
         .catch((res) => {

@@ -8,13 +8,13 @@
       <div class="lists">
      <el-input v-model.trim="ruleForm.username" class="time-left" :placeholder="$t('reception.username')" clearable></el-input>
      <el-input v-model.trim="ruleForm.phone" class="time-left" :placeholder="$t('reception.phone')" clearable></el-input>
-     <el-input v-model.trim="ruleForm.ID_card" class="time-left" :placeholder="$t('reception.id_card')" clearable></el-input>
-     <el-select v-model.trim="ruleForm.restaurant_id" :placeholder="$t('backstage.restaurant_id')" clearable>
-       <el-option v-for="item in restauranttype" :key="item.id" :label="item.restaurant" :value="item.id"></el-option>
-     </el-select>
-      <el-select v-model.trim="ruleForm.table_id " :placeholder="$t('reception.table_id')" clearable>
-         <el-option v-for="item in tabletype" :key="item.id" :label="item.serial_number" :value="item.id"></el-option>
-      </el-select>
+     <el-input v-model.trim="ruleForm.ID_card" class="time-left" :placeholder="$t('reception.id_card')" clearable></el-input> 
+            <el-select v-model.trim="ruleForm.restaurant_id" :placeholder="$t('backstage.restaurant_id')" @change="selectChanged(ruleForm.restaurant_id)">
+              <el-option v-for="item in restauranttype" :key="item.id" :label="item.restaurant" :value="item.id"></el-option>
+            </el-select>
+            <el-select v-model.trim="ruleForm.table_id " :placeholder="$t('reception.table_id')">
+              <el-option v-for="item in tabletype" :key="item.id" :label="item.serial_number" :value="item.id"></el-option>
+            </el-select>
       <el-select v-model.trim="ruleForm.cash_status " :placeholder="$t('reception.cash_status')" clearable>
          <el-option v-for="item in cashstatustype" :key="item.value" :label="item.label" :value="item.value"></el-option>
       </el-select>
@@ -89,7 +89,7 @@
            <el-input v-model.trim="forms.ID_card" ></el-input>
          </el-form-item>
          <el-form-item :label="$t('backstage.restaurant_id')" prop="restaurant_id" class="floatleft">
-            <el-select v-model.trim="forms.restaurant_id" :placeholder="$t('public.please_select')">
+            <el-select v-model.trim="forms.restaurant_id" :placeholder="$t('public.please_select')" @change="selectChanged(forms.restaurant_id)">
               <el-option v-for="item in restauranttype" :key="item.id" :label="item.restaurant" :value="item.id"></el-option>
             </el-select>
          </el-form-item>
@@ -253,6 +253,26 @@
       }
     },
     methods:{
+      tableEvent(a){
+        var fordata = new FormData();
+        fordata.append("restaurant_id",a)
+        fordata.append("status",0)
+        this.$axios.post(this.$baseUrl + '/table/getList',fordata)
+        .then((res) => {
+          this.tabletype = res.data.pojo
+        })
+        .catch((res) => {
+          console.log(res)
+        })
+      },
+        
+      selectChanged(val){
+        this.ruleForm.table_id=''
+         this.forms.table_id='';
+        // console.log(11111)
+         this.tableEvent(val);
+       },
+
         idTypeEvent(){
           this.$axios.post(this.$baseUrl + '/idType/list')
         .then((res) => {
@@ -291,16 +311,7 @@
        }
     },
 
-      //餐桌
-      tableEvent(){
-          this.$axios.post(this.$baseUrl + '/table/getList')
-        .then((res) => {
-          this.tabletype = res.data.pojo
-        })
-        .catch((res) => {
-          console.log(res)
-        })
-      },
+      
 
       //餐桌号的转换
     tableFormat(row,column){

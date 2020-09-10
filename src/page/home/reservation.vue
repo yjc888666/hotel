@@ -782,20 +782,20 @@ export default {
        this.forms.day=0;
        }
     },
-    'forms.checkin_time'(val){
-       let a= val;
-      if(val!=""){
-        if(this.forms.checkout_time!=null){
-           this.forms.day= (this.forms.checkout_time-a)/3600/24/1000;
-        }
-        else{
-           this.forms.day=0;
-        }
-      }
-      else{
-       this.forms.day=0;
-       }
-    },
+    // 'forms.checkin_time'(val){
+    //    let a= val;
+    //   if(val!=""){
+    //     if(this.forms.checkout_time!=null){
+    //        this.forms.day= (this.forms.checkout_time-a)/3600/24/1000;
+    //     }
+    //     else{
+    //        this.forms.day=0;
+    //     }
+    //   }
+    //   else{
+    //    this.forms.day=0;
+    //    }
+    // },
     'forms.day'(val){
        let a= val;
       if(val!=""){
@@ -806,9 +806,7 @@ export default {
            this.checkout_time='';
         }
       }
-      else{
-       this.checkout_time='';
-       }
+      
     },
    },
 
@@ -925,17 +923,20 @@ export default {
           status: 1
         })
         .then(res => {
-          var that = this;
+           if(res.data.result==true){
+         var that = this;
           var arr = [];
           var rooms = [];
           arr = res.data.pojo;
-          if (!arr) {
-            return;
-          }
           arr.forEach(item => {
             rooms.push(item.room_number);
           });
           this.roomList2 = rooms;
+           }
+           else {
+             this.roomList2=[];
+           }
+          
         })
         .catch(err => {
           console.log(err);

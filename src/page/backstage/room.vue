@@ -27,7 +27,7 @@
       <el-table-column type="index" label="ID" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column prop="room_number" :label="$t('backstage.room_number')" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column prop="peoples" :label="$t('backstage.peoples')" width="auto" show-overflow-tooltip align='center'></el-table-column>
-      <el-table-column prop="type_n" :label="$t('backstage.house_type')" width="auto" show-overflow-tooltip align='center'></el-table-column>
+      <el-table-column prop="house_type" :label="$t('backstage.house_type')" width="auto" show-overflow-tooltip align='center'  :formatter="houseTypeFormat"></el-table-column>
       <el-table-column prop="beds" :label="$t('backstage.beds')" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column prop="floor" :label="$t('backstage.floor')" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column prop="tv1" :label="$t('backstage.tv1')" width="auto" show-overflow-tooltip align='center'></el-table-column>
@@ -185,15 +185,12 @@
           label: this.$t('Validation.room.sta.item_4')
         }, {
           value: '2',
-          label: this.$t('Validation.room.sta.item_5')
+          label: this.$t('Validation.room.sta.item_6')
         }, {
           value: '3',
-          label: this.$t('Validation.room.sta.item_6')
-        },{
-          value: '4',
           label: this.$t('Validation.room.sta.item_7')
         },{
-          value: '5',
+          value: '4',
           label: this.$t('Validation.room.sta.item_8')
         }],
         forms:{
@@ -346,6 +343,16 @@
         //        console.log(err)
         //      })
         // },
+
+        //房型的转换
+    houseTypeFormat(row,column){
+        for(var i=0,l=this.houseType.length;i<l;i++){
+         if(row.house_type==this.houseType[i].id){
+           return this.houseType[i].name
+         }
+       }
+    },
+
       //根据选择的房型id,自动把房型价格返回来
          queryRoomList(val){
             let obj = {};
@@ -497,7 +504,7 @@
         this.forms.tv = String(row.tv);
         this.forms.tel = row.tel;
         this.forms.toli = String(row.toli);
-        this.forms.house_type = row.type_n;
+        this.forms.house_type = row.house_type;
         this.forms.comp = String(row.comp);
         this.forms.aircondition = String(row.aircondition);
         this.forms.status = String(row.status);

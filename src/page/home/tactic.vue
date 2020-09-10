@@ -32,8 +32,8 @@
         <template slot-scope="scope">
           <!-- <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">修改</el-button> -->
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">{{$t('public.edit')}}</el-button>
-           <el-button size="mini" @click="handlestatus(scope.$index, scope.row)" v-show="scope.row.status==0">{{$t('reception.start_etd')}}</el-button>
-           <el-button size="mini" @click="handlestatus(scope.$index, scope.row)" v-show="scope.row.status==1">{{$t('reception.start_etc')}}</el-button>
+           <el-button size="mini" @click="handlestatus(scope.$index, scope.row)" v-show="scope.row.status==1">{{$t('reception.start_etd')}}</el-button>
+           <el-button size="mini" @click="handlestatus(scope.$index, scope.row)" v-show="scope.row.status==0">{{$t('reception.start_etc')}}</el-button>
           <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">{{$t('public.delete')}}</el-button>
         </template>
       </el-table-column>
@@ -90,7 +90,50 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">{{$t('public.cancel')}}</el-button>
         <el-button type="primary"  @click="submitForms('forms')" v-show="show">{{$t('public.ok')}}</el-button>
-        <el-button type="primary"  @click="modifyEvent('forms')" v-show="!show">{{$t('public.edit')}}</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog title="888" :visible.sync="dialogFormVisible2" class="dia" width="30%">
+      <el-form :model="forms2" status-icon :rules="rule" ref="forms2" label-width="90px" class="demo-ruleForm mars">
+         <el-form-item :label="$t('reception.tactic_name')" prop="tactic_name"> 
+           <el-input v-model="forms2.tactic_name"></el-input>          
+         </el-form-item>
+         <el-form-item :label="$t('public.remark')" prop="remark">
+           <el-input v-model="forms2.remark"></el-input>          
+         </el-form-item>
+         <el-tabs type="border-card">
+            <!-- <el-table :data="applyCargoList.slice((currentPage1-1)*pagesize1,currentPage1*pagesize1)" stripe style="width: 100%" header-align='center' @selection-change="handleSelectionChange"> -->
+          <el-table :data="applyCargoList2" stripe style="width: 100%" header-align='center' ref="multipleTable2">
+            <!-- <el-table-column type="selection" width="55" :reserve-selection="true"></el-table-column> -->
+            <el-table-column prop="housetype_id" :label="$t('reception.names')" width="auto"  align='center' :formatter="houseTypeFormat"></el-table-column>
+            <el-table-column prop="result_price" :label="$t('reception.prices')" width="auto"  align='center'></el-table-column>
+            <el-table-column prop="set_type" :label="$t('reception.set_type')" width="auto"  align='center' :formatter="setTypeFormat">
+               <template slot-scope="scope">
+                 <el-select v-model.trim="scope.row.set_type" :placeholder="$t('reception.set_type')" clearable>
+                    <el-option v-for="item in setType" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                </el-select>
+               </template>
+            </el-table-column>
+            <el-table-column prop="set_act" :label="$t('reception.set_act')" width="160px"  align='center'>
+              <template slot-scope="scope">
+                <el-input-number  size="mini" v-model="scope.row.set_act" :min="0"></el-input-number>
+                 <!-- <el-input  type="textarea"  v-model="scope.row.set_act"></el-input> -->
+               </template>
+            </el-table-column>
+          </el-table>
+           <!-- <el-pagination 
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange" 
+           :current-page="currentPage1" 
+           :page-sizes="[5, 10, 20, 40,60,100]"
+           :page-size="pagesize1" layout="total, sizes, prev, pager, next, jumper" 
+           :total="applyCargoList.length">
+          </el-pagination> -->
+         </el-tabs>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible2 = false">{{$t('public.cancel')}}</el-button>
+        <el-button type="primary"  @click="modifyEvent('forms2')">{{$t('public.edit')}}</el-button>
       </div>
     </el-dialog>
   
@@ -124,10 +167,17 @@
         pages:0,
         pageNums:0,
         applyCargoList:[],
+        applyCargoList2:[],
         show:true,
         dialogFormVisible: false,
+        dialogFormVisible2: false,
         forms: {
           id:"",
+          tactic_name:"",
+          remark:""
+        },
+        forms2:{
+          id2:"",
           tactic_name:"",
           remark:""
         },
@@ -162,6 +212,34 @@
       }
     },
     methods:{
+
+      //房型的转换
+    houseTypeFormat(row,column){
+        for(var i=0,l=this.applyCargoList.length;i<l;i++){
+         if(row.housetype_id==this.applyCargoList[i].id){
+           return this.applyCargoList[i].name
+         }
+       }
+    },
+    //调价方式的转换
+    setTypeFormat(row,column){
+      console.log(row)
+        switch(row.set_type){
+          case 0:
+          return this.$t('Validation.tactic.setType.item_1')
+          
+          case 1:
+          return this.$t('Validation.tactic.setType.item_2')
+     
+          case 2:
+          return  this.$t('Validation.tactic.setType.item_3')
+       
+          case 3:
+          return  this.$t('Validation.tactic.setType.item_4')
+        }
+         
+    },
+
        handleSizeChange: function(size) {
         this.pagesize1 = size;
       },
@@ -262,24 +340,33 @@
         })
        },
        modifyEvent(formName) {
+         console.log(this.forms2)
         this.$refs[formName].validate((valid) => {
           if (valid) {
            var that = this;
-           this.applyCargoList.forEach(function(item){
-              item.housetype_id = item.id
+            var list=[]; 
+            // console.log(this.applyCargoList)
+             this.applyCargoList2.forEach(item=>{
+               var obj={};
+              obj.id= item.id
+              obj.set_type=item.set_type
+              obj.set_act=item.set_act
+              list.push(obj)
            })
+          
           var para = {
-            id:this.forms.id,
-            type:this.forms.type,
-            applyCargoList:this.applyCargoList
+             id:this.forms2.id2,
+            tactic_name:this.forms2.tactic_name,
+            remark:this.forms2.remark,
+            tactictypeList:list
           }
           that.$axios.post(this.$baseUrl +`/tactic/updatetactic`,para)
           .then(function (res) {
             if (res.data.result== true) {
               that.$message.success(that.$t("common."+res.data.msg))
-              that.dialogFormVisible = false;
-              that.forms.tactic_name = "";
-              that.forms.remark = "";
+              that.dialogFormVisible2 = false;
+              that.forms2.tactic_name = "";
+              that.forms2.remark = "";
               that.list(that.currentPage,that.pagesize)
             }else {
               that.$message.error(that.$t("common."+res.data.msg))
@@ -292,21 +379,23 @@
         })
        },
       handleEdit(index,row){
+        console.log(this.forms2)
         var that = this;
         that.lists =[]
-        that.show = false;
         that.cargoEvent();
         var para = {
            id:row.id
          }
+        //  this.form2.id=row.id;
         that.$axios.post(this.$baseUrl +`/tactic/gettactic`,para)
           .then(function (res) {
             if (res.data.result== true) {
-              that.dialogFormVisible = true;
-              that.forms.tactic_name = res.data.pojo[0].tactic_name;
-              that.forms.remark = res.data.pojo[0].remark;
-              that.forms.id = res.data.pojo[0].id;
-              // that.lists = res.data.pojo[0].tactictypeList;
+              that.dialogFormVisible2 = true;
+              that.forms2.tactic_name = res.data.pojo[0].tactic_name;
+              that.forms2.remark = res.data.pojo[0].remark;
+                that.forms2.id2 = res.data.pojo[0].id;
+              // this.forms2.id = res.data.pojo[0].id;
+              that.applyCargoList2 = res.data.pojo[0].tactictypeList;
               // that.lists.forEach(function(items,index){
               //   that.applyCargoList.forEach(function(item,indexs){
               //        if(items.housetype_id == item.id){

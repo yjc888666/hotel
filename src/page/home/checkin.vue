@@ -170,7 +170,7 @@
         label-width="110px"
         class="demo-ruleForm mars"
       >
-        <el-form-item :label="$t('reception.amount_due')" prop="pay_money">:{{billData.pay_money}}</el-form-item>
+        <!-- <el-form-item :label="$t('reception.amount_due')" prop="pay_money">:{{billData.pay_money}}</el-form-item> -->
         <el-form-item :label="$t('reception.payf')" prop="pay_type">
           <el-radio v-model="billData.pay_type" label="0">{{$t('reception.payf_0')}}</el-radio>
           <el-radio v-model="billData.pay_type" label="1">{{$t('reception.payf_1')}}</el-radio>
@@ -226,7 +226,7 @@
         status-icon
         :rules="rule"
         ref="forms"
-        label-width="100px"
+        label-width="80px"
         class="demo-ruleForm mars"
       >
         <el-form-item :label="$t('reception.check_time')" prop="checkin_time" class="floatleft">
@@ -925,8 +925,8 @@ export default {
       show: true,
       dialogFormVisible: false,
       forms: {
-        room_number: "",
-        checkout_time: "",
+        room_number:"",
+        checkout_time:'',
         day: "",
         house_type: "",
         source_type: "",
@@ -1206,17 +1206,13 @@ export default {
     },
   },
   watch:{
-    //  'forms1.checkout_time'(val){
-    //     let a= val;
-    //   if(val!=""){  
-    //     let nowTime=new Date();
-    //   this.forms1.day= parseInt((a- Date.parse(nowTime))/3600/24/1000)+1;
-    //   console.log(this.forms1.day)
-    //   }
-    //   else{
-    //    this.forms1.day=0;
-    //    }
-    // },
+     'forms1.checkout_time'(val){
+        let a= val;
+      if(val!=""){  
+      this.forms1.day= parseInt((a- this.row_leavetime*1000)/3600/24/1000);
+      console.log(this.forms1.day)
+      }
+    },
  
     'forms1.day': function (data) {
       let a= data;
@@ -1243,33 +1239,28 @@ export default {
        this.forms.day=0;
        }
     },
-    'forms.checkin_time'(val){
-       let a= val;
-      if(val!=""){
-        if(this.forms.checkout_time!=null){
-           this.forms.day= (this.forms.checkout_time-a)/3600/24/1000;
-        }
-        else{
-           this.forms.day=0;
-        }
-      }
-      else{
-       this.forms.day=0;
-       }
-    },
+    // 'forms.checkin_time'(val){
+    //    let a= val;
+    //   if(val!=""){
+    //     if(this.forms.checkout_time!=null){
+    //        this.forms.day= (this.forms.checkout_time-a)/3600/24/1000;
+    //     }
+    //     else{
+    //        this.forms.day=0;
+    //     }
+    //   }
+    //   else{
+    //    this.forms.day=0;
+    //    }
+    // },
     'forms.day'(val){
        let a= val;
       if(val!=""){
         if(this.forms.checkin_time!=''){
            this.forms.checkout_time=a*1000*24*3600+this.forms.checkin_time
         }
-        else{
-           this.checkout_time='';
-        }
       }
-      else{
-       this.checkout_time='';
-       }
+     
     },
    
 
@@ -1449,24 +1440,29 @@ export default {
 
     //房间号列表查询
     queryRoomList(value) {
+      this.forms.room_number='';
+      this.forms1.room_number='';
       this.$axios
         .post(this.$baseUrl + `/room/getlist`, {
           house_type: value,
           status: 1,
         })
         .then((res) => {
+          if(res.data.result==true){
           var that = this;
           var arr = [];
           var rooms = [];
           arr = res.data.pojo;
-          if (!arr) {
-            return;
-          }
           arr.forEach((item) => {
             rooms.push(item.room_number);
           });
           this.roomList = rooms;
           console.log(this.roomList);
+          
+          }
+          else {
+            this.roomList=[];
+          } 
         })
         .catch((err) => {
           console.log(err);

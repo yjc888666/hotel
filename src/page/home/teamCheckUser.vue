@@ -12,7 +12,7 @@
             v-if="scope.row.edit"
             v-model="scope.row.house_type"
             :placeholder="$t('reception.house_type')"
-            @change="queryRoomList"
+            @change="queryRoomList(scope.row.house_type,scope.$index)"
           >
             <el-option v-for="item in housetype" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
@@ -20,7 +20,7 @@
        
         </template>
       </el-table-column>
-      <el-table-column  :label="$t('reception.room_number')" show-overflow-tooltip  align="center" >
+      <el-table-column  :label="$t('reception.room_number')"   align="center" >
         <template slot-scope="scope"  >
           <el-form-item :prop="'tableData.'+scope.$index+'.room_number'" :rules='model.rules.room_number'>
           <el-select
@@ -29,7 +29,7 @@
             clearable
             v-if="scope.row.edit"
           >
-            <el-option v-for="(item,index) in roomList" :value="item" :key="index"></el-option>
+            <el-option v-for="(item,index) in roomList" :value="item"  :key="index"></el-option>
           </el-select>
           <span v-else>{{scope.row.room_number}}</span>
           </el-form-item>
@@ -209,6 +209,7 @@ export default {
       dialogFormVisible: false,
 
       index: 0,
+      index2:0,
       
       idtype: [],
       housetype: [],
@@ -266,25 +267,33 @@ export default {
       },
   methods: {
     //房间号列表查询
-    queryRoomList(value) {
+    queryRoomList(value,index) {
+      this.index2=index;
+      // console.log(this.index2);
+      // console.log(this.model.tableData[this.index2])
+       
       this.$axios
         .post(this.$baseUrl + `/room/getlist`, {
           house_type: value,
           status: 1,
         })
         .then((res) => {
+           
+          if(res.data.result==true){
           var that = this;
           var arr = [];
           var rooms = [];
           arr = res.data.pojo;
-          if (!arr) {
-            return;
-          }
           arr.forEach((item) => {
             rooms.push(item.room_number);
           });
           this.roomList = rooms;
           console.log(this.roomList);
+          
+          }
+          else {
+            this.roomList=[];
+          } 
         })
         .catch((err) => {
           console.log(err);
@@ -297,9 +306,6 @@ export default {
          this.model.tableData.push({
         edit: true,
         });
-        console.log(this.model.tableData);
-       
-     
     },
 
     //删除

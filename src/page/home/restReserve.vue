@@ -9,10 +9,10 @@
      <el-input v-model.trim="ruleForm.username" class="time-left" :placeholder="$t('reception.username')" clearable></el-input>
      <el-input v-model.trim="ruleForm.phone" class="time-left" :placeholder="$t('reception.phone')" clearable></el-input>
      <el-input v-model.trim="ruleForm.ID_card" class="time-left" :placeholder="$t('reception.id_card')" clearable></el-input> 
-            <el-select v-model.trim="ruleForm.restaurant_id" :placeholder="$t('backstage.restaurant_id')" @change="selectChanged(ruleForm.restaurant_id)">
+            <el-select v-model.trim="ruleForm.restaurant_id" :placeholder="$t('backstage.restaurant_id')" @change="selectChanged2(ruleForm.restaurant_id)" clearable>
               <el-option v-for="item in restauranttype" :key="item.id" :label="item.restaurant" :value="item.id"></el-option>
             </el-select>
-            <el-select v-model.trim="ruleForm.table_id " :placeholder="$t('reception.table_id')">
+            <el-select v-model.trim="ruleForm.table_id " :placeholder="$t('reception.table_id')" clearable>
               <el-option v-for="item in tabletype" :key="item.id" :label="item.serial_number" :value="item.id"></el-option>
             </el-select>
       <el-select v-model.trim="ruleForm.cash_status " :placeholder="$t('reception.cash_status')" clearable>
@@ -36,6 +36,7 @@
       <el-table-column prop="table_id" :label="$t('reception.table_id')" width="auto"  align='center' :formatter="tableFormat"></el-table-column>
       <el-table-column prop="people_num" :label="$t('reception.people_num')" width="auto"  align='center'></el-table-column>
       <el-table-column prop="eat_time" :label="$t('reception.eat_time')" width="auto"  align='center'></el-table-column>
+      <el-table-column prop="create_time" :label="$t('reception.create_time')" width="auto"  align='center' :formatter="dateFormat"></el-table-column>
       <el-table-column prop="cash_pledge" :label="$t('reception.cash_pledge')" width="auto"  align='center'></el-table-column>
       <el-table-column prop="reserve_status" :label="$t('reception.reserve_status')" width="auto" align='center'> 
         <template slot-scope='scope'>
@@ -95,7 +96,7 @@
          </el-form-item>
          <el-form-item :label="$t('reception.table_id')" prop="table_id" class="floatleft">
             <el-select v-model.trim="forms.table_id " :placeholder="$t('public.please_select')">
-              <el-option v-for="item in tabletype" :key="item.id" :label="item.serial_number" :value="item.id"></el-option>
+              <el-option v-for="item in tabletype2" :key="item.id" :label="item.serial_number" :value="item.id"></el-option>
             </el-select>
          </el-form-item>
           <el-form-item :label="$t('reception.people_num')" prop="people_num" class="floatleft">
@@ -194,6 +195,8 @@
         restauranttype:[],
         scardtype:[],
         tabletype:[],
+        tabletype2:[],
+        tabletype3:[],
         idType:[]
 
       }
@@ -202,7 +205,7 @@
       this.submitForm();
       this.restaurantEvent();
       this.idTypeEvent();
-      this.tableEvent();
+      this.tableEvent3();
 
     },
     computed:{
@@ -253,13 +256,40 @@
       }
     },
     methods:{
+      dateFormat(row, column) {
+      var moment = require("moment");
+      var date = row[column.property] * 1000;
+      return moment(date).format("YYYY-MM-DD hh:mm:ss");
+    },
+
+
       tableEvent(a){
         var fordata = new FormData();
         fordata.append("restaurant_id",a)
         fordata.append("status",0)
         this.$axios.post(this.$baseUrl + '/table/getList',fordata)
         .then((res) => {
+          this.tabletype2 = res.data.pojo
+        })
+        .catch((res) => {
+          console.log(res)
+        })
+      },
+      tableEvent1(a){
+        var fordata = new FormData();
+        fordata.append("restaurant_id",a)
+        this.$axios.post(this.$baseUrl + '/table/getList',fordata)
+        .then((res) => {
           this.tabletype = res.data.pojo
+        })
+        .catch((res) => {
+          console.log(res)
+        })
+      },
+       tableEvent3(a){
+        this.$axios.post(this.$baseUrl + '/table/getList')
+        .then((res) => {
+          this.tabletype3 = res.data.pojo
         })
         .catch((res) => {
           console.log(res)
@@ -271,6 +301,14 @@
          this.forms.table_id='';
         // console.log(11111)
          this.tableEvent(val);
+
+       },
+        selectChanged2(val){
+        this.ruleForm.table_id=''
+         this.forms.table_id='';
+        // console.log(11111)
+         this.tableEvent1(val);
+
        },
 
         idTypeEvent(){
@@ -315,9 +353,9 @@
 
       //餐桌号的转换
     tableFormat(row,column){
-       for(var i=0,l=this.tabletype.length;i<l;i++){
-         if(row.table_id==this.tabletype[i].id){
-           return this.tabletype[i].serial_number
+       for(var i=0,l=this.tabletype3.length;i<l;i++){
+         if(row.table_id==this.tabletype3[i].id){
+           return this.tabletype3[i].serial_number
          }
        }
     },

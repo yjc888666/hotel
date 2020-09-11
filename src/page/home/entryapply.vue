@@ -208,7 +208,7 @@
          
         },
        cargoEvent(){
-        this.$axios.post(this.$baseUrl + '/cargo/getcargo')
+        this.$axios.post(this.$baseUrl + '/cargo/getcargo',{})
           .then((res) => {
             this.applyCargoList = res.data.pojo;
           })

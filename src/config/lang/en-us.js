@@ -73,7 +73,9 @@ module.exports = {
     2000017: "Cannot be greater than the balance in the membership card",
     2000018: "Retention time exceeded",
     2000019: "Deposit paid",
-    2000020: "The current time period does not affect house prices",
+    2000020: "The current time period does not affect house prices(8:00-13:00)",
+    2000021:'There are guests in the current room. The status cannot be changed',
+    2000022: "Conflict between current check-in information and existing check-in information",
 
 
     //  4、Server3

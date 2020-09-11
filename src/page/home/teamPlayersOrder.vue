@@ -1012,7 +1012,8 @@ export default {
 
       //押金单的公用信息
       cashDataPublic: {},
-       singlePrice:null
+       singlePrice:null,
+       row_leavetime:'',
     };
   },
   filters: {
@@ -1172,6 +1173,14 @@ export default {
       },
   },
   watch:{
+     'forms1.checkout_time'(val){
+        let a= val;
+      if(val!=""){  
+      this.forms1.day= parseInt((a- this.row_leavetime*1000)/3600/24/1000);
+      console.log(this.forms1.day)
+      }
+    },
+ 
     
    'forms1.day': function (data) {
       let a= data;
@@ -1555,13 +1564,15 @@ export default {
       this.show1 = 2;
     },
     handleEdit2(index, row) {
+         this.row_leavetime=Number(row.checkout_time) ;
       this.dialogFormVisible1 = true;
       //  this.forms1.checkout_time = row.checkout_time;
       this.forms1.id = row.id;
       //  console.log(row.id)
-      this.forms1.day = row.day;
+      // this.forms1.day = row.day;
+      // this. basePrice=row.total_price;
       this.singlePrice=row.total_price/row.day;
-      this.forms1.total_price = row.total_price;
+      // this.forms1.total_price = row.total_price;
       this.show1 = 3;
     },
     handleEdit3(index, row) {

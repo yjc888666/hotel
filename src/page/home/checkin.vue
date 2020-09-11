@@ -84,13 +84,7 @@
           <el-tag v-if="scope.row.source_type==3">{{$t('reception.team_pel')}}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column
-        prop="toghther_guest"
-        :label="$t('reception.together')"
-        width="auto"
-        show-overflow-tooltip
-        align="center"
-      ></el-table-column>
+     
       <el-table-column
         prop="certificate_type"
         :label="$t('reception.idType')"

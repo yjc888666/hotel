@@ -8,19 +8,19 @@
 
        <el-form :model="forms" status-icon :rules="rule" ref="forms" label-width="80px" class="demo-ruleForm mars">
          <el-form-item :label="$t('reception.team_name')" prop="teamname" class="floatleft">
-           <el-input v-model.trim="forms.teamname" :disabled="edit" ></el-input>
+           <el-input v-model.trim="forms.teamname" :disabled="flag2==false" ></el-input>
          </el-form-item>
          <el-form-item :label="$t('reception.days')" prop="day_num"  class="floatleft">
-           <el-input v-model.number="forms.day_num" :disabled="edit"></el-input>
+           <el-input v-model.number="forms.day_num" :disabled="flag2==false"></el-input>
          </el-form-item>
         
 
-          <el-form-item :label="$t('reception.leave_time')" prop="leave_time"  class="floatleft">
-             <el-date-picker   v-model="forms.leave_time" type="date" :placeholder="$t('reception.leave_time')" value-format="timestamp" :disabled="edit"></el-date-picker>
+          <el-form-item :label="$t('reception.leave_time')" prop="leave_time"  class="floatleft" >
+             <el-date-picker   v-model="forms.leave_time" type="date" :placeholder="$t('reception.leave_time')" value-format="timestamp" :disabled="flag2==false"></el-date-picker>
          </el-form-item>
           <el-form-item :label="$t('reception.source_type')" prop="type" class="floatleft">
-            <el-select v-model.trim="forms.type" :placeholder="$t('reception.source_type')" clearable>
-              <el-option v-for="item in memberType" :key="item.value" :label="item.label" :value="item.value" :disabled="edit"></el-option>
+            <el-select v-model.trim="forms.type" :placeholder="$t('reception.source_type')" clearable :disabled="flag2==false">
+              <el-option v-for="item in memberType" :key="item.value" :label="item.label" :value="item.value" ></el-option>
             </el-select>
           </el-form-item>
        <!-- 添加团队住户信息 -->
@@ -58,6 +58,7 @@
         tableData: [],
         tableData1:[],
         show:true,
+        flag2:true,
         dialogFormVisible: false,
         forms: {
           //团队的信息和入住时间
@@ -222,6 +223,8 @@
         getuserdata:{},
         //输入框状态
         edit:false,
+        flag_leave_time:'',
+        flag_day_num:'',
       }
     },
     created() {
@@ -298,7 +301,7 @@
         return rule3
       }
     },
-    
+
     //监听路由的变化，清除输入框的值
     watch:{
       //方法2
@@ -310,24 +313,26 @@
       this.forms.day_num='';
       this.type=null;
       this.remark='';  
+      this.flag2=true;
      }
   } ,
-    'forms.leave_time'(val){
-       let a= val;
-      if(val!=""){  
-        let nowTime=new Date();
-      this.forms.day_num= Math.ceil(val/1000/3600/24)-parseInt(Date.parse(nowTime)/1000/24/3600);
-      } 
-    },
+    // 'forms.leave_time'(val){
+    //    let a= val;
+    //   if(val!=""){  
+    //     let nowTime=new Date();
+    //   this.forms.day_num= Math.ceil(val/1000/3600/24)-parseInt(Date.parse(nowTime)/1000/24/3600);
+    //   } 
+    // },
     'forms.day_num'(val){
-       let a= val;
+     
+      let a= val;
       if(val!=""){
         let nowTime2=new Date();
            this.forms.leave_time=a*1000*24*3600+parseInt(Date.parse(nowTime2)/1000/3600/24)*1000*3600*24
       }
       else{
        this.forms.leave_time='';
-       }
+       }    
     },
     },
     methods:{
@@ -348,6 +353,7 @@
       addEvent(forms){
          this.$refs[forms].validate((valid)=>{
            if(valid){
+            this.flag2=false
            this.$router.replace('/teamCheckin/teamuser')
            }
          })

@@ -1,6 +1,5 @@
 <template>
   <div class="adduser">
-      
   <el-form :rules="rules" :model="model"  ref="teamplayer">
     <!-- 表格布局 -->
     <el-table :data="model.tableData" border stripe style="width: 100%;" header-align="center"
@@ -203,6 +202,13 @@ export default {
       },
     
       forms: {},
+      forms2: {
+          //团队的信息和入住时间
+          teamname:"",
+          leave_time:"",
+          day_num:"",
+          type:null,
+        },
 
       formData: [],
       show: true,
@@ -382,7 +388,7 @@ export default {
 
             // that.forms='';
             console.log(res);
-            that.$router.replace("/teamCheckin");
+             that.$router.replace("/teamCheckin");
             
           } else {
             that.$message.error(that.$t("common." + res.data.msg));

@@ -517,6 +517,22 @@ export default {
       },
     };
   },
+    // AfterRouteEnter(to, from, next) {
+    //   // 导航离开该组件的对应路由时调用
+    //   // 可以访问组件实例 `this`
+    // if(from.path=='/teamCheckin/teamuser'){
+    //   this.getList();
+    // }
+    //   next();
+    // },
+     watch:{
+      //方法2
+    '$route'(to, from) {
+       /// 判断条件   监听路由名 监听你从什么路由跳转过来的
+     if (from.path == "/teamCheckin/teamuser") { 
+     this.submitForm();
+     }
+  } },
   created() {
     this.submitForm();
     this.houseEvent();

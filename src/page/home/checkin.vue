@@ -984,6 +984,7 @@ export default {
         certificate_type: "",
       },
       housetype: [],
+      housetype2: [],
       idtype: [],
       memberType: [
         {
@@ -1423,9 +1424,9 @@ export default {
     },
     //房型的转换
     houseTypeFormat(row,column){
-        for(var i=0,l=this.housetype.length;i<l;i++){
-         if(row.house_type==this.housetype[i].id){
-           return this.housetype[i].name
+        for(var i=0,l=this.housetype2.length;i<l;i++){
+         if(row.house_type==this.housetype2[i].id){
+           return this.housetype2[i].name
          }
        }
     },
@@ -1553,7 +1554,10 @@ export default {
       this.$axios
         .post(this.$baseUrl + "/houseType/getlist")
         .then((res) => {
-          this.housetype = res.data.pojo;
+          var arr=[];
+          this.housetype2=res.data.pojo;
+          arr = res.data.pojo;
+          this.housetype=arr.filter(item=>item.rooms>0)
         })
         .catch((res) => {
           console.log(res);
@@ -1606,6 +1610,7 @@ export default {
       this.list(currentPage, this.pagesize);
     },
     addEvent() {
+      this.houseEvent();
       this.dialogFormVisible = true;
       this.show = true;
     },
@@ -1651,6 +1656,7 @@ export default {
                 that.forms.card_type = "";
                 that.forms.gender = "";
                 that.forms.card_num = "";
+                this.houseEvent();
                 that.list(that.currentPage, that.pagesize);
               } else {
                 that.$message.error(that.$t("common." + res.data.msg));
@@ -1704,6 +1710,7 @@ export default {
                 that.dialogFormVisible1 = false;
                 that.forms1.room_number = "";
                 that.forms1.id = "";
+                this.houseEvent();
                 that.list(that.currentPage, that.pagesize);
                 //打印账单id
                 // console.log(res.pojo.bill_id)

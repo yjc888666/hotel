@@ -84,7 +84,7 @@
         :formatter="workerFormat"
       ></el-table-column>
       <el-table-column
-        prop="staffName "
+        prop="remark "
         :label="$t('reception.remark')"
         width="auto"
         show-overflow-tooltip
@@ -200,7 +200,9 @@ export default {
     //查询操作员列表
     queryWorker() {
       this.$axios
-        .post(this.$baseUrl + `/staff/getpage`)
+        .post(this.$baseUrl + `/staff/getpage`,{
+          size:500
+        })
         .then(res => {
           this.workerList = res.data.pojo.list;
         })

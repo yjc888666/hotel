@@ -1342,7 +1342,9 @@ export default {
       this.$axios
         .post(this.$baseUrl + "/houseType/getlist")
         .then((res) => {
-          this.housetype = res.data.pojo;
+          var arr=[];
+          arr = res.data.pojo;
+          this.housetype=arr.filter(item=>item.rooms>0)
         })
         .catch((res) => {
           console.log(res);

@@ -35,7 +35,7 @@
       <el-table-column prop="restaurant_id" :label="$t('backstage.restaurant_id')" width="auto"  align='center' :formatter="restaurantFormat"></el-table-column>
       <el-table-column prop="table_id" :label="$t('reception.table_id')" width="auto"  align='center' :formatter="tableFormat"></el-table-column>
       <el-table-column prop="people_num" :label="$t('reception.people_num')" width="auto"  align='center'></el-table-column>
-      <el-table-column prop="eat_time" :label="$t('reception.eat_time')" width="auto"  align='center'></el-table-column>
+      <el-table-column prop="eat_time" :label="$t('reception.eat_time')" width="auto"  align='center' :formatter="dateFormat"></el-table-column>
       <el-table-column prop="create_time" :label="$t('reception.create_time')" width="auto"  align='center' :formatter="dateFormat"></el-table-column>
       <el-table-column prop="cash_pledge" :label="$t('reception.cash_pledge')" width="auto"  align='center'></el-table-column>
       <el-table-column prop="reserve_status" :label="$t('reception.reserve_status')" width="auto" align='center'> 
@@ -105,8 +105,10 @@
          <el-form-item :label="$t('reception.eat_time')" prop="eat_time" class="floatleft">
             <el-date-picker
               v-model="forms.eat_time"
-              type="date"
-              value-format="yyyy-MM-dd"
+              type="datetime"
+              format="yyyy-MM-dd HH:mm"
+              value-format="timestamp"
+             
               :placeholder="$t('reception.eat_time')">
           </el-date-picker>
            </el-form-item>
@@ -261,6 +263,7 @@
       var date = row[column.property] * 1000;
       return moment(date).format("YYYY-MM-DD hh:mm:ss");
     },
+   
 
 
       tableEvent(a){
@@ -432,6 +435,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
           var that = this;
+          this.forms.eat_time/=1000;
           that.$axios.post(this.$baseUrl +`/restReserve/add`,this.forms)
           .then(function (res) {
             if (res.data.result== true) {

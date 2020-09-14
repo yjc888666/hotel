@@ -92,7 +92,7 @@
         mytotal:0,
         tableData:[],
         currentPage:1,
-        pagesize:10,
+        pagesize:500,
         pages:0,
         pageNums:0,
         deptType:[],

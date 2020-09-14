@@ -888,7 +888,9 @@ export default {
     //查询操作员列表
     queryWorker() {
       this.$axios
-        .post(this.$baseUrl + `/staff/getpage`)
+        .post(this.$baseUrl + `/staff/getpage`,{
+           size:500
+        })
         .then(res => {
           this.workerList = res.data.pojo.list;
         })
@@ -1009,7 +1011,9 @@ export default {
       this.$axios
         .post(this.$baseUrl + "/houseType/getlist")
         .then(res => {
-          this.houseTypes = res.data.pojo;
+          var arr=[];
+          arr = res.data.pojo;
+          this.houseTypes=arr.filter(item=>item.rooms>0)
           // console.log(this.houseType)
         })
         .catch(res => {

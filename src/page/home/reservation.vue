@@ -51,7 +51,7 @@
         width="auto"
         show-overflow-tooltip
         align="center"
-        :formatter="dateFormat"
+        :formatter="dateFormat2"
       ></el-table-column>
       <el-table-column
         prop="type"
@@ -1059,10 +1059,15 @@ export default {
         });
     },
     // 时间戳转换
-    dateFormat(row, column) {
-      let moment = require("moment");
-      let date = row[column.property] * 1000;
-      return moment(date).format("YYYY-MM-DD hh:mm:ss");
+     dateFormat(row, column) {
+      var moment = require("moment");
+      var date = row[column.property] * 1000;
+      return moment(date).format("YYYY-MM-DD ");
+    },
+     dateFormat2(row, column) {
+      var moment = require("moment");
+      var date = row[column.property] * 1000;
+      return moment(date).format("YYYY-MM-DD HH:mm:ss");
     },
     // 新增房间
     submitForms(formName) {

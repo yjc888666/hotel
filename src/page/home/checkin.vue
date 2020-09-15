@@ -54,7 +54,7 @@
         :label="$t('reception.check_time')"
         width="180"
         align="center"
-        :formatter="dateFormat"
+        :formatter="dateFormat2"
       ></el-table-column>
       <el-table-column
         prop="checkout_time"
@@ -1197,7 +1197,7 @@ export default {
   filters: {
     formatDate3(time) {
       var date = new Date(time * 1000);
-      return formatDate(date, "yyyy年MM月dd日 hh:mm:ss");
+      return formatDate(date, "yyyy年MM月dd日 ");
     },
   },
   watch:{
@@ -1537,7 +1537,12 @@ export default {
     dateFormat(row, column) {
       var moment = require("moment");
       var date = row[column.property] * 1000;
-      return moment(date).format("YYYY-MM-DD hh:mm:ss");
+      return moment(date).format("YYYY-MM-DD ");
+    },
+     dateFormat2(row, column) {
+      var moment = require("moment");
+      var date = row[column.property] * 1000;
+      return moment(date).format("YYYY-MM-DD HH:mm:ss");
     },
     idTypeEvent() {
       this.$axios

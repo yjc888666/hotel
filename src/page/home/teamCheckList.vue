@@ -37,7 +37,7 @@
        :label="$t('reception.check_time')"
         width="auto"
         align="center"
-        :formatter="dateFormat"
+        :formatter="dateFormat2"
       ></el-table-column>
       <el-table-column
         prop="leave_time"
@@ -686,10 +686,15 @@ export default {
   },
   methods: {
   
-    dateFormat(row, column) {
+     dateFormat(row, column) {
       var moment = require("moment");
       var date = row[column.property] * 1000;
-      return moment(date).format("YYYY-MM-DD hh:mm:ss");
+      return moment(date).format("YYYY-MM-DD ");
+    },
+     dateFormat2(row, column) {
+      var moment = require("moment");
+      var date = row[column.property] * 1000;
+      return moment(date).format("YYYY-MM-DD HH:mm:ss");
     },
 
     //获取团队列表list

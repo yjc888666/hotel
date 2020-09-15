@@ -278,7 +278,7 @@
       dateFormat(row, column) {
       var moment = require("moment");
       var date = row[column.property] * 1000;
-      return moment(date).format("YYYY-MM-DD hh:mm:ss");
+      return moment(date).format("YYYY-MM-DD HH:mm:ss");
     },
    
 

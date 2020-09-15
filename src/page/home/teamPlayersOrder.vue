@@ -27,7 +27,7 @@
         :label="$t('reception.check_time')"
         width="180"
         align="center"
-        :formatter="dateFormat"
+        :formatter="dateFormat2"
       ></el-table-column>
       <el-table-column
         prop="checkout_time"
@@ -498,7 +498,7 @@
         :label="$t('reception.com_time')"
         width="180"
         align="center"
-        :formatter="dateFormat"
+        :formatter="dateFormat2"
       ></el-table-column>
         
         
@@ -634,7 +634,7 @@
         class="table"
       >
         <el-table-column type="index" :label="$t('reception.Id')" width="100" show-overflow-tooltip align="center"></el-table-column>
-        <el-table-column prop="com_time" :label="$t('reception.time')" width="180" :formatter="dateFormat"></el-table-column>
+        <el-table-column prop="com_time" :label="$t('reception.time')" width="180" :formatter="dateFormat2"></el-table-column>
         <el-table-column prop="house_num" :label="$t('reception.room_number')" width="100"></el-table-column>
         <el-table-column prop="project" :label="$t('reception.pay_project')" :formatter="formatterCloumn"></el-table-column>
 
@@ -1019,7 +1019,7 @@ export default {
   filters: {
     formatDate3(time) {
       var date = new Date(time * 1000);
-      return formatDate(date, "yyyy年MM月dd日 hh:mm:ss");
+      return formatDate(date, "yyyy年MM月dd日 ");
     },
   },
 
@@ -1325,7 +1325,12 @@ export default {
     dateFormat(row, column) {
       var moment = require("moment");
       var date = row[column.property] * 1000;
-      return moment(date).format("YYYY-MM-DD hh:mm:ss");
+      return moment(date).format("YYYY-MM-DD ");
+    },
+     dateFormat2(row, column) {
+      var moment = require("moment");
+      var date = row[column.property] * 1000;
+      return moment(date).format("YYYY-MM-DD HH:mm:ss");
     },
     idTypeEvent() {
       this.$axios

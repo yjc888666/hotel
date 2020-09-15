@@ -875,9 +875,7 @@ export default {
   },
   methods: {
     //取消入住的提交弹出框
-    cancleClick() {
-      this.dialog_3 = false;
-    },
+    cancleClick() {this.dialog_3 = false;},
     //query 方法
     submitForm() {
       var that = this;

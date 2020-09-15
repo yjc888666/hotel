@@ -202,10 +202,6 @@ const router = new Router({
           meta: ['前台管理','餐厅管理',"订单管理"],
          
         },
-
-    
-
-
         {
           path: '/checkin',
           name: 'checkin',

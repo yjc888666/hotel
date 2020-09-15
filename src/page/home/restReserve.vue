@@ -94,6 +94,17 @@
               <el-option v-for="item in restauranttype" :key="item.id" :label="item.restaurant" :value="item.id"></el-option>
             </el-select>
          </el-form-item>
+          <el-form-item :label="$t('reception.eat_time')" prop="eat_time" class="floatleft">
+            <el-date-picker
+              v-model="forms.eat_time"
+              type="datetime"
+              format="yyyy-MM-dd HH:mm"
+              value-format="timestamp"
+              :placeholder="$t('reception.eat_time')"
+              @change="timeChange"
+              >
+          </el-date-picker>
+           </el-form-item>
          <el-form-item :label="$t('reception.table_id')" prop="table_id" class="floatleft">
             <el-select v-model.trim="forms.table_id " :placeholder="$t('public.please_select')">
               <el-option v-for="item in tabletype2" :key="item.id" :label="item.serial_number" :value="item.id"></el-option>
@@ -102,16 +113,7 @@
           <el-form-item :label="$t('reception.people_num')" prop="people_num" class="floatleft">
            <el-input v-model.trim="forms.people_num" ></el-input>
          </el-form-item>
-         <el-form-item :label="$t('reception.eat_time')" prop="eat_time" class="floatleft">
-            <el-date-picker
-              v-model="forms.eat_time"
-              type="datetime"
-              format="yyyy-MM-dd HH:mm"
-              value-format="timestamp"
-             
-              :placeholder="$t('reception.eat_time')">
-          </el-date-picker>
-           </el-form-item>
+        
           <el-form-item :label="$t('reception.cash_pledge')" prop="cash_pledge" class="floatleft">
            <el-input v-model.trim="forms.cash_pledge" ></el-input>
          </el-form-item>
@@ -130,6 +132,7 @@
 </template>
 
 <script>
+  import qs from "qs";
   import Title from '../../components/cont_title.vue'
   import yz from '../../config/validation.js'
   export default {
@@ -258,6 +261,20 @@
       }
     },
     methods:{
+       timeChange(val){
+         var time=val/1000;
+         this.$axios.post(this.$baseUrl+'/table/getEmptyTable',qs.stringify({
+           restaurant_id:this.forms.restaurant_id,
+           time:val/1000
+         }))
+         .then(res=>{
+          this.tabletype2= res.data.pojo
+         })
+         .catch(err=>{
+           console.log(err)
+         })
+       },
+
       dateFormat(row, column) {
       var moment = require("moment");
       var date = row[column.property] * 1000;
@@ -266,18 +283,18 @@
    
 
 
-      tableEvent(a){
-        var fordata = new FormData();
-        fordata.append("restaurant_id",a)
-        fordata.append("status",0)
-        this.$axios.post(this.$baseUrl + '/table/getList',fordata)
-        .then((res) => {
-          this.tabletype2 = res.data.pojo
-        })
-        .catch((res) => {
-          console.log(res)
-        })
-      },
+      // tableEvent(a){
+      //   var fordata = new FormData();
+      //   fordata.append("restaurant_id",a)
+      //   fordata.append("status",0)
+      //   this.$axios.post(this.$baseUrl + '/table/getList',fordata)
+      //   .then((res) => {
+      //     this.tabletype2 = res.data.pojo
+      //   })
+      //   .catch((res) => {
+      //     console.log(res)
+      //   })
+      // },
       tableEvent1(a){
         var fordata = new FormData();
         fordata.append("restaurant_id",a)
@@ -303,7 +320,7 @@
         this.ruleForm.table_id=''
          this.forms.table_id='';
         // console.log(11111)
-         this.tableEvent(val);
+         this.timeChange();
 
        },
         selectChanged2(val){
@@ -435,8 +452,8 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
           var that = this;
-          this.forms.eat_time/=1000;
-          that.$axios.post(this.$baseUrl +`/restReserve/add`,this.forms)
+          that.forms.eat_time/=1000;
+          that.$axios.post(this.$baseUrl +`/restReserve/add`,that.forms)
           .then(function (res) {
             if (res.data.result== true) {
               that.$message.success(that.$t("common."+res.data.msg))
@@ -505,7 +522,7 @@
          this.forms.table_id = row.table_id;
          this.forms.id = row.id;
          this.forms.people_num = row.people_num;
-         this.forms.eat_time = row.eat_time;
+         this.forms.eat_time = row.eat_time*1000;
          this.forms.cash_pledge = row.cash_pledge;
          this.forms.remark = row.remark;
       },

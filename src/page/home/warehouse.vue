@@ -7,7 +7,7 @@
       <el-button type="success" size="small" style="background: #066197;border-color: #066197;"  icon='el-icon-plus'  @click="addEvent()">{{$t('public.add')}}</el-button>
       <el-button type="danger" size="small"   icon='el-icon-delete'  @click="delEvent()">{{$t('public.alldelete')}}</el-button>
     <div class="lists">
-     <el-input v-model.trim="ruleForm.ware_number" class="time-left" :placeholder="$t('reception.warehouse_num')" clearable></el-input>
+      <el-input v-model.trim="ruleForm.ware_number" class="long-width" :placeholder="$t('reception.warehouse_num')" clearable style="width:300px"></el-input>
      <el-input v-model.trim="ruleForm.remark" class="time-left" :placeholder="$t('reception.warehouse_name')" clearable></el-input>
      <el-button type="primary tijiao" @click="submitForm('ruleForm')" class="tijiao">{{$t('public.inquire')}}</el-button>
      </div>
@@ -30,7 +30,7 @@
       <el-form :model="forms" status-icon :rules="rule" ref="forms" label-width="80px" class="demo-ruleForm mars">
          
          <el-form-item :label="$t('reception.warehouse_name')" prop="remark">
-           <el-input v-model.trim="forms.remark" ></el-input>
+           <el-input v-model.trim="forms.remark" @keyup.enter.native="submitForms('forms')" ></el-input>
          </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

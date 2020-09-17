@@ -150,7 +150,10 @@
             </el-menu-item>
             <el-menu-item index="/room"  v-if="grantList[6].children[5].children[1].grant">
               <router-link to='/room' tag='div'>{{$t('left.room')}}</router-link>
-            </el-menu-item>        
+            </el-menu-item>     
+            <el-menu-item index="/roomCharge"  v-if="grantList[6].children[5].children[2].grant">
+              <router-link to='/roomCharge' tag='div'>{{$t('left.roomCharge')}}</router-link>
+            </el-menu-item>
           </el-submenu>
           <el-submenu index="/idType"  v-if="grantList[6].children[6].grant">
             <template slot="title">{{$t('left.idType')}}</template>

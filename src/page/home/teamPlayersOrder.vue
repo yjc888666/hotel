@@ -185,7 +185,7 @@
 
     <!-- -------------- -->
       <!-- 换房 -->
-    <el-dialog :title="$t('reception.add_day')" :visible.sync="dialogFormVisible1" class="dia" width="30%">
+    <el-dialog :title="$t('public.operate')" :visible.sync="dialogFormVisible1" class="dia" width="30%">
       <el-form
         :model="forms1"
         status-icon
@@ -382,7 +382,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible3 = false">{{$t('public.cancel')}}</el-button>
+        <el-button @click="printTypedialogForm = false">{{$t('public.cancel')}}</el-button>
         <el-button type="primary" @click="toPrint('printType',printType.status)">{{$t('public.ok')}}</el-button>
       </div>
     </el-dialog>
@@ -1228,6 +1228,8 @@ export default {
 
     //房间号列表查询
     queryRoomList(value) {
+      this.forms.room_number='';
+      this.forms1.room_number='';
       this.$axios
         .post(this.$baseUrl + `/room/getlist`, {
           house_type: value,
@@ -1247,6 +1249,7 @@ export default {
           this.roomList = rooms;
           console.log(this.roomList);
         })
+    
         .catch((err) => {
           console.log(err);
         });

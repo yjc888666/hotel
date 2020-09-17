@@ -165,6 +165,9 @@ ul,ol,dd,dt,dl{
 .time-left{
   width:150px!important;
 }
+.long-width{
+  width: 200px!important;
+}
 .select-left{
   width:150px!important;
 }

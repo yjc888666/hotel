@@ -177,6 +177,7 @@ module.exports = {
     house: "Housing management",
     house_1: "House type management",
     room: "Room management",
+    roomCharge:'Room Charge',
     idType: "Background settings",
     idType_1: "Document type",
     memsetting: "Membership settings",

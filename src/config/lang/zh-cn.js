@@ -177,6 +177,7 @@ module.exports = {
      house:"房屋管理",
      house_1:"房型管理",
      room:"房间管理",
+     roomCharge:'房屋计价管理',
      idType:"后台设置",
      idType_1:"证件类型",
      memsetting:"会员设置",

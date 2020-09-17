@@ -172,31 +172,33 @@
           <el-radio v-model="billData.pay_type" label="3">{{$t('reception.payf_3')}}</el-radio>
         </el-form-item>
         <el-form-item :label="$t('reception.bank_name')" prop="bank_name" v-if="billData.pay_type==1">
-          <el-input v-model.trim="billData.bank_name"></el-input>
+          <el-input v-model.trim="billData.bank_name" @keyup.enter.native="billCommit('billData')"></el-input>
         </el-form-item>
         <el-form-item :label="$t('reception.bank_card')" prop="card_num" v-if="billData.pay_type==1">
-          <el-input v-model.trim="billData.card_num"></el-input>
+          <el-input v-model.trim="billData.card_num" @keyup.enter.native="billCommit('billData')"></el-input>
         </el-form-item>
         <el-form-item :label="$t('reception.card')" prop="member_id" v-if="billData.pay_type==2">
-          <el-input v-model.trim="billData.member_id"></el-input>
+          <el-input v-model.trim="billData.member_id" @keyup.enter.native="billCommit('billData')"></el-input>
         </el-form-item>
         <el-form-item
           :label="$t('reception.memberpass')"
           prop="password"
           v-if="billData.pay_type==2"
         >
-          <el-input v-model.trim="billData.password"></el-input>
+          <el-input v-model.trim="billData.password" @keyup.enter.native="billCommit('billData')"></el-input>
         </el-form-item>
         <el-form-item
           :label="$t('reception.membersort')"
           prop="integral"
           v-if="billData.pay_type==2"
         >
-          <el-input v-model.trim="billData.integral"></el-input>
+          <el-input v-model.trim="billData.integral" @keyup.enter.native="billCommit('billData')"></el-input>
         </el-form-item>
         <el-form-item :label="$t('reception.united')" prop="cooperator_id " v-if="billData.pay_type==3">
           <!-- <el-input v-model.trim="billData.cooperator_id" ></el-input> -->
-          <el-select v-model="billData.cooperator_id" :placeholder="$t('reception.united')" clearable>
+          <el-select v-model="billData.cooperator_id" :placeholder="$t('reception.united')" 
+          @keyup.enter.native="billCommit('billData')"
+          clearable>
             <el-option
               v-for="item in companys"
               :key="item.id"
@@ -229,6 +231,7 @@
             type="date"
             :placeholder="$t('reception.check_time')"
             value-format="timestamp"
+            @keyup.enter.native="submitForms('forms')"
           ></el-date-picker>
         </el-form-item>
         <el-form-item :label="$t('reception.leave_time')" prop="checkout_time" class="floatleft">
@@ -237,10 +240,11 @@
             type="date"
             :placeholder="$t('reception.leave_time')"
             value-format="timestamp"
+             @keyup.enter.native="submitForms('forms')"
           ></el-date-picker>
         </el-form-item>
         <el-form-item :label="$t('reception.days')" prop="day" class="floatleft">
-          <el-input v-model.trim="forms.day"></el-input>
+          <el-input v-model.trim="forms.day"  @keyup.enter.native="submitForms('forms')"></el-input>
         </el-form-item>
         <el-form-item :label="$t('reception.house_type')" prop="house_type" class="floatleft">
           <el-select
@@ -248,17 +252,22 @@
             :placeholder="$t('reception.house_type')"
             clearable
             @change="queryRoomList"
+            @keyup.enter.native="submitForms('forms')"
           >
             <el-option v-for="item in housetype" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('reception.room_number')" prop="room_number" class="floatleft">
-          <el-select v-model.trim="forms.room_number" :placeholder="$t('reception.room_number')" clearable>
+          <el-select v-model.trim="forms.room_number" :placeholder="$t('reception.room_number')"
+           @keyup.enter.native="submitForms('forms')"
+           clearable>
             <el-option v-for="(item,index) in roomList" :value="item" :key="index"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('reception.source_type')" prop="source_type" class="floatleft">
-          <el-select v-model.trim="forms.source_type" :placeholder="$t('reception.source_type')" clearable>
+          <el-select v-model.trim="forms.source_type" :placeholder="$t('reception.source_type')" 
+           @keyup.enter.native="submitForms('forms')"
+          clearable>
             <el-option
               v-for="item in memberType"
               :key="item.value"
@@ -268,22 +277,24 @@
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('reception.username2')" prop="username" class="floatleft">
-          <el-input v-model.trim="forms.username"></el-input>
+          <el-input v-model.trim="forms.username"  @keyup.enter.native="submitForms('forms')"></el-input>
         </el-form-item>
         <el-form-item :label="$t('reception.phone2')" prop="phone" class="floatleft">
-          <el-input v-model.trim="forms.phone"></el-input>
+          <el-input v-model.trim="forms.phone"  @keyup.enter.native="submitForms('forms')"></el-input>
         </el-form-item>
         <el-form-item :label="$t('public.gender')" prop="gender" class="floatleft" >
           <el-radio v-model="forms.gender" label="1" style="width:30px">{{$t('public.man')}}</el-radio>
           <el-radio v-model="forms.gender" label="2" style="width:30px">{{$t('public.woman')}}</el-radio>
         </el-form-item>
         <el-form-item :label="$t('reception.card_type')" prop="card_type" class="floatleft">
-          <el-select v-model.trim="forms.card_type " :placeholder="$t('reception.card_type')" clearable>
+          <el-select v-model.trim="forms.card_type " :placeholder="$t('reception.card_type')" 
+           @keyup.enter.native="submitForms('forms')"
+          clearable>
             <el-option v-for="item in idtype" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item :label="$t('reception.id')" prop="card_num" class="floatleft" style="width:300px">
-          <el-input v-model.trim="forms.card_num"></el-input>
+          <el-input v-model.trim="forms.card_num"  @keyup.enter.native="submitForms('forms')"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -535,7 +546,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible3 = false">{{$t('public.cancel')}}</el-button>
+        <el-button @click="printTypedialogForm = false">{{$t('public.cancel')}}</el-button>
         <el-button type="primary" @click="toPrint('printType',printType.status)">{{$t('public.ok')}}</el-button>
       </div>
     </el-dialog>
@@ -920,7 +931,7 @@ export default {
       dialogFormVisible: false,
       forms: {
         room_number:"",
-        checkout_time:'',
+        checkout_time:"",
         day: "",
         house_type: "",
         source_type: "",
@@ -1201,11 +1212,14 @@ export default {
     },
   },
   watch:{
-     'forms1.checkout_time'(val){
+     'forms1.checkout_time'(val,oldval){
         let a= val;
       if(val!=""){  
       this.forms1.day= parseInt((a- this.row_leavetime*1000)/3600/24/1000);
       console.log(this.forms1.day)
+      }
+      if(val==null){
+        this.forms1.checkout_time="";
       }
     },
  

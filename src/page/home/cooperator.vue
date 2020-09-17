@@ -71,30 +71,31 @@
     <el-dialog :title="$t('reception.dia')" :visible.sync="dialogFormVisible" class="dia" width="40%">
       <el-form :model="forms" status-icon :rules="rule" ref="forms" label-width="80px" class="demo-ruleForm mars">
          <el-form-item :label="$t('reception.company_name')" prop="company_name"  class="floatleft">
-           <el-input v-model.trim="forms.company_name" ></el-input>
+           <el-input v-model.trim="forms.company_name" @keyup.enter.native="submitForms('forms')" ></el-input>
          </el-form-item>
           <el-form-item :label="$t('reception.contacts')" prop="contacts" class="floatleft">
-           <el-input v-model.trim="forms.contacts" ></el-input>
+           <el-input v-model.trim="forms.contacts"  @keyup.enter.native="submitForms('forms')"></el-input>
          </el-form-item>
          <el-form-item :label="$t('reception.phone')" prop="phone" class="floatleft">
-           <el-input v-model.trim="forms.phone" ></el-input>
+           <el-input v-model.trim="forms.phone"  @keyup.enter.native="submitForms('forms')"></el-input>
          </el-form-item>
          <el-form-item :label="$t('reception.content')" prop="content" class="floatleft">
-           <el-input v-model.trim="forms.content" ></el-input>
+           <el-input v-model.trim="forms.content"  @keyup.enter.native="submitForms('forms')"></el-input>
          </el-form-item>
          <el-form-item :label="$t('reception.ptype_id')" prop="ptype_id" class="floatleft">
-           <el-select v-model.trim="forms.ptype_id" :placeholder="$t('public.please_select')">
+           <el-select v-model.trim="forms.ptype_id" :placeholder="$t('public.please_select')" @keyup.enter.native="submitForms('forms')">
               <el-option v-for="item in houseType" :key="item.id" :label="item.tactic_name" :value="item.id"></el-option>
             </el-select>
          </el-form-item>
          <el-form-item :label="$t('reception.paccount_price')" prop="paccount_price" class="floatleft">
-           <el-input v-model.trim="forms.paccount_price" ></el-input>
+           <el-input v-model.trim="forms.paccount_price"  @keyup.enter.native="submitForms('forms')"></el-input>
          </el-form-item> 
           <el-form-item :label="$t('reception.time')" prop="time" class="floatleft">
             <el-date-picker
               v-model="forms.time"
               type="date"
               value-format="yyyy-MM-dd"
+              @keyup.enter.native="submitForms('forms')"
               :placeholder="$t('reception.time')">
           </el-date-picker>
         </el-form-item>
@@ -104,6 +105,7 @@
               v-model="forms.start_time"
               type="date"
               value-format="yyyy-MM-dd"
+              @keyup.enter.native="submitForms('forms')"
               :placeholder="$t('reception.start_time')">
           </el-date-picker>
         </el-form-item>
@@ -111,28 +113,30 @@
             <el-date-picker
               v-model="forms.end_time"
               type="date"
+              @keyup.enter.native="submitForms('forms')"
               value-format="yyyy-MM-dd"
               :placeholder="$t('reception.end_time')">
           </el-date-picker>
          </el-form-item>
          <el-form-item :label="$t('reception.breakfast_num')" prop="breakfast_num" class="floatleft">
-           <el-input v-model.trim="forms.breakfast_num" ></el-input>
+           <el-input v-model.trim="forms.breakfast_num" @keyup.enter.native="submitForms('forms')" ></el-input>
          </el-form-item>
 
          <el-form-item :label="$t('reception.contract_number')" prop="contract_number" class="floatleft">
-           <el-input v-model.trim="forms.contract_number" ></el-input>
+           <el-input v-model.trim="forms.contract_number" disabled></el-input>
          </el-form-item>
          
          <el-form-item :label="$t('reception.email')" prop="email" class="floatleft">
-           <el-input v-model.trim="forms.email" ></el-input>
+           <el-input v-model.trim="forms.email"  @keyup.enter.native="submitForms('forms')"></el-input>
          </el-form-item>
 
          <el-form-item :label="$t('reception.address')" prop="address" class="floatleft">
-           <el-input v-model.trim="forms.address" ></el-input>
+           <el-input v-model.trim="forms.address" @keyup.enter.native="submitForms('forms')"></el-input>
          </el-form-item>
 
         <el-form-item :label="$t('public.remark')" prop="remark" class="floatleft">
-        <el-input  type="textarea" :rows="2" v-model.trim="forms.remark"></el-input>
+        <el-input  type="textarea" :rows="2" v-model.trim="forms.remark" @keyup.enter.native="submitForms('forms')">
+        </el-input>
         </el-form-item>
       </el-form>
       
@@ -207,7 +211,7 @@
     },
     computed:{
       titles(){
-        return {title:this.$t('reception.room_list')}
+        return {title:this.$t('left.cooperator')}
       },
        rule(){
         const rule={
@@ -340,6 +344,9 @@
         this.list(currentPage,this.pagesize)
       },
       addEvent(){
+        this.forms={};
+        var data=new Date()
+        this.forms.contract_number=data.getFullYear()+''+(data.getMonth()+1)+''+data.getDate()+''+Date.parse(data)/1000;
         this.dialogFormVisible = true;
         this.show = true
       },

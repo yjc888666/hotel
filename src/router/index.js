@@ -123,6 +123,12 @@ const router = new Router({
           meta: ['后台管理',"房间管理"],
         },
         {
+          path: '/roomCharge',
+          name: 'roomCharge',
+          component: resolve => require(['@/page/backstage/roomCharge'], resolve),
+          meta: ['后台管理',"房屋计价管理"],
+        },
+        {
           path: '/idType',
           name: 'idType',
           component: resolve => require(['@/page/backstage/idType'], resolve),

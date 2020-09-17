@@ -7,7 +7,7 @@
       <el-button type="success" size="small" style="background: #066197;border-color: #066197;"  icon='el-icon-plus'  @click="addEvent()">{{$t('public.add')}}</el-button>
       <el-button type="danger" size="small"   icon='el-icon-delete'  @click="delEvent()">{{$t('public.alldelete')}}</el-button>
     <div class="lists">
-     <el-input v-model.trim="ruleForm.cargo_id" class="time-left" :placeholder="$t('reception.cargo_id')" clearable ></el-input>
+     <el-input v-model.trim="ruleForm.cargo_id" class="long-width" :placeholder="$t('reception.cargo_id')" clearable style="width:300px"></el-input>
      <el-input v-model.trim="ruleForm.cargo_name" class="time-left" :placeholder="$t('reception.cargo_name')" clearable></el-input>
      <el-select v-model="ruleForm.warehouse_id" :placeholder="$t('reception.warehouse_id')" clearable class="select-left">
         <el-option v-for="item in warehouseType" :key="item.id" :label="item.remark" :value="item.id"></el-option>
@@ -37,22 +37,22 @@
 
     <el-dialog :title="$t('reception.goods_1')" :visible.sync="dialogFormVisible" class="dia" width="30%">
       <el-form :model="forms" status-icon :rules="rule" ref="forms" label-width="80px" class="demo-ruleForm mars">
-         <!-- <el-form-item label="货物编号" prop="cargo_id">
+         <el-form-item label="货物编号" prop="cargo_id">
            <el-input v-model.trim="forms.cargo_id" ></el-input>
-         </el-form-item> -->
+         </el-form-item>
          <el-form-item :label="$t('reception.cargo_name')" prop="cargo_name">
-           <el-input v-model.trim="forms.cargo_name" ></el-input>
+           <el-input v-model.trim="forms.cargo_name" @keyup.enter.native="submitForms('forms')" ></el-input>
          </el-form-item>
           <el-form-item :label="$t('reception.num')" prop="number">
-           <el-input v-model.trim="forms.number" ></el-input>
+           <el-input v-model.trim="forms.number" @keyup.enter.native="submitForms('forms')" ></el-input>
          </el-form-item>
          <el-form-item :label="$t('reception.warehouse_id')" prop="warehouse_id">
-          <el-select v-model="forms.warehouse_id" :placeholder="$t('public.please')">
+          <el-select v-model="forms.warehouse_id" :placeholder="$t('public.please')" @keyup.enter.native="submitForms('forms')">
             <el-option v-for="item in warehouseType" :key="item.id" :label="item.remark" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('reception.classify_id')" prop="classify_id">
-          <el-select v-model="forms.classify_id" :placeholder="$t('public.please')">
+        <el-form-item :label="$t('reception.classify_id')" prop="classigy_id">
+          <el-select v-model="forms.classigy_id" :placeholder="$t('public.please')" @keyup.enter.native="submitForms('forms')">
             <el-option v-for="item in classigyType" :key="item.id" :label="item.classify_name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
@@ -113,23 +113,6 @@
           classify_id:"",          
         },
         rule:{}
-        // rule: {
-        //   cargo_id: [
-        //     {required: true, message: this.$t('reception.cargo_id'), trigger: 'blur'}
-        //   ],
-        //    cargo_name: [
-        //     {required: true, message: this.$t('public.please')+this.$t('reception.cargo_name'), trigger: 'blur'}
-        //   ],
-        //    number: [
-        //     {required: true, message: this.$t('public.please')+this.$t('reception.num'), trigger: 'blur'}
-        //   ],
-        //   warehouse_id: [
-        //     {required: true, message: this.$t('public.please')+this.$t('reception.warehouse_id'), trigger: 'blur'}
-        //   ],
-        //   classify_id: [
-        //     {required: true, message: this.$t('public.please')+this.$t('reception.classify_id'), trigger: 'blur'}
-        //   ]
-        // },
       }
     },
     created() {
@@ -152,7 +135,7 @@
           warehouse_id: [
             {required: true, message: this.$t('public.please')+this.$t('reception.warehouse_id'), trigger: 'blur'}
           ],
-          classify_id: [
+          classigy_id: [
             {required: true, message: this.$t('public.please')+this.$t('reception.classify_id'), trigger: 'blur'}
           ]
         }
@@ -258,7 +241,13 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
           var that = this;
-          that.$axios.post(this.$baseUrl +`/cargo/addcargo`,this.forms)
+          that.$axios.post(this.$baseUrl +`/cargo/addcargo`,{
+            cargo_id:this.forms.cargo_id,
+            cargo_name:this.forms.cargo_name,
+            number:this.forms.number,
+            warehouse_id:this.forms.warehouse_id,
+            classify_id:this.forms.classigy_id
+          })
           .then(function (res) {
             if (res.data.result== true) {
               that.$message.success(that.$t("common."+res.data.msg))
@@ -280,10 +269,18 @@
         })
        },
        modifyEvent(formName) {
+
         this.$refs[formName].validate((valid) => {
           if (valid) {
             var that = this;
-          that.$axios.post(this.$baseUrl +`/cargo/updatecargo`,this.forms)
+          that.$axios.post(this.$baseUrl +`/cargo/updatecargo`,{
+            id:this.forms.id,
+            cargo_id:this.forms.cargo_id,
+            cargo_name:this.forms.cargo_name,
+            number:this.forms.number,
+            warehouse_id:this.forms.warehouse_id,
+            classify_id:this.forms.classigy_id
+          })
           .then(function (res) {
             if (res.data.result== true) {
               that.$message.success(that.$t("common."+res.data.msg))
@@ -314,7 +311,7 @@
          that.forms.number = row.number;
          that.forms.warehouse_id= this.warehouseFormat(row)
         //  that.forms.warehouse_id = row.warehouse_id;
-         that.forms.classify_id = this.classifyFormat(row);
+         that.forms.classigy_id = this.classifyFormat(row);
       },
       handleDelete(index,row){
         this.$confirm(this.$t('public.info'), this.$t('public.hint'), {

@@ -20,7 +20,7 @@
         </el-select>
       </el-form-item>
       <el-form-item :label="$t('reception.vip_card')" prop="member_card">
-        <el-input :disabled="detailsShow" v-model.number="ruleForm.member_card" class="widthinp" type="number"></el-input>
+        <el-input disabled v-model.number="ruleForm.member_card" class="widthinp" type="number"></el-input>
       </el-form-item>
       <el-form-item :label="$t('reception.idType')" prop="idType">
         <el-select
@@ -66,8 +66,8 @@
         <el-input
           type="password"
           class="widthinp"
-          v-model.number="ruleForm.password"
           show-password
+          v-model.number="ruleForm.password"
           auto-complete="new-password"
         ></el-input>
       </el-form-item>
@@ -134,13 +134,14 @@ export default {
     Title
   },
   data() {
-    // var validatePass = (rule, value, callback) => {
-    //  if (value !== this.ruleForm.passwordData) {
-    //     callback(new Error("两次输入密码不一致!"));
-    //   } else {
-    //     callback();
-    //   }
-    // };
+    var validatePass = (rule, value, callback) => {
+      console.log(this.ruleForm.passwordData)
+     if (value !== this.ruleForm.passwordData) {
+        callback(new Error("两次输入密码不一致!"));
+      } else {
+        callback();
+      }
+    };
     return {
       // title: {
       //   title: "会员信息",
@@ -167,22 +168,8 @@ export default {
       detailsShow: false,
       aloneShow: true,
       detailsId: "",
-      // rules: {
-        
-      // },
-      options: [],
-      optionsPapers: []
-    };
-  },
-  computed:{
-    titles(){
-      return {title:this.$t('left.members'),
-       title_show:true
-      }
-    },
-    rules(){
-      const rules={
-        level: [{ required: true, message: this.$t('Validation.member_form.level'), trigger: "blur" }],
+       rules: {
+         level: [{ required: true, message: this.$t('Validation.member_form.level'), trigger: "blur" }],
         member_card: [
           { required: true, message: this.$t('Validation.member_form.member_card'), trigger: "blur" },
           { type: "number", message: this.$t('Validation.member_form.member_card2') }
@@ -203,8 +190,8 @@ export default {
         ],
         password: [
           { required: true, message: this.$t('Validation.member_form.password'), trigger: "blur" },
-          { validator: yz.validatePass, trigger: "blur" }
-            //  { validator: this.validatePass, trigger: "blur" }
+           { validator: yz.validatePass, trigger: "blur" },
+           {  type:'number', validator: validatePass, trigger: "blur" }
         ],
         gender: [{ required: true, message:  this.$t('Validation.member_form.gender'), trigger: "blur" }],
         money: [
@@ -216,11 +203,62 @@ export default {
           { required: true, message: this.$t('Validation.member_form.pay_sta'), trigger: "blur" }
         ],
         passwordData: [
-          { required: true, message: this.$t('Validation.member_form.pass'), trigger: "blur" }
+          { required: true, message: this.$t('Validation.member_form.pass'), trigger: "blur" },
+           { validator: yz.validatePass, trigger: "blur" },
         ]
+       },
+      options: [],
+      optionsPapers: []
+    };
+  },
+  computed:{
+    titles(){
+      return {title:this.$t('left.members'),
+       title_show:true
       }
-      return rules
-    }
+    },
+    // rules(){
+    //   const rules={
+    //     level: [{ required: true, message: this.$t('Validation.member_form.level'), trigger: "blur" }],
+    //     member_card: [
+    //       { required: true, message: this.$t('Validation.member_form.member_card'), trigger: "blur" },
+    //       { type: "number", message: this.$t('Validation.member_form.member_card2') }
+    //     ],
+    //     idType: [
+    //       { required: true, message: this.$t('Validation.member_form.id_type'), trigger: "blur" }
+    //     ],
+    //     idcard: [
+    //       { required: true, message: this.$t('Validation.member_form.id_card'), trigger: "blur" },
+    //       { validator: yz.validateCardIdNo, trigger: "blur" }
+    //     ],
+    //     username: [
+    //       { required: true, message: this.$t('Validation.member_form.username'), trigger: "blur" }
+    //     ],
+    //     phone: [
+    //       { required: true, message: this.$t('Validation.member_form.phone'), trigger: "blur" },
+    //       { validator: yz.validateMobilePhoneNo, trigger: "blur" }
+    //     ],
+    //     password: [
+    //       // { required: true, message: this.$t('Validation.member_form.password'), trigger: "blur" },
+    //       //  { validator: yz.validatePass, trigger: "blur" },
+    //        {  type:'number', validator: this.validatePass, trigger: "blur" }
+    //     ],
+    //     gender: [{ required: true, message:  this.$t('Validation.member_form.gender'), trigger: "blur" }],
+    //     money: [
+    //       { required: true, message: this.$t('Validation.member_form.money'), trigger: "blur" },
+    //       { validator: yz.validateMoney, trigger: "blur" }
+    //     ],
+    //     birthday: [{ required: true, message: this.$t('Validation.member_form.birthday'), trigger: "blur" }],
+    //     pay_status: [
+    //       { required: true, message: this.$t('Validation.member_form.pay_sta'), trigger: "blur" }
+    //     ],
+    //     passwordData: [
+    //       { required: true, message: this.$t('Validation.member_form.pass'), trigger: "blur" },
+    //        { validator: yz.validatePass, trigger: "blur" },
+    //     ]
+    //   }
+    //   return rules
+    // }
   },
   methods: {
     // 截取时间
@@ -233,7 +271,10 @@ export default {
     // 清空数据
     dataEmpty() {
       this.ruleForm.level = "";
-      this.ruleForm.member_card = "";
+      var time=new Date()
+      var  month=time.getMonth()>=10?time.getMonth()+1:'0'+(time.getMonth()+1)
+      var day=time.getDate()>=10?time.getDate():'0'+time.getDate()
+      this.ruleForm.member_card= Number(time.getFullYear()+''+month+''+day+''+Date.parse(time)/1000);
       this.ruleForm.idcard = "";
       this.ruleForm.idType = "";
       this.ruleForm.username = "";
@@ -351,6 +392,11 @@ export default {
     }
   },
   created() {
+    var time=new Date()
+   var  month=time.getMonth()>=10?time.getMonth()+1:'0'+(time.getMonth()+1)
+    var day=time.getDate()>=10?time.getDate():'0'+time.getDate()
+    this.ruleForm.member_card= Number(time.getFullYear()+''+month+''+day+''+Date.parse(time)/1000);
+     console.log( this.ruleForm.member_card)
     this.skipData();
     this.memberType();
     this.papersData();

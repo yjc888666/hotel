@@ -228,6 +228,7 @@
       }
     },
     created() {
+      this.forms.leave_time=''
     },
     computed:{
       titles(){
@@ -354,7 +355,7 @@
          this.$refs[forms].validate((valid)=>{
            if(valid){
             this.flag2=false
-           this.$router.replace('/teamCheckin/teamuser')
+           this.$router.push('/teamCheckin/teamuser')
            }
          })
       },

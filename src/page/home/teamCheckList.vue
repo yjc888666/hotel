@@ -44,7 +44,7 @@
         :label="$t('reception.leave_time')"
         width="auto"
         align="center"
-        :formatter="dateFormat"
+        :formatter="dateFormat2"
       ></el-table-column>
 
       <el-table-column prop="day_num" :label="$t('reception.days')" width="auto" show-overflow-tooltip align="center"></el-table-column>

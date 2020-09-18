@@ -37,9 +37,6 @@
 
     <el-dialog :title="$t('reception.goods_1')" :visible.sync="dialogFormVisible" class="dia" width="30%">
       <el-form :model="forms" status-icon :rules="rule" ref="forms" label-width="80px" class="demo-ruleForm mars">
-         <el-form-item label="货物编号" prop="cargo_id">
-           <el-input v-model.trim="forms.cargo_id" ></el-input>
-         </el-form-item>
          <el-form-item :label="$t('reception.cargo_name')" prop="cargo_name">
            <el-input v-model.trim="forms.cargo_name" @keyup.enter.native="submitForms('forms')" ></el-input>
          </el-form-item>
@@ -47,12 +44,12 @@
            <el-input v-model.trim="forms.number" @keyup.enter.native="submitForms('forms')" ></el-input>
          </el-form-item>
          <el-form-item :label="$t('reception.warehouse_id')" prop="warehouse_id">
-          <el-select v-model="forms.warehouse_id" :placeholder="$t('public.please')" @keyup.enter.native="submitForms('forms')">
+          <el-select v-model="forms.warehouse_id" :placeholder="$t('public.please')">
             <el-option v-for="item in warehouseType" :key="item.id" :label="item.remark" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item :label="$t('reception.classify_id')" prop="classigy_id">
-          <el-select v-model="forms.classigy_id" :placeholder="$t('public.please')" @keyup.enter.native="submitForms('forms')">
+        <el-form-item :label="$t('reception.classify_id')" prop="classify_id">
+          <el-select v-model="forms.classify_id" :placeholder="$t('public.please')">
             <el-option v-for="item in classigyType" :key="item.id" :label="item.classify_name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
@@ -135,7 +132,7 @@
           warehouse_id: [
             {required: true, message: this.$t('public.please')+this.$t('reception.warehouse_id'), trigger: 'blur'}
           ],
-          classigy_id: [
+          classify_id: [
             {required: true, message: this.$t('public.please')+this.$t('reception.classify_id'), trigger: 'blur'}
           ]
         }
@@ -152,7 +149,7 @@
         })
       },
        //仓库名称的转换
-    warehouseFormat(row,column){
+    warehouseFormat(row){
        for(var i=0,l=this.warehouseType.length;i<l;i++){
          if(row.warehouse_id==this.warehouseType[i].id){
            return this.warehouseType[i].remark
@@ -165,6 +162,7 @@
         this.$axios.post(this.$baseUrl + '/cargoClassify/getClassify')
         .then((res) => {
           this.classigyType = res.data.pojo
+          console.log(this.classigyType)
         })
         .catch((res) => {
           console.log(res)
@@ -172,7 +170,7 @@
       },
       
       //货物名称的转换
-      classifyFormat(row,column){
+      classifyFormat(row){
       for(var i=0,l=this.classigyType.length;i<l;i++){
          if(row.classify_id==this.classigyType[i].id){
            return this.classigyType[i].classify_name
@@ -183,6 +181,7 @@
         this.multipleSelection = val;
       },
       addEvent(){
+        this.forms={};
         var that = this;
         this.dialogFormVisible = true;
         this.show = true;
@@ -191,7 +190,7 @@
         // that.forms.cargo_name = "";
         // that.forms.number = "";
         // that.forms.warehouse_id = "";
-        // that.forms.classigy_id = ""; 
+        // that.forms.classify_id = ""; 
       },
       list(a,b){
         var para = {
@@ -242,11 +241,10 @@
           if (valid) {
           var that = this;
           that.$axios.post(this.$baseUrl +`/cargo/addcargo`,{
-            cargo_id:this.forms.cargo_id,
             cargo_name:this.forms.cargo_name,
             number:this.forms.number,
             warehouse_id:this.forms.warehouse_id,
-            classify_id:this.forms.classigy_id
+            classify_id:this.forms.classify_id
           })
           .then(function (res) {
             if (res.data.result== true) {
@@ -256,7 +254,7 @@
               that.forms.cargo_name = "";
               that.forms.number = "";
               that.forms.warehouse_id = "";
-              that.forms.classigy_id = "";   
+              that.forms.classify_id = "";   
               that.list(that.currentPage,that.pagesize)
             }else {
               that.$message.error(that.$t("common."+res.data.msg))
@@ -279,7 +277,7 @@
             cargo_name:this.forms.cargo_name,
             number:this.forms.number,
             warehouse_id:this.forms.warehouse_id,
-            classify_id:this.forms.classigy_id
+            classify_id:this.forms.classify_id
           })
           .then(function (res) {
             if (res.data.result== true) {
@@ -289,7 +287,7 @@
               that.forms.cargo_name = "";
               that.forms.number = "";
               that.forms.warehouse_id = "";
-              that.forms.classigy_id = "";  
+              that.forms.classify_id = "";  
               that.list(that.currentPage,that.pagesize)
             }else {
               that.$message.error(that.$t("common."+res.data.msg))
@@ -306,12 +304,12 @@
          this.dialogFormVisible = true;
          this.show = false;
          this.forms.id = row.id;
-         that.forms.cargo_id = row.cargo_id;
+         this.forms.cargo_id = row.cargo_id;
          that.forms.cargo_name = row.cargo_name;
          that.forms.number = row.number;
-         that.forms.warehouse_id= this.warehouseFormat(row)
-        //  that.forms.warehouse_id = row.warehouse_id;
-         that.forms.classigy_id = this.classifyFormat(row);
+        //  that.forms.warehouse_id= this.warehouseFormat(row)
+        // //  that.forms.warehouse_id = row.warehouse_id;
+        //  that.forms.classify_id = this.classifyFormat(row);
       },
       handleDelete(index,row){
         this.$confirm(this.$t('public.info'), this.$t('public.hint'), {

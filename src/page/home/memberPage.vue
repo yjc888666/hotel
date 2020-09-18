@@ -363,6 +363,7 @@ export default {
       formData.append("id", val.id);
       this.$axios.post(this.$baseUrl + `/member/delete`, formData).then(res => {
         if (res.data.result == true) {
+           this.searchLevel();
            this.$message.success(this.$t("common."+res.data.msg))
         } else {
           this.$message.error(this.$t("common."+res.data.msg))

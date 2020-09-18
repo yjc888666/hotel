@@ -61,7 +61,7 @@
         :label="$t('reception.leave_time')"
         width="180"
         align="center"
-        :formatter="dateFormat"
+        :formatter="dateFormat2"
       ></el-table-column>
       <el-table-column
         prop="total_price"
@@ -1215,12 +1215,12 @@ export default {
      'forms1.checkout_time'(val,oldval){
         let a= val;
       if(val!=""){  
-      this.forms1.day= parseInt((a- this.row_leavetime*1000)/3600/24/1000);
-      console.log(this.forms1.day)
+      this.forms1.day= parseInt((a- this.row_leavetime*1000+(12*3600*1000))/3600/24/1000);
+     
       }
-      if(val==null){
-        this.forms1.checkout_time="";
-      }
+     else{
+       this.forms1.day=0;
+     }
     },
  
     'forms1.day': function (data) {
@@ -1229,8 +1229,10 @@ export default {
       this.forms1.total_price= a*this.singlePrice;
       this.forms1.checkout_time=this.row_leavetime*1000 + a*24*3600*1000
       }
+   
       else{
        this.forms1.total_price=0;
+       this.forms1.checkout_time=''
        }
      
     },
@@ -1241,7 +1243,7 @@ export default {
            this.forms.day= (a-this.forms.checkin_time)/3600/24/1000;
         }
         else{
-           this.forms.day=0;
+           this.forms.day='';
         }
       }
       else{
@@ -1262,12 +1264,18 @@ export default {
     //    this.forms.day=0;
     //    }
     // },
-    'forms.day'(val){
+    'forms.day'(val,oldval){
        let a= val;
       if(val!=""){
         if(this.forms.checkin_time!=''){
            this.forms.checkout_time=a*1000*24*3600+this.forms.checkin_time
         }
+        if(val==0){
+            this.forms.checkout_time=a*1000*24*3600+this.forms.checkin_time
+        }
+      }
+      else {
+        this.forms.checkout_time='';
       }
      
     },
@@ -1648,8 +1656,7 @@ export default {
           });
           this.registerinfos.push({
             room_number: this.forms.room_number,
-
-            checkout_time: this.forms.checkout_time / 1000,
+            checkout_time: (this.forms.checkout_time / 1000)+12*3600,
             day: this.forms.day,
             house_type: this.forms.house_type,
             source_type: this.forms.source_type,
@@ -1662,6 +1669,7 @@ export default {
             })
             .then(function (res) {
               if (res.data.result == true) {
+                that.submitForm();
                 that.$message.success(that.$t("common." + res.data.msg));
                 that.dialogFormVisible = false;
                 that.forms.room_number = "";
@@ -1676,7 +1684,7 @@ export default {
                 that.forms.gender = "";
                 that.forms.card_num = "";
                 this.houseEvent();
-                that.list(that.currentPage, that.pagesize);
+                
               } else {
                 that.$message.error(that.$t("common." + res.data.msg));
               }
@@ -1725,12 +1733,15 @@ export default {
             }))
             .then(function (res) {
               if (res.data.result == true) {
+                
                 that.$message.success(that.$t("common." + res.data.msg));
                 that.dialogFormVisible1 = false;
                 that.forms1.room_number = "";
                 that.forms1.id = "";
-                this.houseEvent();
-                that.list(that.currentPage, that.pagesize);
+                
+                 
+                 that.list(that.currentPage, that.pagesize);
+                 that.houseEvent();
                 //打印账单id
                 // console.log(res.pojo.bill_id)
               } else {
@@ -1748,7 +1759,12 @@ export default {
           var that = this;
           this.forms1.checkout_time = this.forms1.checkout_time / 1000;
           that.$axios
-            .post(this.$baseUrl + `/registerinfo/continueroom`, this.forms1)
+            .post(this.$baseUrl + `/registerinfo/continueroom`, {
+              id:this.forms1.id,
+              checkout_time:this.forms1.checkout_time,
+              day:this.forms1.day,
+              total_price:this.forms1.total_price
+            })
             .then(function (res) {
               if (res.data.result == true) {
                 that.$message.success(that.$t("common." + res.data.msg));
@@ -1830,7 +1846,10 @@ export default {
       this.show1 = 2;
     },
     handleEdit2(index, row) {
+      this.forms1.day='';
+      this.forms1.checkout_time='';
       this.row_leavetime=Number(row.checkout_time) ;
+      console.log(this.row_leavetime)
       this.dialogFormVisible1 = true;
       //  this.forms1.checkout_time = row.checkout_time;
       this.forms1.id = row.id;

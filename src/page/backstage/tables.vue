@@ -21,6 +21,7 @@
 
     <el-table :data="tableData" stripe style="width: 100%" header-align='center'>
       <el-table-column type="index" label="ID" width="auto" show-overflow-tooltip align='center'></el-table-column>
+      <el-table-column prop="restaurant_id" :label="$t('backstage.restaurant')" width="auto" show-overflow-tooltip align='center'  :formatter="restaurantFormat"></el-table-column>
       <el-table-column prop="serial_number" :label="$t('backstage.serialss_number')" width="auto" show-overflow-tooltip align='center'></el-table-column>
        <el-table-column prop="capacity" :label="$t('backstage.capacity')" width="auto" show-overflow-tooltip align='center'></el-table-column>
       <el-table-column prop="status" :label="$t('public.status')" width="auto" align='center'> 
@@ -127,6 +128,7 @@
       }
     },
     created() {
+      this.restaurantEvent();
       this.submitForm();
       this.$axios.post(this.$baseUrl + '/restaurant/getList')
         .then((res) => {
@@ -168,6 +170,28 @@
       }
     },
     methods:{
+
+         // 餐厅列表
+      restaurantEvent(){
+          this.$axios.post(this.$baseUrl + '/restaurant/getList')
+        .then((res) => {
+          this.restauranttype = res.data.pojo
+        })
+        .catch((res) => {
+          console.log(res)
+        })
+      },
+
+      //餐厅号的转换
+    restaurantFormat(row,column){
+       for(var i=0,l=this.restauranttype.length;i<l;i++){
+         if(row.restaurant_id==this.restauranttype[i].id){
+           return this.restauranttype[i].restaurant
+         }
+       }
+    },
+
+
       addEvent(){
         this.dialogFormVisible = true;
         this.show = true

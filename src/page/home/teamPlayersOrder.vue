@@ -34,7 +34,7 @@
         :label="$t('reception.leave_time')"
         width="180"
         align="center"
-        :formatter="dateFormat"
+        :formatter="dateFormat2"
       ></el-table-column>
       <el-table-column
         prop="total_price"
@@ -1371,7 +1371,7 @@ export default {
             that.tableData = res.data.pojo;
           } else {
             that.tableData = [];
-            that.$message.error(that.$t("common." + res.data.msg));
+           
           }
         })
         .catch(err=> {

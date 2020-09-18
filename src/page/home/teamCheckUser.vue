@@ -259,7 +259,8 @@ export default {
     this.idTypeEvent();
     this.houseEvent();
     this.teamDataByFather = this.teamData;
-    this.teamDataByFather.leave_time /= 1000;
+    console.log(this.teamDataByFather.leave_time)
+    // this.teamDataByFather.leave_time /= 1000;
   },
    //监听路由的变化，清除输入框的值
     watch:{
@@ -370,6 +371,8 @@ export default {
     submitData(teamplayer) {
         this.$refs[teamplayer].validate((valid)=>{
           if(valid){
+       this.teamDataByFather.leave_time/=1000;
+       this.teamDataByFather.leave_time+=4*3600;
       this.teamDataByFather.room = this.model.tableData;
       //遍历收到子组件传过来的数据，去除掉room数组中的edit字段
       this.teamDataByFather.room.forEach((item) => {

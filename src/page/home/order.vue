@@ -10,7 +10,7 @@
           <el-option v-for="item in restauranttype" :key="item.id" :label="item.restaurant" :value="item.id"></el-option>
         </el-select>
         <el-select v-model.trim="ruleForm.table_num" :placeholder="$t('reception.table_num')" clearable>
-          <el-option v-for="item in tabletype" :key="item.id" :label="item.serial_number" :value="item.serial_number"></el-option>
+          <el-option v-for="item in tabletype2" :key="item.id" :label="item.serial_number" :value="item.serial_number"></el-option>
         </el-select>
      <el-date-picker clearable
         v-model="ruleForm.create_time"
@@ -68,9 +68,9 @@
     
       <el-table-column :label="$t('public.operate')" align="center" width="340px" fixed="right">
         <template slot-scope="scope">   
-           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">{{$t('public.edit')}}</el-button>
-           <el-button size="mini" @click="handleChange(scope.$index, scope.row)" type="danger">{{$t('reception.trade')}}</el-button>
-           <el-button size="mini" @click="handleDelete(scope.$index, scope.row)">{{$t('reception.settle')}}</el-button>
+           <el-button size="mini" :disabled="scope.row.pay_status==1" @click="handleEdit(scope.$index, scope.row)">{{$t('public.edit')}}</el-button>
+           <el-button size="mini" :disabled="scope.row.pay_status==1" @click="handleChange(scope.$index, scope.row)" type="danger">{{$t('reception.trade')}}</el-button>
+           <el-button size="mini" :disabled="scope.row.pay_status==1" @click="handleDelete(scope.$index, scope.row)">{{$t('reception.settle')}}</el-button>
            <el-button type="primary" size="mini" @click="printRestaurantOrder(scope.row)">{{$t('reception.print')}}</el-button>
         </template>
       </el-table-column>
@@ -225,6 +225,8 @@
         restauranttype:[],
         dlist:[],
         tabletype:[],
+        tabletype2:[],
+        
         dialogFormVisible1: false,
         //是否支付
         isPay:'',
@@ -356,7 +358,7 @@
 
 
       selectChanged1(val){
-         this.tableEvent(val);
+         this.tableEvent2(val);
       },
       selectChanged(val){
          this.ruleForm.table_num=''
@@ -390,6 +392,16 @@
         .then((res) => {
           this.ruleForm.table_num='';
           this.tabletype = res.data.pojo
+        })
+        .catch((res) => {
+          console.log(res)
+        })
+      },
+      tableEvent2(){
+        this.$axios.post(this.$baseUrl + '/table/getList')
+        .then((res) => {
+          this.ruleForm.table_num='';
+          this.tabletype2 = res.data.pojo
         })
         .catch((res) => {
           console.log(res)

@@ -112,7 +112,7 @@
         width="auto"
         show-overflow-tooltip
         align="center"
-        :formatter="dateFormat"
+        :formatter="dateFormat2"
       ></el-table-column>
       <el-table-column :label="$t('public.operate')" align="center" fixed="right" width="300px">
         <template slot-scope="scope">
@@ -1074,7 +1074,7 @@ export default {
       // this.$refs[formName].resetFields();
       this.forms.reserve_time = this.forms.reserve_time / 1000;
       this.forms.checkin_time = this.forms.checkin_time / 1000;
-      this.forms.checkout_time = this.forms.checkout_time / 1000;
+      this.forms.checkout_time = (this.forms.checkout_time / 1000)+12*3600;
       let para = {
         ...this.forms,
         ...this.dynamicValidateForm
@@ -1087,8 +1087,10 @@ export default {
             .then(res => {
               if (res.data.result == true) {
                 that.$message.success(that.$t("common." + res.data.msg));
+                this.forms={}
                   this.dialogFormVisible = false;
                   this.roomList(this.currentPage, this.pagesize);
+                  
               } else {
                 that.$message.error(that.$t("common." + res.data.msg));
               }

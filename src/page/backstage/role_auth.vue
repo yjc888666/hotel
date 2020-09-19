@@ -102,13 +102,14 @@
                 showClose: true,
                 type: 'error'
               });
+              
             }
           })
       },
       submitForm(formName) {
             let para = {
             id:this.$route.query.id,
-            permissions:this.$refs.tree.getCheckedKeys()
+            permissions:this.$refs.tree.getCheckedKeys().concat(this.$refs.tree.getHalfCheckedKeys())
             //.concat(this.$refs.tree.getHalfCheckedKeys())
           }
             this.$axios.post(this.$baseUrl + '/role/grant', para)

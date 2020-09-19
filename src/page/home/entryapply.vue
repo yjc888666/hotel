@@ -88,14 +88,14 @@
     <el-dialog :title="$t('left.entryapply')" :visible.sync="dialogFormVisible" class="dia" width="30%">
       <el-form :model="forms" status-icon :rules="rule" ref="forms" label-width="60px" class="demo-ruleForm mars">
          <el-form-item label="类型" prop="type">
-           <el-radio v-model="forms.type" label="1">{{$t('reception.laid_up')}}</el-radio>
-           <el-radio v-model="forms.type" label="2">{{$t('reception.of_cargo')}}</el-radio>
+           <el-radio v-model="forms.type" label="1" @change="getCargoList">{{$t('reception.laid_up')}}</el-radio>
+           <el-radio v-model="forms.type" label="2" @change="getCargoList">{{$t('reception.of_cargo')}}</el-radio>
          </el-form-item>
          <el-tabs type="border-card">
-          <el-table :data="applyCargoList" stripe style="width: 100%" ref="multipleTable"  header-align='center' @selection-change="handleSelectionChange" v-show="show">
+          <el-table :data="cargoListByType" stripe style="width: 100%" ref="multipleTable"  header-align='center' @selection-change="handleSelectionChange" v-show="show">
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column prop="cargo_name" :label="$t('reception.goods_1')" width="auto" show-overflow-tooltip align='center'></el-table-column>
-            <el-table-column :label="$t('reception.goods_1')" width="150" align="center">
+            <el-table-column :label="$t('reception.num')" width="150" align="center">
               <template slot-scope="scope">
                 <el-input-number  size="mini" v-model="scope.row.number" :min="0"></el-input-number>
                 </template>
@@ -153,11 +153,12 @@
         pageNums:0,
         applyCargoList:[],
         applyCargoList1:[],
+        cargoListByType:[],
         show:true,
         dialogFormVisible: false,
         forms: {
           id:"",
-          type:"1",
+          type:"",
         },
         // rule: {
          
@@ -224,6 +225,20 @@
         this.dialogFormVisible = true;
         this.show = true;
         this.cargoEvent();
+      },
+      getCargoList(val){
+         this.$axios.post(this.$baseUrl + '/cargo/getcargo_apply',{
+           apply_type:val
+         })
+          .then(res => {
+            if(res.data.result==true){
+              this.cargoListByType=res.data.pojo
+            }
+            console.log(res.data)
+          })
+          .catch(err => {
+            console.log(res)
+          })
       },
       list(a,b){
         if(this.ruleForm.apply_time==""||this.ruleForm.apply_time==null){

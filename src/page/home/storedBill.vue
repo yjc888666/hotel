@@ -206,7 +206,7 @@ export default {
         .then(res => {
           this.workerList = res.data.pojo.list;
         })
-        .catch(res => {
+        .catch(err => {
           console.log(err);
         });
     },

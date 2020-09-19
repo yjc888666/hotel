@@ -108,7 +108,8 @@
       submitForm(formName) {
             let para = {
             id:this.$route.query.id,
-            permissions:this.$refs.tree.getCheckedKeys().concat(this.$refs.tree.getHalfCheckedKeys())
+            permissions:this.$refs.tree.getCheckedKeys()
+            //.concat(this.$refs.tree.getHalfCheckedKeys())
           }
             this.$axios.post(this.$baseUrl + '/role/grant', para)
               .then((res) => {

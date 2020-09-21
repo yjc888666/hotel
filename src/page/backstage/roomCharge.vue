@@ -19,14 +19,14 @@
         ></el-table-column>
         <el-table-column
           prop="remark"
-          label="计价策略名称"
+          :label="$t('backstage.roomChargeName')"
           width="auto"
           show-overflow-tooltip
           align="center"
         ></el-table-column>
         <el-table-column
           prop="time"
-          label="计价策略时间"
+          :label="$t('backstage.roomChargeTime')"
           width="auto"
           show-overflow-tooltip
           align="center"
@@ -41,21 +41,21 @@
               plain
               @click="AlterPriceTime(scope.$index, scope.row)"
             >
-              修改
+             {{$t('public.edit')}}
             </el-button>
           </template>
         </el-table-column>
       </el-table>
-      <el-dialog title="修改" :visible.sync="dialogVisible" width="20%">
-        <el-time-picker v-model="time" placeholder="任意时间点"
+      <el-dialog :title="$t('public.edit')" :visible.sync="dialogVisible" width="20%">
+        <el-time-picker v-model="time" :placeholder="$t('backstage.editTimePlaceholder')"
         size="small"
         value-format="HH:mm"
          :picker-options="{selectableRange: '00:00:00 - 23:59:59'}"
         >
         </el-time-picker>
         <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="submit">确 定</el-button>
+          <el-button @click="dialogVisible = false">{{$t('public.cancel')}}</el-button>
+          <el-button type="primary" @click="submit">{{$t('public.ok')}}</el-button>
         </span>
       </el-dialog>
     </div>
@@ -88,7 +88,7 @@ export default {
     },
     //对服务器发过来的时间格式化
     timeFormmat(val) {
-     var str='(在零点至设置时间之内的时间段入住的是全天房)'
+     var str=this.$t('backstage.timeDetail')
 
       console.log(val);
       var hour = val.time / 3600 < 10 ? "0" + val.time / 3600 : val.time / 3600;

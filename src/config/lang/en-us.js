@@ -330,6 +330,10 @@ module.exports = {
     vip_push: 'Vip Push',
     vip_del: 'Vip Del',
     setBill: 'Settled',
+    roomChargeName:'Charge Name',
+    roomChargeTime:'Charge Time',
+    editTimePlaceholder:'Alter Time',
+    timeDetail:"(All day rooms are checked in from zero to set time)"
   },
   //前台
   reception: {
@@ -400,6 +404,7 @@ module.exports = {
     _id: "dining hall",
     table_id: "dining-table",
     reserve_status: "reservation status",
+    overPeopleSum:'The number of diners exceeds the capacity of the table!',
     cash_status: "The deposit status",
     card_type: "ID Type",
     people_num: "numbers",

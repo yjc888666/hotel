@@ -41,7 +41,7 @@
            <el-input v-model.trim="forms.cargo_name" @keyup.enter.native="submitForms('forms')" ></el-input>
          </el-form-item>
           <el-form-item :label="$t('reception.num')" prop="number">
-           <el-input v-model.trim="forms.number" @keyup.enter.native="submitForms('forms')" ></el-input>
+           <el-input v-model.trim="forms.number" @keyup.enter.native="submitForms('forms')" :disabled="!show"></el-input>
          </el-form-item>
          <el-form-item :label="$t('reception.warehouse_id')" prop="warehouse_id">
           <el-select v-model="forms.warehouse_id" :placeholder="$t('public.please')">
@@ -301,15 +301,17 @@
        },
       handleEdit(index,row){
          var that = this;
-         this.dialogFormVisible = true;
          this.show = false;
          this.forms.id = row.id;
          this.forms.cargo_id = row.cargo_id;
-         that.forms.cargo_name = row.cargo_name;
-         that.forms.number = row.number;
-        //  that.forms.warehouse_id= this.warehouseFormat(row)
-        // //  that.forms.warehouse_id = row.warehouse_id;
-        //  that.forms.classify_id = this.classifyFormat(row);
+         this.forms.cargo_name = row.cargo_name;
+         this.forms.number = row.number;
+        
+        // this.forms.warehouse_id= this.warehouseFormat(row)
+         this.forms.warehouse_id = row.warehouse_id;
+        // this.forms.classify_id = this.classifyFormat(row);
+        this.forms.classify_id = row.classify_id;
+         this.dialogFormVisible = true;
       },
       handleDelete(index,row){
         this.$confirm(this.$t('public.info'), this.$t('public.hint'), {

@@ -331,6 +331,10 @@ module.exports = {
     vip_push:'会员充值',
     vip_del:'会员删除',
     setBill:'退房结账',
+    roomChargeName:'计价策略名称',
+    roomChargeTime:'计价策略时间',
+    editTimePlaceholder:'请输入修改的时间',
+    timeDetail:"(在零点至设置时间之内的时间段入住的是全天房)"
   },
   //前台
   reception:{
@@ -402,6 +406,7 @@ module.exports = {
      _id:"餐厅",
      table_id:"餐桌",
      reserve_status:"预订状态",
+     overPeopleSum:'就餐人数超过该餐桌容纳人数!',
      cash_status:"押金状态",
      card_type:"证件类型",
      people_num:"就餐人数",

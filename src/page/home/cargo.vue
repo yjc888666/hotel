@@ -38,10 +38,10 @@
     <el-dialog :title="$t('reception.goods_1')" :visible.sync="dialogFormVisible" class="dia" width="30%">
       <el-form :model="forms" status-icon :rules="rule" ref="forms" label-width="80px" class="demo-ruleForm mars">
          <el-form-item :label="$t('reception.cargo_name')" prop="cargo_name">
-           <el-input v-model.trim="forms.cargo_name" @keyup.enter.native="submitForms('forms')" ></el-input>
+           <el-input v-model.trim="forms.cargo_name" @keyup.enter.native.capture.prevent="submitForms('forms')" ></el-input>
          </el-form-item>
           <el-form-item :label="$t('reception.num')" prop="number">
-           <el-input v-model.trim="forms.number" @keyup.enter.native="submitForms('forms')" :disabled="!show"></el-input>
+           <el-input v-model.trim="forms.number" @keyup.enter.native.capture.prevent="submitForms('forms')" :disabled="!show"></el-input>
          </el-form-item>
          <el-form-item :label="$t('reception.warehouse_id')" prop="warehouse_id">
           <el-select v-model="forms.warehouse_id" :placeholder="$t('public.please')">

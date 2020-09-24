@@ -31,7 +31,7 @@
            <el-input v-model.trim="forms.ware_number" ></el-input>
          </el-form-item> -->
          <el-form-item :label="$t('reception.goods')" prop="classify_name">
-           <el-input v-model.trim="forms.classify_name" @keyup.enter.native="submitForms('forms')" ></el-input>
+           <el-input v-model.trim="forms.classify_name"  @keydown.enter.native.capture.prevent="submitForms('forms')" ></el-input>
          </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

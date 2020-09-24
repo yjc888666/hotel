@@ -29,8 +29,8 @@
     <el-dialog :title="$t('left.department_1')" :visible.sync="dialogFormVisible" class="dia" width="30%">
       <el-form :model="forms" status-icon :rules="rule" ref="forms" label-width="80px" class="demo-ruleForm mars">
          
-         <el-form-item :label="$t('reception.warehouse_name')" prop="remark">
-           <el-input v-model.trim="forms.remark" @keyup.enter.native="submitForms('forms')" ></el-input>
+         <el-form-item :label="$t('reception.warehouse_name')" prop="remark" >
+           <el-input v-model.trim="forms.remark"   @keydown.enter.native.capture.prevent="submitForms('forms')" ></el-input>
          </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

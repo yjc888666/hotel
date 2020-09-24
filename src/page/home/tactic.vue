@@ -93,7 +93,7 @@
       </div>
     </el-dialog>
 
-    <el-dialog title="888" :visible.sync="dialogFormVisible2" class="dia" width="30%">
+    <el-dialog :title="$t('public.edit')" :visible.sync="dialogFormVisible2" class="dia" width="30%">
       <el-form :model="forms2" status-icon :rules="rule" ref="forms2" label-width="90px" class="demo-ruleForm mars">
          <el-form-item :label="$t('reception.tactic_name')" prop="tactic_name"> 
            <el-input v-model="forms2.tactic_name"></el-input>          
@@ -187,16 +187,16 @@
           ],
         },
         setType: [{                                                   
-          value: '0',
+          value: 0,
           label: this.$t('Validation.tactic.setType.item_1')
         }, {
-          value: '1',
+          value: 1,
           label: this.$t('Validation.tactic.setType.item_2')
         }, {
-          value: '2',
+          value: 2,
           label: this.$t('Validation.tactic.setType.item_3')
         }, {
-          value: '3',
+          value: 3,
           label: this.$t('Validation.tactic.setType.item_4')
         }],
         lists:[]
@@ -223,20 +223,26 @@
     },
     //调价方式的转换
     setTypeFormat(row,column){
-      console.log(row)
-        switch(row.set_type){
-          case 0:
-          return this.$t('Validation.tactic.setType.item_1')
+      // console.log(row)
+      //   switch(row.set_type){
+      //     case 0:
+      //     return this.$t('Validation.tactic.setType.item_1')
           
-          case 1:
-          return this.$t('Validation.tactic.setType.item_2')
+      //     case 1:
+      //     return this.$t('Validation.tactic.setType.item_2')
      
-          case 2:
-          return  this.$t('Validation.tactic.setType.item_3')
+      //     case 2:
+      //     return  this.$t('Validation.tactic.setType.item_3')
        
-          case 3:
-          return  this.$t('Validation.tactic.setType.item_4')
-        }
+      //     case 3:
+      //     return  this.$t('Validation.tactic.setType.item_4')
+      //   }
+           for(var i=0,l=this.setType.length;i<l;i++){
+         if(row.set_type==this.setType[i].value){
+           return this.setType[i].label
+         }
+       }
+
          
     },
 

@@ -399,8 +399,11 @@
         })
       },
       tableEvent2(a){
+        
           var fordata = new FormData();
-        fordata.append("restaurant_id",a)
+          if(a){
+         fordata.append("restaurant_id",a)
+          }
         this.$axios.post(this.$baseUrl + '/table/getList',fordata)
         .then((res) => {
           this.ruleForm.table_num='';

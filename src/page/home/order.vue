@@ -254,7 +254,8 @@
       // this.cargoEvent();
       this.restaurantEvent();
       this.dishEvent();
-      this.tableEvent();
+      // this.tableEvent();
+      this.tableEvent2();
     },
     computed:{
       titles(){
@@ -364,7 +365,7 @@
          this.ruleForm.table_num=''
           this.forms.table_num='';
         // console.log(11111)
-         this.tableEvent(val);
+         this.tableEvent2(val);
       },
          // 餐厅列表
         restaurantEvent(){
@@ -397,8 +398,10 @@
           console.log(res)
         })
       },
-      tableEvent2(){
-        this.$axios.post(this.$baseUrl + '/table/getList')
+      tableEvent2(a){
+          var fordata = new FormData();
+        fordata.append("restaurant_id",a)
+        this.$axios.post(this.$baseUrl + '/table/getList',fordata)
         .then((res) => {
           this.ruleForm.table_num='';
           this.tabletype2 = res.data.pojo

@@ -158,7 +158,7 @@
         dialogFormVisible: false,
         forms: {
           id:"",
-          type:"",
+          type:"1",
         },
         // rule: {
          
@@ -224,7 +224,7 @@
       addEvent(){
         this.dialogFormVisible = true;
         this.show = true;
-        this.cargoEvent();
+        this.getCargoList(this.forms.type);
       },
       getCargoList(val){
          this.$axios.post(this.$baseUrl + '/cargo/getcargo_apply',{
@@ -329,6 +329,7 @@
             if (res.data.result== true) {
               that.$message.success(that.$t("common."+res.data.msg))
               that.dialogFormVisible = false;
+              that.getCargoList(this.forms.type)
               that.list(that.currentPage,that.pagesize)
             }else {
               that.$message.error(that.$t("common."+res.data.msg))

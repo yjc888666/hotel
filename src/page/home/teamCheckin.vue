@@ -29,8 +29,8 @@
            <!-- <el-button @click="getBillId"> 测试billId</el-button> -->
  </el-form>
    </div>
-           
             <keep-alive>
+            
                 <router-view :teamData='forms'>  </router-view>
             </keep-alive>
                 
@@ -59,6 +59,7 @@
         tableData1:[],
         show:true,
         flag2:true,
+        flag3:true,
         dialogFormVisible: false,
         forms: {
           //团队的信息和入住时间
@@ -312,20 +313,22 @@
       this.forms.teamname=''; 
       this.forms.leave_time='';
       this.forms.day_num='';
-      this.type=null;
-      this.remark='';  
+      this.forms.type=null;
+      this.forms.remark='';  
       this.flag2=true;
      }
   } ,
-    // 'forms.leave_time'(val){
-    //    let a= val;
-    //   if(val!=""){  
-    //     let nowTime=new Date();
-    //   this.forms.day_num= Math.ceil(val/1000/3600/24)-parseInt(Date.parse(nowTime)/1000/24/3600);
-    //   } 
-    // },
+    'forms.leave_time'(val){
+      
+       let a= val;
+      if(val!=""){  
+        let nowTime=new Date();
+      this.forms.day_num= Math.ceil(val/1000/3600/24)-parseInt(Date.parse(nowTime)/1000/24/3600);
+      } 
+    },
     'forms.day_num'(val){
-     
+   
+      this.flag3=false;
       let a= val;
       if(val!=""){
         let nowTime2=new Date();
@@ -335,6 +338,7 @@
        this.forms.leave_time='';
        }    
     },
+
     },
     methods:{
 
@@ -354,7 +358,8 @@
       addEvent(forms){
          this.$refs[forms].validate((valid)=>{
            if(valid){
-            this.flag2=false
+            this.flag2=false,
+            this.flag3=false,
            this.$router.push('/teamCheckin/teamuser')
            }
          })

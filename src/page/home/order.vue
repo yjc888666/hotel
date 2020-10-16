@@ -121,7 +121,7 @@
          </el-form-item>
          <el-form-item :label="$t('reception.table_num')" prop="table_num" class="floatleft">
             <el-select v-model.trim="forms.table_num " :placeholder="$t('public.please_select')">
-              <el-option v-for="item in tabletype" :key="item.serial_number" :label="item.serial_number" :value="item.serial_number"></el-option>
+              <el-option v-for="item in tabletype2" :key="item.serial_number" :label="item.serial_number" :value="item.serial_number"></el-option>
             </el-select>
          </el-form-item>
          <el-tabs type="border-card">
@@ -398,13 +398,13 @@
           console.log(res)
         })
       },
-      tableEvent2(a){
+    async  tableEvent2(a){
         
           var fordata = new FormData();
           if(a){
          fordata.append("restaurant_id",a)
           }
-        this.$axios.post(this.$baseUrl + '/table/getList',fordata)
+      await  this.$axios.post(this.$baseUrl + '/table/getList',fordata)
         .then((res) => {
           this.ruleForm.table_num='';
           this.tabletype2 = res.data.pojo

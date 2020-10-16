@@ -54,13 +54,19 @@
       },
       defaultProps(){
         console.log(localStorage.lang)
-         if(localStorage.lang==='zh'){
+         if(localStorage.lang===''){
+           return{
+                   children: 'children',
+                    label: 'name' 
+                 }  
+         }
+        else if(localStorage.lang==='zh'){
                  return{
                    children: 'children',
                     label: 'name' 
                  }  
                 }
-        else {
+        else if(localStorage.lang==='en') {
                  return {
                     children: 'children',
                     label: 'language' 

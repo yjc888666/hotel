@@ -256,10 +256,12 @@ export default {
     }
   },
   created() {
+    console.log(this.teamData);
     this.idTypeEvent();
     this.houseEvent();
-    this.teamDataByFather = this.teamData;
-    console.log(this.teamDataByFather.leave_time)
+    // this.teamDataByFather = this.teamData;
+    // console.log(this.teamDataByFather)
+    // console.log(this.teamDataByFather.leave_time)
     // this.teamDataByFather.leave_time /= 1000;
   },
    //监听路由的变化，清除输入框的值
@@ -368,24 +370,36 @@ export default {
     },
 
     //提交表单，并且向服务器发送入住请求
-    submitData(teamplayer) {
+   submitData(teamplayer) {
+    //  this.teamDataByFather=this.teamData;
+    // console.log(this.teamData)
+    //  console.log(this.teamDataByFather)
         this.$refs[teamplayer].validate((valid)=>{
           if(valid){
-       this.teamDataByFather.leave_time/=1000;
-       this.teamDataByFather.leave_time+=4*3600;
+            let datefa= this.teamDataByFather.leave_time
+       this.teamDataByFather.leave_time=(datefa/1000)+4*3600;
+      //  this.teamDataByFather.leave_time+=4*3600;
       this.teamDataByFather.room = this.model.tableData;
       //遍历收到子组件传过来的数据，去除掉room数组中的edit字段
       this.teamDataByFather.room.forEach((item) => {
         this.$delete(item, "edit");
       });
-      console.log(this.teamDataByFather);
+      // console.log(this.teamDataByFather);
 
       var that = this;
-
-      that.$axios
-        .post(this.$baseUrl + `/team/live`, this.teamDataByFather)
+       var para={
+         day_num:this.teamData.day_num,
+         leave_time:this.teamData.leave_time/1000+4*3600,
+         public_pays:this.teamData.public_pays,
+         remark:this.teamData.remark,
+         room:this.teamDataByFather.room,
+         teamname:this.teamData.teamname,
+         type:this.teamData.type
+       }
+       console.log(para)
+     that.$axios.post(this.$baseUrl + `/team/live`,para)
         .then(function (res) {
-          if (res.data.result == true) {
+          if (res.data.result === true) {
             that.$message.success(that.$t("common." + res.data.msg));
             that.$message.success("操作成功");
             that.dialogFormVisible = false;

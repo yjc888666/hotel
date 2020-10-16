@@ -38,6 +38,7 @@
         width="auto"
         align="center"
         :formatter="dateFormat2"
+       
       ></el-table-column>
       <el-table-column
         prop="leave_time"
@@ -309,7 +310,6 @@ export default {
       teamCheckInfo: [],
       tableData: [],
       tableData1: [],
-
       //团队订单信息字段
       teamOrderInfo: [],
       show: true,

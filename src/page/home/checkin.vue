@@ -1212,30 +1212,63 @@ export default {
     },
   },
   watch:{
+    //  'forms1.checkout_time'(val,oldval){
+    //     let a= val;
+    //   if(val!=""){  
+    //   this.forms1.day= parseInt((a- this.row_leavetime*1000+(12*3600*1000))/3600/24/1000);
+     
+    //   }
+    //  else{
+    //    this.forms1.day=0;
+    //  }
+    // },
+ 
+    // 'forms1.day': function (data) {
+    //   let a= data;
+    //   if(data!=""){
+    //   this.forms1.total_price= a*this.singlePrice;
+    //   this.forms1.checkout_time=this.row_leavetime*1000 + a*24*3600*1000
+    //   }
+   
+    //   else{
+    //    this.forms1.total_price=0;
+    //    this.forms1.checkout_time=''
+    //    }
+     
+    // },
      'forms1.checkout_time'(val,oldval){
+       console.log(this.row_leavetime);
+     
+        let time_row=this.row_leavetime;
         let a= val;
-      if(val!=""){  
-      this.forms1.day= parseInt((a- this.row_leavetime*1000+(12*3600*1000))/3600/24/1000);
+         this.forms1.checkout_time=val;
+         console.log('选的时间'+a)
+       if(val!=""){ 
+      
+      this.forms1.day=(a/1000+12*3600-time_row)/24/3600
+     
      
       }
-     else{
-       this.forms1.day=0;
-     }
     },
  
-    'forms1.day': function (data) {
-      let a= data;
-      if(data!=""){
+    
+   'forms1.day'(data) {
+     console.log(this.exact_day)
+      console.log('forms1'+this.forms1.checkout_time)
+    
+    var a=data;
       this.forms1.total_price= a*this.singlePrice;
-      this.forms1.checkout_time=this.row_leavetime*1000 + a*24*3600*1000
-      }
-   
-      else{
-       this.forms1.total_price=0;
-       this.forms1.checkout_time=''
-       }
+      let time_row2=this.row_leavetime;
+    
+      let titime=this.forms1.checkout_time
+      
+       this.forms1.checkout_time=(time_row2+(a*24*3600))*1000-12*3600*1000;
+     
+     
      
     },
+
+    
     'forms.checkout_time'(val){
        let a= val;
       if(val!=""){
@@ -1757,14 +1790,16 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           var that = this;
-          this.forms1.checkout_time = this.forms1.checkout_time / 1000;
-          that.$axios
-            .post(this.$baseUrl + `/registerinfo/continueroom`, {
-              id:this.forms1.id,
-              checkout_time:this.forms1.checkout_time,
-              day:this.forms1.day,
-              total_price:this.forms1.total_price
-            })
+          var time=this.forms1.checkout_time;
+          this.forms1.checkout_time = time / 1000;
+          let para={
+            checkout_time:that.forms1.checkout_time+12*3600,
+            day:that.forms1.day,
+            id:that.forms1.id,
+            total_price:that.forms1.total_price
+          }
+         that.$axios
+            .post(this.$baseUrl + `/registerinfo/continueroom`, para)
             .then(function (res) {
               if (res.data.result == true) {
                 that.$message.success(that.$t("common." + res.data.msg));
@@ -1846,17 +1881,19 @@ export default {
       this.show1 = 2;
     },
     handleEdit2(index, row) {
-      this.forms1.day='';
-      this.forms1.checkout_time='';
-      this.row_leavetime=Number(row.checkout_time) ;
-      console.log(this.row_leavetime)
       this.dialogFormVisible1 = true;
+         this.row_leavetime=Number(row.checkout_time) ;
+         this.singlePrice=row.total_price/row.day;
+         this.forms1.checkout_time=this.row_leavetime*1000-12*3600*1000;
+          this.forms1.id = row.id;
+       
       //  this.forms1.checkout_time = row.checkout_time;
-      this.forms1.id = row.id;
+     
+
       //  console.log(row.id)
       // this.forms1.day = row.day;
       // this. basePrice=row.total_price;
-      this.singlePrice=row.total_price/row.day;
+      // this.singlePrice=row.total_price/row.day;
       // this.forms1.total_price = row.total_price;
       this.show1 = 3;
     },

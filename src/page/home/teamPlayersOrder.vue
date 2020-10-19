@@ -200,7 +200,7 @@
          </el-form-item> 
           <el-form-item :label="$t('reception.house_type')" prop="house_type" class="floatleft" v-if="show1==2">
           <el-select
-          v-model.trim="forms1.house_type"
+          v-model.trim="forms.house_type"
             :placeholder="$t('reception.house_type')"
             clearable
             @change="queryRoomList"
@@ -214,13 +214,13 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item :label="$t('reception.leave_time')" prop="checkout_time" v-if="show1==3">
-          <el-date-picker v-model="forms1.checkout_time" type="date" :placeholder="$t('reception.leave_time')"></el-date-picker>
+        <el-form-item :label="$t('reception.leave_time')" prop="checkout_time" v-if="show1===3">
+          <el-date-picker v-model="forms1.checkout_time" type="date" :placeholder="$t('reception.leave_time')" value-format="timestamp" ></el-date-picker>
         </el-form-item>
-        <el-form-item :label="$t('reception.days')" prop="day" v-if="show1==3">
-          <el-input v-model.trim="forms1.day" class="time-left" :placeholder="$t('reception.days')" clearable></el-input>
+        <el-form-item :label="$t('reception.days')" prop="day" v-if="show1===3">
+          <el-input v-model.number="forms1.day" class="time-left" :placeholder="$t('reception.days')" clearable></el-input>
         </el-form-item>
-        <el-form-item :label="$t('reception.total_price')" prop="total_price" v-if="show1==3">
+        <el-form-item :label="$t('reception.total_price')" prop="total_price" v-if="show1===3">
           <el-input disabled v-model.trim="forms1.total_price" class="time-left" :placeholder="$t('reception.total_price')" clearable
          
           ></el-input>
@@ -776,6 +776,7 @@ export default {
         gender: "1",
         card_num: "",
       },
+      exact_day:'',
       dialogFormVisible1: false,
       forms1: {
         status:"",
@@ -1173,24 +1174,36 @@ export default {
       },
   },
   watch:{
-     'forms1.checkout_time'(val){
+     
+     'forms1.checkout_time'(val,oldval){
+       console.log(this.row_leavetime);
+     
+        let time_row=this.row_leavetime;
         let a= val;
-      if(val!=""){  
-      this.forms1.day= parseInt((a- this.row_leavetime*1000)/3600/24/1000);
-      console.log(this.forms1.day)
+         this.forms1.checkout_time=val;
+         console.log('选的时间'+a)
+       if(val!=""){ 
+      
+      this.forms1.day=(a/1000+12*3600-time_row)/24/3600
+     
+     
       }
     },
  
     
-   'forms1.day': function (data) {
-      let a= data;
-      if(data!=""){
+   'forms1.day'(data) {
+     console.log(this.exact_day)
+      console.log('forms1'+this.forms1.checkout_time)
+    
+    var a=data;
       this.forms1.total_price= a*this.singlePrice;
-      this.forms1.checkout_time=this.row_leavetime*1000 + a*24*3600*1000
-      }
-      else{
-       this.forms1.total_price=0;
-       }
+      let time_row2=this.row_leavetime;
+    
+      let titime=this.forms1.checkout_time
+      
+       this.forms1.checkout_time=(time_row2+(a*24*3600))*1000-12*3600*1000;
+     
+     
      
     },
       //方法2
@@ -1475,27 +1488,43 @@ export default {
             });
         }})
     },
-    submitForms2(formName) {
+     submitForms2(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           var that = this;
-          this.forms1.checkout_time = this.forms1.checkout_time / 1000;
-          that.$axios
-            .post(this.$baseUrl + `/registerinfo/continueroom`, this.forms1)
+          var time=this.forms1.checkout_time;
+          this.forms1.checkout_time = time / 1000;
+          let para={
+            checkout_time:that.forms1.checkout_time+12*3600,
+            day:that.forms1.day,
+            id:that.forms1.id,
+            total_price:that.forms1.total_price
+          }
+         that.$axios
+            .post(this.$baseUrl + `/registerinfo/continueroom`, para)
             .then(function (res) {
-              if (res.data.result == true) {
+              if (res.data.result) {
                 that.$message.success(that.$t("common." + res.data.msg));
+                
+                that.forms1.checkout_time = para.checkout_time*1000;
+                that.forms1.day = para.day;
+                that.forms1.total_price =para.total_price;
                 that.dialogFormVisible1 = false;
-                that.forms1.checkout_time = "";
-                that.forms1.day = "";
-                that.forms1.total_price = "";
                 that.list();
               } else {
+                // console.log(this.forms1)
+                that.forms1.checkout_time = para.checkout_time*1000;
+                that.forms1.day = para.day;
+                that.forms1.total_price =para.total_price;
                 that.$message.error(that.$t("common." + res.data.msg));
               }
             })
             .catch(function (error) {
+                that.forms1.checkout_time = para.checkout_time*1000;
+                that.forms1.day = para.day;
+                that.forms1.total_price =para.total_price;
               console.log("逻辑错误");
+              console.log(error)
             });
         }
       });
@@ -1568,20 +1597,26 @@ export default {
     //    this.show1 = 1 ;
     // },
     handleEdit1(index, row) {
+      console.log(row)
       this.dialogFormVisible1 = true;
       this.forms1.room_number = row.room_number;
       this.forms1.id = row.id;
       this.show1 = 2;
     },
     handleEdit2(index, row) {
+       this.dialogFormVisible1 = true;
          this.row_leavetime=Number(row.checkout_time) ;
-      this.dialogFormVisible1 = true;
+         this.singlePrice=row.total_price/row.day;
+         this.forms1.checkout_time=this.row_leavetime*1000-12*3600*1000;
+          this.forms1.id = row.id;
+       
       //  this.forms1.checkout_time = row.checkout_time;
-      this.forms1.id = row.id;
+     
+
       //  console.log(row.id)
       // this.forms1.day = row.day;
       // this. basePrice=row.total_price;
-      this.singlePrice=row.total_price/row.day;
+      // this.singlePrice=row.total_price/row.day;
       // this.forms1.total_price = row.total_price;
       this.show1 = 3;
     },

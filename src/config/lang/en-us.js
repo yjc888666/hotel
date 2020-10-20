@@ -196,6 +196,7 @@ module.exports = {
   },
   // 公共文字
   public: {
+    add_info:"It's not the booking time yet! Please modify the reservation information first!",
     checkList: "Check List",
     room_info:'Room Info',
     add: "newly added",

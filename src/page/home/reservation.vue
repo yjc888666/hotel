@@ -116,7 +116,10 @@
       ></el-table-column>
       <el-table-column :label="$t('public.operate')" align="center" fixed="right" width="300px">
         <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">{{$t('public.edit')}}</el-button>
+          <el-button size="mini"
+           :disabled="scope.row.type==2"
+           @click="handleEdit(scope.$index, scope.row)"
+           >{{$t('public.edit')}}</el-button>
           <!-- <el-button size="mini" @click="handleinfo(scope.$index, scope.row)">详情</el-button> -->
           <el-button
             size="mini"
@@ -327,7 +330,7 @@
             <el-form-item :label="$t('reception.expect_check_time')" prop="checkin_time">
               <el-date-picker
                 v-model="form_2.checkin_time"
-                type="datetime"
+                type="date"
                 value-format="timestamp"
                 :placeholder="$t('reception.expect_check_time')"
               ></el-date-picker>
@@ -531,6 +534,9 @@ export default {
       },
 
       show: true,
+      timea:'',
+      timeb:'',
+      time_day:'',
       // forms
       forms: {
         username: "",
@@ -771,8 +777,13 @@ export default {
       'forms.checkout_time'(val){
        let a= val;
       if(val!=""){
-        if(this.forms.checkin_time!=null){
+        if(this.forms.checkin_time!=""){
            this.forms.day= (a-this.forms.checkin_time)/3600/24/1000;
+         
+        //  let data= (a-this.forms.checkin_time)/3600/24/1000;
+        //  console.log(data)
+          // console.log(a)
+          // console.log(this.forms.checkin_time)
         }
         else{
            this.forms.day=0;
@@ -799,16 +810,92 @@ export default {
     'forms.day'(val){
        let a= val;
       if(val!=""){
-        if(this.forms.checkin_time!=''){
-           this.forms.checkout_time=a*1000*24*3600+this.forms.checkin_time
+        if(this.forms.checkout_time!=''){
+          console.log(a+'  '+this.forms.checkout_time)
+          console.log(this.forms.checkout_time)
+           this.forms.checkin_time=this.forms.checkout_time-a*1000*24*3600;
+          // let data=this.forms.checkout_time-a*1000*24*3600;
+          // console.log('天数'+data)
         }
         else{
-           this.checkout_time='';
+           this.checkin_time='';
         }
       }
       
     },
+
+     
+   
+    'forms.checkin_time'(val){
+      // console.log(this.timea)
+       let a= val;
+
+      if(val!=""){
+        if(this.forms.checkout_time!=""){
+
+           this.forms.day= (this.forms.checkout_time-a)/3600/24/1000;
+        }
+        else{
+           this.forms.day=0;
+        }
+      }
+      else{
+       this.forms.day=0;
+       }
+     
+    },
+
+    
+    'form_2.checkin_time'(val){
+      console.log(this.timea)
+       let a= val;
+
+      if(val!=""){
+        if(this.form_2.checkout_time!=null){
+           this.form_2.day= ((this.form_2.checkout_time-a)-12*3600*1000)/3600/24/1000;
+        }
+        else{
+           this.form_2.day=0;
+        }
+      }
+      else{
+       this.form_2.day=0;
+       }
+     
+    },
+
+     'form_2.day'(val){
+       let a= val;
+      if(val!=""){
+        if(this.form_2.checkout_time!=''){
+           this.form_2.checkin_time=this.form_2.checkout_time-a*1000*24*3600-12*3600*1000
+        }
+        else{
+           this.checkin_time='';
+        }
+      }
+     
+    }
+    ,
+    'form_2.checkout_time'(val){
+     let a= val;
+
+      if(val!=""){
+        if(this.form_2.checkin_time!=null){
+           this.form_2.day= ((a-this.form_2.checkin_time)-12*3600*1000)/3600/24/1000;
+        }
+        else{
+           this.form_2.day=0;
+        }
+      }
+      else{
+       this.form_2.day=0;
+       }
+       
    },
+   },
+
+   
 
   created() {
     this.houseEvent();
@@ -816,6 +903,7 @@ export default {
     // this.roomList(this.currentPage,this.pagesize)
     this.submitForm();
   },
+  
   computed: {
     titles() {
       return { title: this.$t("left.Booking") };
@@ -1145,6 +1233,9 @@ export default {
     },
     // 订单修改弹出窗
     handleEdit(index, row) {
+      this.timea=row.checkin_time;
+      this.timeb=row.checkout_time;
+      this.time_day=row.day;
       // console.log(row)
       this.dialog_2 = true;
       this.form_1.id = row.id;
@@ -1167,7 +1258,8 @@ export default {
       console.log(this.form_1.username);
     },
     // 修改提交
-    modifyEvent(index, row) {
+    modifyEvent() {
+      // console.log(row)
       console.log(this.activeName);
       this.form_1.reserve_time = this.form_1.reserve_time / 1000;
       if (this.activeName == 0) {
@@ -1212,7 +1304,20 @@ export default {
               this.dialog_2 = false;
               this.roomList(this.currentPage, this.pagesize);
             } else {
-              this.$message.error(this.$t("common." + res.data.msg));
+             console.log(typeof this.form_2.checkin_time)
+              // console.log(this.timeb)
+             this.$message.error(this.$t("common." + res.data.msg));
+              
+              this.form_2.checkin_time=this.timea*1000;
+              this.form_2.checkout_time=this.timeb*1000;
+              this.form_2.day=this.time_day;
+              // this.$set(this.form_2.checkin_time, this.timea);
+              // this.$set(this.form_2.checkout_time, this.timeb);
+              // this.$set(this.form_2.day, this.time_day);
+              
+              //  this.form_2.checkin_time = this.timea;
+              // this.form_2.checkout_time = this.timeb;
+              // this.form_2.day=this.time_day;
             }
           })
           .catch(res => {
@@ -1222,9 +1327,16 @@ export default {
     },
     // 入住
     handlebatch(index, row) {
-      if (row.deposit == 0) {
-        this.$message.error(this.$t('public.dis_warn'));
-      } else {
+        let nowTime=Date.parse(new Date())/1000;
+        console.log('date'+nowTime)
+      if ( row.checkin_time>=nowTime) {
+         this.$message.error(this.$t('public.add_info'));
+      } else if(row.deposit !== 0) {
+        // row.checkin_time<=nowTime
+        // row.deposit == 0
+        // this.$message.error(this.$t('public.dis_warn'));
+        //  this.$message.error("还没有到预订入住时间!请先修改预定信息!");
+
         this.info(index, row);
         this.dialog_3 = true;
         this.idTypeEvent();
@@ -1232,6 +1344,10 @@ export default {
         this.isteam = row.isteam;
         return false;
       }
+      else {
+        this.$message.error(this.$t('public.dis_warn'));
+      }
+
     },
     // 预订单取消
     handleDelete(index, row) {

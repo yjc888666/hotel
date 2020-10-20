@@ -196,6 +196,7 @@ module.exports = {
   },
   // 公共文字
   public:{
+    add_info:'还没有到预订入住时间!请先修改预定信息!',
     checkList:"入住列表",
     room_info:'房间信息',
     add:"新增",
